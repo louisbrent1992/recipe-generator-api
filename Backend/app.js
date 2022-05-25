@@ -5,7 +5,7 @@ const feedsRouter = require("./Routes/feeds/feeds.router");
 
 app.use(express.json());
 
-app.use("/feeds/list", feedsRouter);
+app.use("/recipes", feedsRouter);
 
 // Not found handler
 app.use((req, res, next) => {
