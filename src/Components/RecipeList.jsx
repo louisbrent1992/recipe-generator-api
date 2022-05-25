@@ -6,7 +6,7 @@ function RecipeList() {
 
   useEffect(() => {
     async function loadRecipes() {
-      const response = await fetch("/feeds/list/");
+      const response = await fetch("/recipes/");
       const recipeData = await response.json();
 
       setRecipes(() => recipeData.feed);
