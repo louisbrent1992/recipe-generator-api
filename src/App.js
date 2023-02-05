@@ -1,12 +1,8 @@
-import RecipeList from "./Components/RecipeList";
+import React from "react";
+import Home from "./Pages/Home";
 
 function App() {
-  return (
-    <div className="App">
-      <h1>Yummly Recipes!</h1>
-      <RecipeList />
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
