@@ -29,7 +29,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/louisbrent1992/Recipe-App-2.0">
+  <a href="https://github.com/louisbrent1992/recipe-generator-api">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -38,14 +38,14 @@
   <p align="center">
     Recipe Generator API using OpenAI's Chat-gpt-3.5 API.
     <br />
-    <a href="https://github.com/louisbrent1992/Recipe-App-2.0"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/louisbrent1992/recipe-generator-api"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/louisbrent1992/Recipe-App-2.0">View Demo</a>
+    <a href="https://github.com/louisbrent1992/recipe-generator-api">View Demo</a>
     ·
-    <a href="https://github.com/louisbrent1992/Recipe-App-2.0/issues">Report Bug</a>
+    <a href="https://github.com/louisbrent1992/recipe-generator-api/issues">Report Bug</a>
     ·
-    <a href="https://github.com/louisbrent1992/Recipe-App-2.0/issues">Request Feature</a>
+    <a href="https://github.com/louisbrent1992/recipe-generator-api/issues">Request Feature</a>
   </p>
 </div>
 
@@ -90,7 +90,7 @@
 1. Get a free API Key at [OpenAI](https://platform.openai.com/account/api-keys)
 2. Clone the repo
    ```sh
-   git clone https://github.com/louisbrent1992/Recipe-App-2.0.git
+   git clone https://github.com/louisbrent1992/recipe-generator-api.git
    ```
 3. Install NPM packages
 
@@ -149,25 +149,25 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Louis Brent - [@louisbrent13](https://twitter.com/louisbrent13) - louisbrent1992@gmail.com
+Louis Brent - [@louisbrent1992](https://twitter.com/louisbrent1992) - louisbrent1992@gmail.com
 
-Project Link: [https://github.com/louisbrent1992/Recipe-App-2.0](https://github.com/louisbrent1992/Recipe-App-2.0)
+Project Link: [https://github.com/louisbrent1992/recipe-generator-api](https://github.com/louisbrent1992/recipe-generator-api)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/louisbrent1992/Recipe-App-2.0.svg?style=for-the-badge
-[contributors-url]: https://github.com/louisbrent1992/Recipe-App-2.0/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/louisbrent1992/Recipe-App-2.0.svg?style=for-the-badge
-[forks-url]: https://github.com/louisbrent1992/Recipe-App-2.0/network/members
-[stars-shield]: https://img.shields.io/github/stars/louisbrent1992/Recipe-App-2.0.svg?style=for-the-badge
-[stars-url]: https://github.com/louisbrent1992/Recipe-App-2.0/stargazers
-[issues-shield]: https://img.shields.io/github/issues/louisbrent1992/Recipe-App-2.0.svg?style=for-the-badge
-[issues-url]: https://github.com/louisbrent1992/Recipe-App-2.0/issues
-[license-shield]: https://img.shields.io/github/license/louisbrent1992/Recipe-App-2.0.svg?style=for-the-badge
-[license-url]: https://github.com/louisbrent1992/Recipe-App-2.0/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/louisbrent1992/recipe-generator-api.svg?style=for-the-badge
+[contributors-url]: https://github.com/louisbrent1992/recipe-generator-api/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/louisbrent1992/recipe-generator-api.svg?style=for-the-badge
+[forks-url]: https://github.com/louisbrent1992/recipe-generator-api/network/members
+[stars-shield]: https://img.shields.io/github/stars/louisbrent1992/recipe-generator-api.svg?style=for-the-badge
+[stars-url]: https://github.com/louisbrent1992/recipe-generator-api/stargazers
+[issues-shield]: https://img.shields.io/github/issues/louisbrent1992/recipe-generator-api.svg?style=for-the-badge
+[issues-url]: https://github.com/louisbrent1992/recipe-generator-api/issues
+[license-shield]: https://img.shields.io/github/license/louisbrent1992/recipe-generator-api.svg?style=for-the-badge
+[license-url]: https://github.com/louisbrent1992/recipe-generator-api/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/louis-brent
 [product-screenshot]: images/screenshot.png
