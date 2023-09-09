@@ -1,13 +1,15 @@
-import React from "react";
-import IngredientsForm from "../Components/Forms/IngredientsForm";
-import ListRecipes from "../Components/Recipes/ListRecipes";
+import React, { useState } from "react";
+import Ingredients from "../Components/Ingredients";
+import Recipe from "../Components/Recipe";
 
 function Home() {
-  return (
-    <div>
-      <IngredientsForm />
-    </div>
-  );
+	const [loading, setLoading] = useState(false);
+	return (
+		<div>
+			<Ingredients setLoading={setLoading} />
+			<Recipe loading={loading} setLoading={setLoading} />
+		</div>
+	);
 }
 
 export default Home;

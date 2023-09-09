@@ -2,8 +2,8 @@ import React from "react";
 
 // users save their favorite recipes for later reference
 
-function FavRecipes() {
-  return <div>FavRecipes</div>;
+function FavButton() {
+	return <div>FavButton</div>;
 }
 
-export default FavRecipes;
+export default FavButton;

@@ -1,0 +1,4 @@
+::after, ::before, *, html {
+    box-sizing: border-box;
+    margin: 0;
+}
