@@ -83,7 +83,7 @@
 
 ### Built With
 
-[![Next.js][Next.js]][Next-url]
+[![React.js][React.js]][React-url]
 
 ### Installation
 
