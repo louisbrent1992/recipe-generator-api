@@ -1,6 +1,43 @@
+import axios from "axios";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearRecipe, setRecipe } from "../../Redux/recipeRedux";
 
-function RegenButton() {
+function RegenButton({ setLoading }) {
+	const recipe = useSelector((state) => state.recipe.recipe.recipe); // Updated state selector
+
+	const dispatch = useDispatch();
+	const recipeIngredients = recipe.ingredients.map((ingredient) => {
+		return {
+			name: ingredient.name,
+			_id: Math.random().toString(),
+		};
+	});
+	const handleRegenRecipe = async () => {
+		setLoading(true);
+
+		try {
+			const res = await axios.post(
+				"http://localhost:5050/api/v1/generate-recipe",
+				{ ingredients: recipeIngredients }
+			);
+			const fetchedRecipe = await res.data.result;
+
+			// Parse the fetched recipe data if object is received
+			let parsedRecipe = JSON.parse(fetchedRecipe);
+
+			if (fetchedRecipe) {
+				dispatch(clearRecipe());
+				dispatch(setRecipe(parsedRecipe));
+			} else {
+				// Handle the case where no recipe data is received
+				console.error("No recipe data received.");
+			}
+		} catch (error) {
+			// Handle axios request errors here
+			console.error("Error fetching recipe:", error);
+		}
+	};
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +47,7 @@ function RegenButton() {
 			stroke="currentColor"
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
+			onClick={handleRegenRecipe}
 		>
 			<path
 				strokeLinecap="round"

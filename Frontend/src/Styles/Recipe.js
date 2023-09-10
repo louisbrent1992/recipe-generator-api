@@ -54,4 +54,18 @@ const RecipeSteps = styled.div`
 	}
 `;
 
-export { RecipeContainer, RecipeHeading, RecipeIngredients, RecipeSteps };
+const LoadingContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+	width: 100%;
+`;
+
+export {
+	RecipeContainer,
+	RecipeHeading,
+	RecipeIngredients,
+	RecipeSteps,
+	LoadingContainer,
+};

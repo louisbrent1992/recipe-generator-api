@@ -16,10 +16,10 @@ const Container = styled.div`
 	margin: 0.5rem;
 `;
 
-function RecipeButtons({ recipeContainerRef }) {
+function RecipeButtons({ recipeContainerRef, setLoading }) {
 	return (
 		<Container>
-			<RegenButton />
+			<RegenButton setLoading={setLoading} />
 			<FavButton />
 			<CopyButton recipeContainerRef={recipeContainerRef} />
 		</Container>

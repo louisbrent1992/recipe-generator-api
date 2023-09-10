@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useSelector } from "react-redux";
 import {
+	LoadingContainer,
 	RecipeContainer,
 	RecipeHeading,
 	RecipeIngredients,
@@ -31,14 +32,14 @@ function Recipe({ loading, setLoading }) {
 	if (loading) {
 		// Display a loading spinner while waiting for data
 		return (
-			<div className="loading-container">
+			<LoadingContainer>
 				<ClipLoader
 					css={override}
 					size={50}
 					color={"#123abc"}
 					loading={loading}
 				/>
-			</div>
+			</LoadingContainer>
 		);
 	}
 
@@ -50,7 +51,10 @@ function Recipe({ loading, setLoading }) {
 	return (
 		<RecipeContainer ref={recipeContainerRef} key={recipe.name}>
 			<RecipeHeading>{recipe.name}</RecipeHeading>
-			<RecipeButtons recipeContainerRef={recipeContainerRef} />
+			<RecipeButtons
+				recipeContainerRef={recipeContainerRef}
+				setLoading={setLoading}
+			/>
 			<RecipeIngredients>
 				<h3>Ingredients:</h3>
 				{Array.isArray(recipe.ingredients) && (
