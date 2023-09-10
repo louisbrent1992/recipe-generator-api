@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const RecipeContainer = styled.div`
+	position: relative;
 	background-color: #fff;
 	border: 1px solid #ccc;
 	max-width: 400px;

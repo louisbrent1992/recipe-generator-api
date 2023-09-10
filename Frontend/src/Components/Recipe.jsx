@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { css } from "@emotion/react";
 import { useSelector } from "react-redux";
 import {
@@ -8,6 +8,7 @@ import {
 	RecipeSteps,
 } from "../Styles/Recipe";
 import { ClipLoader } from "react-spinners";
+import RecipeButtons from "./Buttons/RecipeButtons";
 
 const override = css`
 	display: block;
@@ -17,6 +18,9 @@ const override = css`
 
 function Recipe({ loading, setLoading }) {
 	const recipe = useSelector((state) => state.recipe.recipe.recipe); // Updated state selector
+
+	// Create a ref for the recipe container
+	const recipeContainerRef = useRef(null);
 
 	useEffect(() => {
 		if (recipe) {
@@ -44,8 +48,9 @@ function Recipe({ loading, setLoading }) {
 	}
 
 	return (
-		<RecipeContainer key={recipe.name}>
+		<RecipeContainer ref={recipeContainerRef} key={recipe.name}>
 			<RecipeHeading>{recipe.name}</RecipeHeading>
+			<RecipeButtons recipeContainerRef={recipeContainerRef} />
 			<RecipeIngredients>
 				<h3>Ingredients:</h3>
 				{Array.isArray(recipe.ingredients) && (
