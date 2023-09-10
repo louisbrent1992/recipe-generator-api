@@ -30,7 +30,7 @@ router.post("/generate-recipe", async (req, res) => {
 				{
 					role: "system",
 					content: `
-					Hello I am a recipe generator. I will generate a recipe for you using only the ingredients you provide, also, I will provide a maximum of 2 additional ingredients needed to complete the meal. Please provide an array of ingredients in the following format:
+					Hello I am a recipe generator. I will generate a random recipe for you using some or all of the ingredients you provide, also, I will provide a maximum of 3 additional ingredients if needed to complete the meal. Please provide an array of ingredients in the following format:
 
 					[
 						{
@@ -117,7 +117,7 @@ router.post("/generate-recipe", async (req, res) => {
 				},
 			],
 
-			temperature: 0.3,
+			temperature: 0.7,
 		});
 
 		const completion = response.choices[0];
