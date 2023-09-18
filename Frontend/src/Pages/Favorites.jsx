@@ -9,11 +9,11 @@ const FavoritesPageContainer = styled.div`
 	padding-bottom: 60px;
 `;
 
-const RecipeCard = styled.li`
+const RecipeCard = styled.div`
 	position: relative;
 	border: 1px solid #ccc;
 	padding: 20px;
-	margin-block: 20px;
+	margin: 20px;
 	background-color: #fff;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 	display: flex;
@@ -23,6 +23,7 @@ const RecipeCard = styled.li`
 const RecipeTitle = styled.h2`
 	font-size: 24px;
 	margin-bottom: 10px;
+	max-width: 50%;
 `;
 const RecipeSubtitle = styled.h3`
 	margin-bottom: 10px;
@@ -45,6 +46,7 @@ const RecipeSteps = styled.ol`
 	padding: 0;
 	margin: 0;
 	font-size: 16px;
+	max-width: 60%;
 
 	li {
 		margin-bottom: 10px;
@@ -82,7 +84,7 @@ function Favorites() {
 			{savedRecipes.length === 0 ? (
 				<p>No favorite recipes saved yet.</p>
 			) : (
-				<ol>
+				<div>
 					{savedRecipes.map((recipe) => (
 						<RecipeCard key={recipe._id}>
 							<RecipeTitle>{recipe.name}</RecipeTitle>
@@ -107,7 +109,7 @@ function Favorites() {
 							</RecipeSteps>
 						</RecipeCard>
 					))}
-				</ol>
+				</div>
 			)}
 			<Footer />
 		</FavoritesPageContainer>
