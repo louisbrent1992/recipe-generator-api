@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom"; // Import useLocation
 import {
 	ContainerFluid,
 	NavItem,
@@ -8,7 +9,7 @@ import {
 	NavbarCollapse,
 	NavbarToggler,
 	StyledNavbar,
-	UserAvatar, // Import UserAvatar component
+	UserAvatar,
 } from "../Styles/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../Redux/userSlice";
@@ -16,6 +17,7 @@ import { googleLogout } from "@react-oauth/google";
 
 function Navbar() {
 	const user = useSelector((state) => state.user);
+	const location = useLocation(); // Get the current location
 
 	const dispatch = useDispatch();
 
@@ -28,7 +30,7 @@ function Navbar() {
 	return (
 		<StyledNavbar>
 			<ContainerFluid>
-				<NavbarBrand href={user ? `/dashboard/${user._id}` : `/dashboard`}>
+				<NavbarBrand href={user ? `/dashboard/${user._id}` : "/dashboard"}>
 					Recipe Finder
 				</NavbarBrand>
 				<NavbarToggler
@@ -44,7 +46,6 @@ function Navbar() {
 				<NavbarCollapse id="navbarNav">
 					<NavList className="navbar-nav">
 						<NavItem>
-							{/* UserAvatar component with user's avatar */}
 							<UserAvatar
 								src={
 									user.avatar
@@ -62,6 +63,9 @@ function Navbar() {
 									href={
 										user._id != null ? `/dashboard/${user._id}/myAccount` : "#"
 									}
+									isactive={
+										location.pathname === `/dashboard/${user._id}/myAccount`
+									}
 								>
 									{user.name ? user.name : "guest"}
 								</NavLink>
@@ -76,12 +80,25 @@ function Navbar() {
 								href={
 									user._id != null ? `/dashboard/${user._id}/favorites` : "#"
 								}
+								isactive={
+									location.pathname === `/dashboard/${user._id}/favorites`
+								}
 							>
 								Favorites
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink href="#">About</NavLink>
+							<NavLink
+								href={
+									user._id ? `/dashboard/${user._id}/about` : "/dashboard/about"
+								}
+								isactive={
+									location.pathname === `/dashboard/${user._id}/about` ||
+									"/dashboard/about"
+								}
+							>
+								About
+							</NavLink>
 						</NavItem>
 						<NavItem>
 							{user._id ? (
@@ -89,11 +106,23 @@ function Navbar() {
 									Logout
 								</NavLink>
 							) : (
-								<NavLink href="/login">Login</NavLink>
+								<NavLink
+									href="/login"
+									isactive={location.pathname === "/login"}
+								>
+									Login
+								</NavLink>
 							)}
 						</NavItem>
 						<NavItem>
-							{!user._id && <NavLink href="/register">Register</NavLink>}
+							{!user._id && (
+								<NavLink
+									href="/register"
+									isactive={location.pathname === "/register"}
+								>
+									Register
+								</NavLink>
+							)}
 						</NavItem>
 					</NavList>
 				</NavbarCollapse>

@@ -44,8 +44,9 @@ const NavItem = styled.li`
 
 const NavLink = styled.a`
 	text-decoration: none;
-	color: #fff; /* Default text color */
-	/* Adjust margin as needed for spacing */
+
+	color: ${(props) => (props.isactive ? "#ffcc00" : "#fff")};
+
 	transition: color 0.3s ease; /* Smooth color transition on hover */
 
 	&:hover {
