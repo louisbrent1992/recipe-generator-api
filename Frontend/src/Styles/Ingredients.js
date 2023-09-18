@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+const FormContainer = styled.div`
+	width: 100%;
+	margin-top: 20px;
+`;
+
 const StyledForm = styled.form`
 	max-width: 400px;
 	margin: 0 auto;
@@ -79,4 +84,5 @@ export {
 	StyledIngredientContainer,
 	StyledQuantityControl, // Export the new component
 	StyledQuantityButton, // Export the new button component
+	FormContainer,
 };
