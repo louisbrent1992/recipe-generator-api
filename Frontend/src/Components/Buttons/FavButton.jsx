@@ -1,12 +1,23 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite } from "../../Redux/userSlice";
 
 // users save their favorite recipes for later reference
 
 function FavButton() {
+	const dispatch = useDispatch();
+	const recipe = useSelector((state) => state.recipe);
+	const user = useSelector((state) => state.user);
+
+	const handleAddFav = () => {
+		user._id
+			? dispatch(addFavorite(recipe))
+			: alert("Please log in to save recipes");
+	};
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			
+			onClick={handleAddFav}
 			viewBox="0 0 24 24"
 			strokeWidth={1.5}
 			stroke="currentColor"

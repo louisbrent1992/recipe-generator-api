@@ -1,10 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearRecipe, setRecipe } from "../../Redux/recipeRedux";
+import { clearRecipe, setRecipe } from "../../Redux/recipeSlice";
 
 function RegenButton({ setLoading }) {
-	const recipe = useSelector((state) => state.recipe.recipe.recipe); // Updated state selector
+	const recipe = useSelector((state) => state.recipe); // Updated state selector
 
 	const dispatch = useDispatch();
 	const recipeIngredients = recipe.ingredients.map((ingredient) => {
@@ -21,14 +21,11 @@ function RegenButton({ setLoading }) {
 				"http://localhost:5050/api/v1/generate-recipe",
 				{ ingredients: recipeIngredients }
 			);
-			const fetchedRecipe = await res.data.result;
-
-			// Parse the fetched recipe data if object is received
-			let parsedRecipe = JSON.parse(fetchedRecipe);
+			const fetchedRecipe = await res.data;
 
 			if (fetchedRecipe) {
 				dispatch(clearRecipe());
-				dispatch(setRecipe(parsedRecipe));
+				dispatch(setRecipe(fetchedRecipe));
 			} else {
 				// Handle the case where no recipe data is received
 				console.error("No recipe data received.");
