@@ -3,16 +3,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const recipeSlice = createSlice({
 	name: "recipe",
 	initialState: {
-		recipe: null, // Change to a single recipe object
+		name: "",
+		img: "",
+		ingredients: [],
+		additionalIngredients: [],
+		steps: [],
 	},
 	reducers: {
-		setRecipe: (state, action) => {
-			// Set the recipe to the payload object
-			state.recipe = action.payload;
-		},
+		setRecipe: (state, action) => action.payload,
 		clearRecipe: (state) => {
 			// Clear the recipe
-			state.recipe = null;
+			return {
+				name: "",
+				img: "",
+				ingredients: [],
+				additionalIngredients: [],
+				steps: [],
+			};
 		},
 	},
 });

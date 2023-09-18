@@ -1,7 +1,7 @@
 // We're importing several functions from Redux Toolkit and Redux Persist
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import recipesRedux from "./recipeRedux";
-import ingredientsRedux from "./ingredientsRedux";
+import recipeSlice from "./recipeSlice";
+import ingredientsSlice from "./ingredientsSlice";
 import {
 	persistStore,
 	persistReducer,
@@ -14,6 +14,7 @@ import {
 } from "redux-persist";
 // The storage engine for Redux Persist is imported from its library
 import storage from "redux-persist/lib/storage";
+import userSlice from "./userSlice";
 
 // The configuration object for Redux Persist is defined here
 const persistConfig = {
@@ -24,8 +25,9 @@ const persistConfig = {
 
 // The root reducer is created by combining the reducers for the user and cart slices of the state
 const rootReducer = combineReducers({
-	recipe: recipesRedux,
-	ingredients: ingredientsRedux,
+	recipe: recipeSlice,
+	ingredients: ingredientsSlice,
+	user: userSlice,
 });
 
 // The root reducer is wrapped with persistReducer to enable state persistence
