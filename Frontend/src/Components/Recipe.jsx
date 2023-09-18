@@ -5,6 +5,8 @@ import {
 	LoadingContainer,
 	RecipeContainer,
 	RecipeHeading,
+	RecipeImage,
+	RecipeImageContainer,
 	RecipeIngredients,
 	RecipeSteps,
 } from "../Styles/Recipe";
@@ -18,7 +20,7 @@ const override = css`
 `;
 
 function Recipe({ loading, setLoading }) {
-	const recipe = useSelector((state) => state.recipe.recipe.recipe); // Updated state selector
+	const recipe = useSelector((state) => state.recipe); // Updated state selector
 
 	// Create a ref for the recipe container
 	const recipeContainerRef = useRef(null);
@@ -43,13 +45,16 @@ function Recipe({ loading, setLoading }) {
 		);
 	}
 
-	if (!recipe) {
+	if (recipe.ingredients.length < 1) {
 		// No recipe available
 		return <p>No recipe available.</p>;
 	}
 
 	return (
-		<RecipeContainer ref={recipeContainerRef} key={recipe.name}>
+		<RecipeContainer ref={recipeContainerRef}>
+			<RecipeImageContainer>
+				<RecipeImage key={recipe._id} src={recipe.img} />
+			</RecipeImageContainer>
 			<RecipeHeading>{recipe.name}</RecipeHeading>
 			<RecipeButtons
 				recipeContainerRef={recipeContainerRef}
@@ -57,28 +62,37 @@ function Recipe({ loading, setLoading }) {
 			/>
 			<RecipeIngredients>
 				<h3>Ingredients:</h3>
-				{Array.isArray(recipe.ingredients) && (
+				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
 					<ul>
 						{recipe.ingredients.map((ingredient) => (
-							<li key={ingredient._id}>{ingredient.name}</li>
-						))}
-					</ul>
-				)}
-				<h3>Additional Ingredients:</h3>
-				{Array.isArray(recipe.additionalIngredients) && (
-					<ul>
-						{recipe.additionalIngredients.map((ingredient) => (
-							<li key={ingredient._id}>{ingredient.name}</li>
+							<li key={ingredient._id}>
+								{ingredient.quantity} {ingredient.unit} {ingredient.name}
+							</li>
 						))}
 					</ul>
 				)}
 			</RecipeIngredients>
+
+			<RecipeIngredients>
+				<h3>Additional Ingredients:</h3>
+				{Array.isArray(recipe.additionalIngredients) &&
+					recipe.additionalIngredients.length > 0 && (
+						<ul>
+							{recipe.additionalIngredients.map((ingredient) => (
+								<li key={ingredient._id}>
+									{ingredient.quantity} {ingredient.unit} {ingredient.name}
+								</li>
+							))}
+						</ul>
+					)}
+			</RecipeIngredients>
+
 			<RecipeSteps>
 				<h3>Steps:</h3>
-				{Array.isArray(recipe.steps) && (
+				{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
 					<ol>
-						{recipe.steps.map((step, index) => (
-							<li key={recipe[index]}>{step}</li>
+						{recipe.steps.map((step) => (
+							<li key={step}>{step}</li>
 						))}
 					</ol>
 				)}
