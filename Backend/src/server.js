@@ -1,24 +1,48 @@
 import express from "express";
-const app = express();
-
+import mongoose from "mongoose"; // Import Mongoose
 import dotenv from "dotenv";
 dotenv.config();
 
-const { PORT } = process.env;
+const app = express();
+const { PORT, MONGODB_URI } = process.env; // Define your MongoDB URI in the .env file
 
 import cors from "cors";
-import recipeGenerator from "./API/generator.js";
+import recipeGenerator from "./API/generate.recipe.js";
+import userRouter from "./Routes/user.router.js";
+import authRouter from "./Routes/auth.router.js";
 
-app.use(cors());
+const corsOptions = {
+	origin: "http://localhost:3000",
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	credentials: true, // If you are using cookies or authentication
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 
+app.use("/api/v1", authRouter);
 app.use("/api/v1", recipeGenerator);
+app.use("/api/v1", userRouter);
 
 app.get("/", (req, res) => {
 	res.json("Hello World");
 });
 
-app.listen(`${PORT}`, () => {
-	console.log(`App listening on port ${PORT}`);
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+
+db.on("error", (error) => {
+	console.error("MongoDB connection error:", error);
+});
+
+db.once("open", () => {
+	console.log("Connected to MongoDB");
+	app.listen(PORT, () => {
+		console.log(`App listening on port ${PORT}`);
+	});
 });
