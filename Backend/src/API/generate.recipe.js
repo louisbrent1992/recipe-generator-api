@@ -120,10 +120,14 @@ router.post("/generate-recipe", async (req, res) => {
 								}
 							],
 							"steps": [
-								{
+								
 									"step 1",
+									
+								
+					
 									"step 2"
-								}
+									
+							
 							]
 							
 						
