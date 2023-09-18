@@ -17,7 +17,7 @@ import {
 	Title,
 } from "../Styles/Account";
 
-import { clearUser, deleteFavorite, updateUser } from "../Redux/userSlice"; // Import updateUser action
+import { clearUser, deleteFavorite, updateUser } from "../Redux/userSlice";
 
 const Account = () => {
 	const currentUser = useSelector((state) => state.user);
@@ -143,6 +143,7 @@ const Account = () => {
 	return (
 		<PageContainer>
 			<Navbar />
+
 			<Title>Account Overview</Title>
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 			<InfoSection>
@@ -152,9 +153,8 @@ const Account = () => {
 						<AvatarContainer>
 							<AvatarPreview
 								src={
-									avatar
-										? avatar
-										: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
+									avatar ||
+									"https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
 								}
 							/>
 							<EditButton>
