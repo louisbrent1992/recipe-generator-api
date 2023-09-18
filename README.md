@@ -33,7 +33,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Recipe Generator API</h3>
+<h3 align="center">Recipe Generator</h3>
 
   <p align="center">
     Recipe Generator API using OpenAI's Chat-gpt-3.5 API.
@@ -75,8 +75,13 @@
 
 ## About The Project
 
+[![Product Name Screen Shot][product-screenshot-3]](https://example.com)
+<br />
+<br />
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 <br />
+<br />
+[![Product Name Screen Shot][product-screenshot-2]](https://example.com)
 <br />
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
