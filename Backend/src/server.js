@@ -12,7 +12,7 @@ import userRouter from "./Routes/user.router.js";
 import authRouter from "./Routes/auth.router.js";
 
 const corsOptions = {
-	origin: NODE_ENV === "development" ? "http://localhost:3000" : FRONTEND_URL,
+	origin: NODE_ENV === "development" ? "http://localhost:3000/" : FRONTEND_URL,
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true, // If you are using cookies or authentication
 };
