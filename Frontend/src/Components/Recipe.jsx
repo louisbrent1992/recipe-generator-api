@@ -38,7 +38,7 @@ function Recipe({ loading, setLoading }) {
 				<PacmanLoader
 					css={override}
 					size={25}
-					color={"#123abc"}
+					color={"#4caf50"}
 					loading={loading}
 				/>
 			</LoadingContainer>
