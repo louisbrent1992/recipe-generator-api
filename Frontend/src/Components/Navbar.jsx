@@ -30,7 +30,7 @@ function Navbar() {
 	return (
 		<StyledNavbar>
 			<ContainerFluid>
-				<NavbarBrand href={user ? `/dashboard/${user._id}` : "/dashboard"}>
+				<NavbarBrand href={user._id ? `/dashboard/${user._id}` : "/dashboard"}>
 					Recipe Finder
 				</NavbarBrand>
 				<NavbarToggler
