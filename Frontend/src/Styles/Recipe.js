@@ -46,11 +46,6 @@ const RecipeSteps = styled.div`
 		margin-bottom: 8px;
 	}
 
-	ol {
-		padding-left: 20px;
-		margin: 0;
-	}
-
 	li {
 		margin-bottom: 8px;
 	}

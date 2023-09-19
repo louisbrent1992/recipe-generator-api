@@ -10,7 +10,7 @@ import {
 	RecipeIngredients,
 	RecipeSteps,
 } from "../Styles/Recipe";
-import { ClipLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 import RecipeButtons from "./Buttons/RecipeButtons";
 
 const override = css`
@@ -35,9 +35,9 @@ function Recipe({ loading, setLoading }) {
 		// Display a loading spinner while waiting for data
 		return (
 			<LoadingContainer>
-				<ClipLoader
+				<PacmanLoader
 					css={override}
-					size={50}
+					size={25}
 					color={"#123abc"}
 					loading={loading}
 				/>
@@ -90,11 +90,11 @@ function Recipe({ loading, setLoading }) {
 			<RecipeSteps>
 				<h3>Steps:</h3>
 				{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
-					<ol>
+					<ul style={{ listStyle: "none", paddingLeft: "10px " }}>
 						{recipe.steps.map((step) => (
 							<li key={step}>{step}</li>
 						))}
-					</ol>
+					</ul>
 				)}
 			</RecipeSteps>
 		</RecipeContainer>
