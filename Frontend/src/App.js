@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import NotFound from "./Pages/NotFound";
 import Favorites from "./Pages/Favorites";
 import Account from "./Pages/Account";
+import About from "./Pages/About";
 
 function App() {
 	const user = useSelector((state) => state.user);
@@ -23,6 +24,8 @@ function App() {
 					path={`/dashboard/${userId}/favorites`}
 					element={<Favorites />}
 				/>
+				<Route path={`/dashboard/${userId}/about`} element={<About />} />
+				<Route path={`/dashboard/about`} element={<About />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route element={<NotFound />} />

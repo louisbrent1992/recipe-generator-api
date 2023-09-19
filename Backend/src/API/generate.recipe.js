@@ -87,8 +87,8 @@ router.post("/generate-recipe", async (req, res) => {
 								}
 							],
 							"steps": [								
-									"step description",
-									"step description"							
+									1."step description",
+									2."step description"							
 							]
 						}
 						
