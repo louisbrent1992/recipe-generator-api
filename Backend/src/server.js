@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const { PORT, MONGODB_URI } = process.env; // Define your MongoDB URI in the .env file
+const { PORT, MONGODB_URI, NODE_ENV, FRONTEND_URL } = process.env; // Define your MongoDB URI in the .env file
 
 import cors from "cors";
 import recipeGenerator from "./API/generate.recipe.js";
@@ -12,7 +12,7 @@ import userRouter from "./Routes/user.router.js";
 import authRouter from "./Routes/auth.router.js";
 
 const corsOptions = {
-	origin: "http://localhost:3000",
+	origin: NODE_ENV === "development" ? "http://localhost:3000" : FRONTEND_URL,
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true, // If you are using cookies or authentication
 };
