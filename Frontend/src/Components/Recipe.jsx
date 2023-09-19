@@ -55,12 +55,12 @@ function Recipe({ loading, setLoading }) {
 			<RecipeImageContainer>
 				<RecipeImage key={recipe._id} src={recipe.img} />
 			</RecipeImageContainer>
-			<RecipeHeading>{recipe.name}</RecipeHeading>
+			<RecipeHeading key={recipe._id}>{recipe.name}</RecipeHeading>
 			<RecipeButtons
 				recipeContainerRef={recipeContainerRef}
 				setLoading={setLoading}
 			/>
-			<RecipeIngredients>
+			<RecipeIngredients key={recipe._id}>
 				<h3>Ingredients:</h3>
 				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
 					<ul>
@@ -73,7 +73,7 @@ function Recipe({ loading, setLoading }) {
 				)}
 			</RecipeIngredients>
 
-			<RecipeIngredients>
+			<RecipeIngredients key={recipe._id}>
 				<h3>Additional Ingredients:</h3>
 				{Array.isArray(recipe.additionalIngredients) &&
 					recipe.additionalIngredients.length > 0 && (

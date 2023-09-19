@@ -63,10 +63,9 @@ function Navbar() {
 									href={
 										user._id != null ? `/dashboard/${user._id}/myAccount` : "#"
 									}
-									isactive={
-										location.pathname ===
-										`/dashboard/${user._id}/myAccount`.toString()
-									}
+									$isactive={(
+										location.pathname === `/dashboard/${user._id}/myAccount`
+									).toString()}
 								>
 									{user.name ? user.name : "guest"}
 								</NavLink>
@@ -81,10 +80,9 @@ function Navbar() {
 								href={
 									user._id != null ? `/dashboard/${user._id}/favorites` : "#"
 								}
-								isactive={
-									location.pathname ===
-									`/dashboard/${user._id}/favorites`.toString()
-								}
+								$isactive={(
+									location.pathname === `/dashboard/${user._id}/favorites`
+								).toString()}
 							>
 								Favorites
 							</NavLink>
@@ -94,10 +92,10 @@ function Navbar() {
 								href={
 									user._id ? `/dashboard/${user._id}/about` : "/dashboard/about"
 								}
-								isactive={
+								$isactive={(
 									location.pathname === `/dashboard/${user._id}/about` ||
-									"/dashboard/about".toString()
-								}
+									"/dashboard/about"
+								).toString()}
 							>
 								About
 							</NavLink>
@@ -110,7 +108,7 @@ function Navbar() {
 							) : (
 								<NavLink
 									href="/login"
-									isactive={location.pathname === "/login"}
+									$isactive={(location.pathname === "/login").toString()}
 								>
 									Login
 								</NavLink>
@@ -120,7 +118,7 @@ function Navbar() {
 							{!user._id && (
 								<NavLink
 									href="/register"
-									isactive={location.pathname === "/register"}
+									$isactive={(location.pathname === "/register").toString()}
 								>
 									Register
 								</NavLink>

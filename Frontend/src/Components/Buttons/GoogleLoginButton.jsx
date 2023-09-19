@@ -14,7 +14,7 @@ function GoogleLoginButton({ setError }) {
 		// Send the Google access token to your server for verification
 		try {
 			const response = await fetch(
-				"http://localhost:5050/api/v1/google-login",
+				`${process.env.REACT_APP_DATABASE_URI}/api/v1/google-login`,
 				{
 					method: "POST",
 					headers: {

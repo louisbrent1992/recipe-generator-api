@@ -18,7 +18,7 @@ function RegenButton({ setLoading }) {
 
 		try {
 			const res = await axios.post(
-				"http://localhost:5050/api/v1/generate-recipe",
+				`${process.env.REACT_APP_DATABASE_URI}/api/v1/generate-recipe`,
 				{ ingredients: recipeIngredients }
 			);
 			const fetchedRecipe = await res.data;

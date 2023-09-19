@@ -60,7 +60,7 @@ function Register() {
 		formData.append("avatar", avatarImage); // Append the image directly
 
 		try {
-			const response = await fetch("http://localhost:5050/api/v1/register", {
+			const response = await fetch(`${process.env.REACT_APP_DATABASE_URI}/api/v1/register`, {
 				method: "POST",
 				body: avatarImage ? formData : registrationData, // Send the FormData object with the image
 			});

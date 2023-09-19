@@ -80,7 +80,7 @@ const Account = () => {
 
 		try {
 			const response = await fetch(
-				`http://localhost:5050/api/v1/user/avatar_upload/${currentUser._id}`,
+				`${process.env.REACT_APP_DATABASE_URI}/api/v1/user/avatar_upload/${currentUser._id}`,
 				{
 					method: "PUT",
 					body: formData,
