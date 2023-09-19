@@ -64,7 +64,8 @@ function Navbar() {
 										user._id != null ? `/dashboard/${user._id}/myAccount` : "#"
 									}
 									isactive={
-										location.pathname === `/dashboard/${user._id}/myAccount`
+										location.pathname ===
+										`/dashboard/${user._id}/myAccount`.toString()
 									}
 								>
 									{user.name ? user.name : "guest"}
@@ -81,7 +82,8 @@ function Navbar() {
 									user._id != null ? `/dashboard/${user._id}/favorites` : "#"
 								}
 								isactive={
-									location.pathname === `/dashboard/${user._id}/favorites`
+									location.pathname ===
+									`/dashboard/${user._id}/favorites`.toString()
 								}
 							>
 								Favorites
@@ -94,7 +96,7 @@ function Navbar() {
 								}
 								isactive={
 									location.pathname === `/dashboard/${user._id}/about` ||
-									"/dashboard/about"
+									"/dashboard/about".toString()
 								}
 							>
 								About
