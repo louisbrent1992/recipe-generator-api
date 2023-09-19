@@ -23,7 +23,6 @@ app.use(express.json());
 app.use("/api/v1", authRouter);
 app.use("/api/v1", recipeGenerator);
 app.use("/api/v1", userRouter);
-
 app.get("/", (req, res) => {
 	res.json("Hello World");
 });
