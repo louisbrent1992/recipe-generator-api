@@ -22,7 +22,7 @@ function RegenButton({ setLoading }) {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 
-					body: { ingredients: recipeIngredients },
+					body: JSON.stringify({ ingredients: recipeIngredients }),
 				}
 			);
 			const fetchedRecipe = await res.json();
