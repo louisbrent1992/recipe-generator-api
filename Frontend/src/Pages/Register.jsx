@@ -10,9 +10,11 @@ import {
 	EmailPasswordTitle,
 	ErrorMessage,
 	Form,
+	FormContainer,
 	GoogleContainer,
 	Input,
 	Label,
+	MainContainer,
 	RegisterLink,
 	StyledButton,
 	StyledDivider,
@@ -111,78 +113,83 @@ function Register() {
 			>
 				Recipe Finder
 			</NavbarBrand>
-			<StyledLoginContainer>
-				<StyledTitle>Register</StyledTitle>
-				<AvatarContainer>
-					<AvatarPreview
-						src={
-							avatarImage
-								? URL.createObjectURL(avatarImage) // Display the selected image
-								: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
-						}
-						alt="Avatar Preview"
-					/>
 
-					<input
-						type="file"
-						accept="image/*"
-						style={{ display: "none" }}
-						onChange={handleAvatarUpload}
-						id="avatar-upload"
-						name="avatar" // Name attribute to match the server-side field name
-					/>
-					<UploadButton htmlFor="avatar-upload">Upload Avatar</UploadButton>
-				</AvatarContainer>
-				<EmailPasswordContainer onSubmit={handleSubmit}>
-					<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
-					<Form>
-						<Label htmlFor="name">Name:</Label>
-						<Input
-							type="text"
-							id="name"
-							name="name"
-							placeholder="John Doe"
-							required
+			<MainContainer>
+				<StyledTitle>Register</StyledTitle>
+				<StyledLoginContainer>
+					<AvatarContainer>
+						<AvatarPreview
+							src={
+								avatarImage
+									? URL.createObjectURL(avatarImage) // Display the selected image
+									: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
+							}
+							alt="Avatar Preview"
 						/>
-						<Label htmlFor="email">Email:</Label>
-						<Input
-							type="email"
-							id="email"
-							name="email"
-							placeholder="username@email.com"
-							required
+
+						<input
+							type="file"
+							accept="image/*"
+							style={{ display: "none" }}
+							onChange={handleAvatarUpload}
+							id="avatar-upload"
+							name="avatar" // Name attribute to match the server-side field name
 						/>
-						<Label htmlFor="password">Password:</Label>
-						<Input
-							type="password"
-							id="password"
-							name="password"
-							placeholder="minimum 6 characters, case-sensitive, alphanumeric"
-							required
-						/>
-						<StyledButton type="submit">Register</StyledButton>
-					</Form>
-				</EmailPasswordContainer>
-				<DividerContainer>
-					<StyledDivider />
-					<DividerText>OR</DividerText>
-					<StyledDivider />
-				</DividerContainer>
-				{error ? (
-					<ErrorMessage>{error}</ErrorMessage>
-				) : (
-					<SuccessMessage>{message}</SuccessMessage>
-				)}
-				<GoogleContainer>
-					<GoogleSignUp setError={setError} />
-				</GoogleContainer>
-				<Disclaimer>
-					<p>
-						Have an account already?
-						<RegisterLink href="/login">Sign-in.</RegisterLink>
-					</p>
-				</Disclaimer>
-			</StyledLoginContainer>
+						<UploadButton htmlFor="avatar-upload">Upload Avatar</UploadButton>
+					</AvatarContainer>
+					<FormContainer>
+						<EmailPasswordContainer onSubmit={handleSubmit}>
+							<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
+							<Form>
+								<Label htmlFor="name">Name:</Label>
+								<Input
+									type="text"
+									id="name"
+									name="name"
+									placeholder="John Doe"
+									required
+								/>
+								<Label htmlFor="email">Email:</Label>
+								<Input
+									type="email"
+									id="email"
+									name="email"
+									placeholder="username@email.com"
+									required
+								/>
+								<Label htmlFor="password">Password:</Label>
+								<Input
+									type="password"
+									id="password"
+									name="password"
+									placeholder="minimum 6 characters, case-sensitive, alphanumeric"
+									required
+								/>
+								<StyledButton type="submit">Register</StyledButton>
+							</Form>
+						</EmailPasswordContainer>
+						<DividerContainer>
+							<StyledDivider />
+							<DividerText>OR</DividerText>
+							<StyledDivider />
+						</DividerContainer>
+						{error ? (
+							<ErrorMessage>{error}</ErrorMessage>
+						) : (
+							<SuccessMessage>{message}</SuccessMessage>
+						)}
+						<GoogleContainer>
+							<GoogleSignUp setError={setError} />
+						</GoogleContainer>
+						<Disclaimer>
+							<p>
+								Have an account already?
+								<RegisterLink href="/login">Sign-in.</RegisterLink>
+							</p>
+						</Disclaimer>
+					</FormContainer>
+				</StyledLoginContainer>
+			</MainContainer>
 		</Container>
 	);
 }

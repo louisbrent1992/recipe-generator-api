@@ -1,35 +1,47 @@
 import styled from "styled-components";
 
-const Container = styled.div`
-	justify-content: center;
-	height: 100vh;
-	margin-block: 0 auto;
+const Container = styled.div``;
+
+const MainContainer = styled.div`
 	display: flex;
+	height: 100vh;
 	flex-direction: column;
+	justify-content: center;
 `;
 
 const LoginContainer = styled.div`
-	min-width: 400px;
 	margin: 0 auto;
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	background-color: #fff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 600px;
 `;
 
 const Title = styled.h2`
 	text-align: center;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 `;
 
 const EmailPasswordContainer = styled.div`
-	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
 `;
 
 const EmailPasswordTitle = styled.h3`
 	font-size: 1.2rem;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
+	text-align: center;
+`;
+
+const FormContainer = styled.div`
+	flex: 1;
+	display: flex;
+	flex-direction: column;
 `;
 
 const Form = styled.form`
@@ -58,6 +70,7 @@ const Button = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	font-size: 1rem;
+	margin-bottom: 20px;
 
 	&:hover {
 		background-color: #0056b3;
@@ -68,7 +81,6 @@ const DividerContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 20px 0;
 `;
 
 const StyledDivider = styled.div`
@@ -86,9 +98,7 @@ const DividerText = styled.span`
 
 // Additional styles for the login container
 const StyledLoginContainer = styled(LoginContainer)`
-	max-width: 400px;
 	margin: 0 auto;
-	margin-top: 150px;
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
@@ -117,7 +127,9 @@ const StyledButton = styled(Button)`
 
 const GoogleContainer = styled.div`
 	display: flex;
-	justify-content: center;
+	align-items: center;
+
+	flex-direction: column;
 
 	& > button {
 		margin: 10px;
@@ -126,7 +138,10 @@ const GoogleContainer = styled.div`
 
 // Define additional styled components for the registration page
 const AvatarContainer = styled.div`
-	text-align: center;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const AvatarPreview = styled.img`
@@ -138,10 +153,10 @@ const AvatarPreview = styled.img`
 
 const UploadButton = styled.label`
 	display: block;
-	text-align: center;
 	color: #007bff;
 	cursor: pointer;
 	margin-block: 10px;
+	text-align: center;
 `;
 
 const ErrorMessage = styled.p`
@@ -182,6 +197,7 @@ export {
 	EmailPasswordContainer,
 	EmailPasswordTitle,
 	Form,
+	FormContainer,
 	Label,
 	Input,
 	Button,
@@ -199,4 +215,5 @@ export {
 	Disclaimer,
 	RegisterLink,
 	SuccessMessage,
+	MainContainer,
 };

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import { useSelector } from "react-redux";
 import NotFound from "./Pages/NotFound";
 import Favorites from "./Pages/Favorites";
 import Account from "./Pages/Account";
