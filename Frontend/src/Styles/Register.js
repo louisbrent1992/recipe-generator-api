@@ -39,6 +39,7 @@ const Form = styled.form`
 
 const Label = styled.label`
 	margin-bottom: 5px;
+	font-size: 1rem;
 `;
 
 const Input = styled.input`
@@ -87,7 +88,7 @@ const DividerText = styled.span`
 const StyledLoginContainer = styled(LoginContainer)`
 	max-width: 400px;
 	margin: 0 auto;
-	padding: 20px;
+	margin-top: 150px;
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
