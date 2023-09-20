@@ -16,16 +16,19 @@ function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route path="dashboard" element={<Home />} />
+				<Route path="/dashboard" element={<Home />} />
 				<Route path="/" element={<Home />} />
-				<Route path={`dashboard/${userId}`} element={<Home />} />
-				<Route path={`dashboard/${userId}/myAccount`} element={<Account />} />
-				<Route path={`dashboard/${userId}/favorites`} element={<Favorites />} />
-				<Route path={`dashboard/${userId}/about`} element={<About />} />
-				<Route path={`dashboard/about`} element={<About />} />
-				<Route path="login" element={<Login />} />
-				<Route path="register" element={<Register />} />
-				<Route element={<NotFound />} />
+				<Route path={`/dashboard/${userId}`} element={<Home />} />
+				<Route path={`/dashboard/${userId}/myAccount`} element={<Account />} />
+				<Route
+					path={`/dashboard/${userId}/favorites`}
+					element={<Favorites />}
+				/>
+				<Route path={`/dashboard/${userId}/about`} element={<About />} />
+				<Route path={`/dashboard/about`} element={<About />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Router>
 	);

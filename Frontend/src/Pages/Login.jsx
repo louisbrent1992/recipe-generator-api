@@ -19,12 +19,15 @@ import {
 	SuccessMessage,
 } from "../Styles/Login";
 import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser, updateUser } from "../Redux/userSlice";
+import { NavbarBrand } from "../Styles/Navbar";
 
 function Login() {
 	const [error, setError] = useState(""); // Error message from the server, if any
 	const [message, setMessage] = useState(""); // Success message from the server, if any
+
+	const user = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
 
@@ -37,13 +40,16 @@ function Login() {
 		};
 
 		try {
-			const response = await fetch(`${process.env.REACT_APP_DATABASE_URI}/api/v1/login`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(loginData),
-			});
+			const response = await fetch(
+				`${process.env.REACT_APP_DATABASE_URI}/api/v1/login`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(loginData),
+				}
+			);
 
 			if (response.status === 200) {
 				// Login successful
@@ -73,6 +79,17 @@ function Login() {
 
 	return (
 		<Container>
+			<NavbarBrand
+				style={{
+					color: "black",
+					position: "absolute",
+					top: "0",
+					padding: "20px",
+				}}
+				href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
+			>
+				Recipe Finder
+			</NavbarBrand>
 			<StyledLoginContainer>
 				<StyledTitle>Login</StyledTitle>
 				<EmailPasswordContainer onSubmit={handleSubmit}>

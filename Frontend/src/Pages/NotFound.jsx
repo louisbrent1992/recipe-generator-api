@@ -1,5 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import Navbar from "../Components/Navbar";
+import Footer from "../Components/Footer";
+
+const PageContainer = styled.div`
+	background-color: #f5f5f5;
+	min-height: 100vh;
+`;
 
 // Styled components for the 404 page
 const NotFoundContainer = styled.div`
@@ -22,15 +29,37 @@ const NotFoundMessage = styled.p`
 	font-size: 18px;
 `;
 
+const HomeButton = styled.button`
+	background-color: #ff6347; /* Red color */
+
+	padding: 10px 20px;
+
+	border-radius: 5px;
+	margin-top: 20px;
+`;
+
+const HomeLink = styled.a`
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+`;
+
 function NotFound() {
 	return (
-		<NotFoundContainer>
-			<NotFoundHeader>404</NotFoundHeader>
-			<NotFoundTitle>Page Not Found</NotFoundTitle>
-			<NotFoundMessage>
-				Sorry, but the page you are looking for does not exist.
-			</NotFoundMessage>
-		</NotFoundContainer>
+		<PageContainer>
+			<Navbar />
+			<NotFoundContainer>
+				<NotFoundHeader>404</NotFoundHeader>
+				<NotFoundTitle>Page Not Found</NotFoundTitle>
+				<NotFoundMessage>
+					Sorry, but the page you are looking for does not exist.
+				</NotFoundMessage>
+				<HomeButton>
+					<HomeLink href="/">Go Back Home</HomeLink>
+				</HomeButton>
+			</NotFoundContainer>
+			<Footer />
+		</PageContainer>
 	);
 }
 

@@ -22,14 +22,18 @@ import {
 	UploadButton,
 } from "../Styles/Register"; // Reuse styling from the login page
 import GoogleSignUp from "../Components/Buttons/GoogleSignUp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../Redux/userSlice";
+import { NavbarBrand } from "../Styles/Navbar";
 
 function Register() {
 	// State to manage the selected avatar image
 	const [avatarImage, setAvatarImage] = useState(null);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState(""); // Success message from the server, if any
+
+	const user = useSelector((state) => state.user);
+
 	const dispatch = useDispatch();
 
 	// Handle avatar upload
@@ -60,10 +64,16 @@ function Register() {
 		formData.append("avatar", avatarImage); // Append the image directly
 
 		try {
-			const response = await fetch(`${process.env.REACT_APP_DATABASE_URI}/api/v1/register`, {
-				method: "POST",
-				body: avatarImage ? formData : registrationData, // Send the FormData object with the image
-			});
+			const response = await fetch(
+				`${process.env.REACT_APP_DATABASE_URI}/api/v1/register`,
+				{
+					method: "POST",
+					body: avatarImage ? formData : registrationData, // Send the FormData object with the image
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
 			const responseData = await response.json();
 
@@ -90,6 +100,17 @@ function Register() {
 
 	return (
 		<Container>
+			<NavbarBrand
+				style={{
+					color: "black",
+					position: "absolute",
+					top: "0",
+					padding: "20px",
+				}}
+				href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
+			>
+				Recipe Finder
+			</NavbarBrand>
 			<StyledLoginContainer>
 				<StyledTitle>Register</StyledTitle>
 				<AvatarContainer>
@@ -116,11 +137,29 @@ function Register() {
 					<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
 					<Form>
 						<Label htmlFor="name">Name:</Label>
-						<Input type="text" id="name" name="name" required />
+						<Input
+							type="text"
+							id="name"
+							name="name"
+							placeholder="John Doe"
+							required
+						/>
 						<Label htmlFor="email">Email:</Label>
-						<Input type="email" id="email" name="email" required />
+						<Input
+							type="email"
+							id="email"
+							name="email"
+							placeholder="username@email.com"
+							required
+						/>
 						<Label htmlFor="password">Password:</Label>
-						<Input type="password" id="password" name="password" required />
+						<Input
+							type="password"
+							id="password"
+							name="password"
+							placeholder="minimum 6 characters, case-sensitive, alphanumeric"
+							required
+						/>
 						<StyledButton type="submit">Register</StyledButton>
 					</Form>
 				</EmailPasswordContainer>

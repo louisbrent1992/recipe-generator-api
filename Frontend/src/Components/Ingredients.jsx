@@ -16,7 +16,6 @@ import {
 	clearIngredients,
 	removeIngredient,
 } from "../Redux/ingredientsSlice";
-import axios from "axios";
 import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
 
 function Ingredients({ setLoading }) {
@@ -31,20 +30,26 @@ function Ingredients({ setLoading }) {
 		setLoading(true);
 
 		try {
-			const res = await axios.post(
+			const res = await fetch(
 				`${process.env.REACT_APP_DATABASE_URI}/api/v1/generate-recipe`,
-				{ ingredients: ingredients }
-			);
-			const fetchedRecipe = await res.data;
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
 
-			if (typeof fetchedRecipe === "object") {
+					body: JSON.stringify({ ingredients: ingredients }),
+				}
+			);
+
+			const fetchedRecipe = await res.json();
+
+			if (fetchedRecipe) {
 				dispatch(clearRecipe());
 				dispatch(setRecipe(fetchedRecipe));
 				dispatch(clearIngredients());
 			} else {
 				// Handle the case where no recipe data is received
 				setLoading(false);
-				console.error("No recipe data received.");
+				console.error("No recipe data received. Internal server error.");
 			}
 		} catch (error) {
 			// Handle axios request errors here

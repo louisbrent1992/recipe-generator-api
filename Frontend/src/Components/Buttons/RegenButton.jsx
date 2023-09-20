@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearRecipe, setRecipe } from "../../Redux/recipeSlice";
@@ -17,11 +16,16 @@ function RegenButton({ setLoading }) {
 		setLoading(true);
 
 		try {
-			const res = await axios.post(
+			const res = await fetch(
 				`${process.env.REACT_APP_DATABASE_URI}/api/v1/generate-recipe`,
-				{ ingredients: recipeIngredients }
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+
+					body: { ingredients: recipeIngredients },
+				}
 			);
-			const fetchedRecipe = await res.data;
+			const fetchedRecipe = await res.json();
 
 			if (fetchedRecipe) {
 				dispatch(clearRecipe());
