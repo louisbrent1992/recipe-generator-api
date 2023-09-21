@@ -11,9 +11,23 @@ import recipeGenerator from "./API/generate.recipe.js";
 import userRouter from "./Routes/user.router.js";
 import authRouter from "./Routes/auth.router.js";
 import corsOptions from "./Config/corsOptions.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Get the current module's file path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files
+app.use(express.static(path.join(__dirname, "..", "build")));
+
+// Serve the index.html file for all routes
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+});
 
 app.use("/api/v1", authRouter);
 app.use("/api/v1", recipeGenerator);
