@@ -1,0 +1,44 @@
+/* error.css */
+
+body {
+  background-color: #f0f0f0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 1em;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4em;
+  color: red;
+  margin-top: 0;
+}
+
+p {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+a {
+  color: #252322;
+  text-decoration: none;
+}
+
+button {
+  background-color: #252322;
+  border: none;
+  color: #fff;
+  padding: 1em 2em;
+  margin-top: 1em;
+  font-size: 1.5em;
+  cursor: pointer;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background-color: #666;
+}
