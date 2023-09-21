@@ -53,33 +53,31 @@ function Recipe({ loading, setLoading }) {
 	return (
 		<RecipeContainer ref={recipeContainerRef}>
 			<RecipeImageContainer>
-				<RecipeImage key={recipe._id} src={recipe.img} />
+				<RecipeImage src={recipe.img} />
 			</RecipeImageContainer>
-			<RecipeHeading key={recipe._id}>{recipe.name}</RecipeHeading>
+			<RecipeHeading>{recipe.name}</RecipeHeading>
 			<RecipeButtons
 				recipeContainerRef={recipeContainerRef}
 				setLoading={setLoading}
 			/>
-			<RecipeIngredients key={recipe._id}>
+			<RecipeIngredients>
 				<h3>Ingredients:</h3>
 				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
-					<ul>
+					<ul key={recipe._id}>
 						{recipe.ingredients.map((ingredient) => (
-							<li key={ingredient._id}>
+							<li key={ingredient.name}>
 								{ingredient.quantity} {ingredient.unit} {ingredient.name}
 							</li>
 						))}
 					</ul>
 				)}
-			</RecipeIngredients>
 
-			<RecipeIngredients key={recipe._id}>
 				<h3>Additional Ingredients:</h3>
 				{Array.isArray(recipe.additionalIngredients) &&
 					recipe.additionalIngredients.length > 0 && (
-						<ul>
+						<ul key={recipe._id}>
 							{recipe.additionalIngredients.map((ingredient) => (
-								<li key={ingredient._id}>
+								<li key={ingredient.name}>
 									{ingredient.quantity} {ingredient.unit} {ingredient.name}
 								</li>
 							))}

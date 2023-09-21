@@ -24,7 +24,7 @@ const RecipeIngredients = styled.div`
 
 	h3 {
 		font-size: 18px;
-		margin-bottom: 8px;
+		margin-bottom: 10px;
 	}
 
 	ul {
