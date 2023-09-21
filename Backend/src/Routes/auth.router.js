@@ -3,15 +3,9 @@ import User from "../Schemas/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import multer from "multer"; // Import Multer
 import sharp from "sharp"; // Import Sharp
 import { OAuth2Client } from "google-auth-library";
-const storage = multer.memoryStorage(); // Store files in memory as buffers
-
-const upload = multer({
-	storage: storage,
-	limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size (5MB in this example)
-});
+import { upload, validateForm } from "../Middleware/functions.js";
 
 dotenv.config();
 
@@ -19,74 +13,79 @@ const router = express.Router();
 
 const { GOOGLE_CLIENT_ID, JWT_SECRET } = process.env;
 
-router.post("/register", upload.single("avatar"), async (req, res) => {
-	try {
-		// Extract user data from the request body
-		const { name, email, password } = req.body;
+router.post(
+	"/register",
+	validateForm,
+	upload.single("avatar"),
+	async (req, res) => {
+		try {
+			// Extract user data from the request body
+			const { name, email, password } = req.body;
 
-		// Initialize avatar data to null
-		let avatarData = null;
+			// Initialize avatar data to null
+			let avatarData = null;
 
-		// Check if a file was uploaded
-		if (req.file) {
-			// Check the file format (you can add more formats as needed)
-			let outputFormat = req.file.mimetype.slice(6); // Default to JPEG
+			// Check if a file was uploaded
+			if (req.file) {
+				// Check the file format (you can add more formats as needed)
+				let outputFormat = req.file.mimetype.slice(6); // Default to JPEG
 
-			// Attempt to compress and resize the image using sharp
-			try {
-				const compressedImageBuffer = await sharp(req.file.buffer)
-					.resize(200) // Set your desired width (in pixels)
-					.toFormat(outputFormat) // Set the output format based on the detected format
-					.toBuffer();
+				// Attempt to compress and resize the image using sharp
+				try {
+					const compressedImageBuffer = await sharp(req.file.buffer)
+						.resize(200) // Set your desired width (in pixels)
+						.toFormat(outputFormat) // Set the output format based on the detected format
+						.toBuffer();
 
-				const imgUrl = `data:image/${outputFormat};base64,${compressedImageBuffer.toString(
-					"base64"
-				)}`;
+					const imgUrl = `data:image/${outputFormat};base64,${compressedImageBuffer.toString(
+						"base64"
+					)}`;
 
-				// Set avatar data if image processing was successful
-				avatarData = imgUrl;
-			} catch (sharpError) {
-				console.error("Image Processing Error:", sharpError);
-				return res
-					.status(400)
-					.json({ error: "Invalid image format or processing error." });
+					// Set avatar data if image processing was successful
+					avatarData = imgUrl;
+				} catch (sharpError) {
+					console.error("Image Processing Error:", sharpError);
+					return res
+						.status(400)
+						.json({ error: "Invalid image format or processing error." });
+				}
 			}
+
+			// Handle registration logic
+			const hashedPassword = await bcrypt.hash(password, 10);
+
+			// Create a new User instance with the provided data and avatar (if provided)
+			const user = new User({
+				name,
+				email,
+				password: hashedPassword,
+				avatar: avatarData,
+				savedRecipes: [],
+				// You can add other fields as needed
+			});
+
+			// Save the new user to the database
+			await user.save();
+
+			// Return a successful response with the created user without the hashed password
+			const userWithoutPassword = {
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				avatar: user.avatar,
+				savedRecipes: user.savedRecipes,
+				// You can add other fields here if needed
+			};
+
+			res.status(201).json({ user: userWithoutPassword });
+		} catch (error) {
+			console.error("Create User Error:", error);
+			res
+				.status(500)
+				.json({ error: "An error occurred while creating the user." });
 		}
-
-		// Handle registration logic
-		const hashedPassword = await bcrypt.hash(password, 10);
-
-		// Create a new User instance with the provided data and avatar (if provided)
-		const user = new User({
-			name,
-			email,
-			password: hashedPassword,
-			avatar: avatarData,
-			savedRecipes: [],
-			// You can add other fields as needed
-		});
-
-		// Save the new user to the database
-		await user.save();
-
-		// Return a successful response with the created user without the hashed password
-		const userWithoutPassword = {
-			_id: user._id,
-			name: user.name,
-			email: user.email,
-			avatar: user.avatar,
-			savedRecipes: user.savedRecipes,
-			// You can add other fields here if needed
-		};
-
-		res.status(201).json({ user: userWithoutPassword });
-	} catch (error) {
-		console.error("Create User Error:", error);
-		res
-			.status(500)
-			.json({ error: "An error occurred while creating the user." });
 	}
-});
+);
 
 // Google sign-up
 router.post("/google-signup", async (req, res) => {
