@@ -2,6 +2,7 @@ import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../Redux/userSlice";
+import { BASE_URL } from "../../Utilities/requests";
 
 function GoogleSignUp({ setError }) {
 	const dispatch = useDispatch();
@@ -14,18 +15,15 @@ function GoogleSignUp({ setError }) {
 
 		// Send the Google access token to your server for verification
 		try {
-			const response = await fetch(
-				`${process.env.REACT_APP_DATABASE_URI}/api/v1/google-signup`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						googleAccessToken: googleResponse.credential,
-					}),
-				}
-			);
+			const response = await fetch(`${BASE_URL}/api/v1/google-signup`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					googleAccessToken: googleResponse.credential,
+				}),
+			});
 
 			const data = await response.json();
 

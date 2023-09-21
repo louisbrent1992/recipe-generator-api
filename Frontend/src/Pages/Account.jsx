@@ -16,8 +16,14 @@ import {
 	TextInput,
 	Title,
 } from "../Styles/Account";
-
-import { clearUser, deleteFavorite, updateUser } from "../Redux/userSlice";
+import { handleAccountUpdate, handleInputChange } from "../Utilities/account";
+import {
+	handleDeleteFav,
+	handleAvatarUpload,
+	handleEdit,
+	handleEditCancel,
+	handleUserDelete,
+} from "../Utilities/buttons";
 
 const Account = () => {
 	const currentUser = useSelector((state) => state.user);
@@ -33,112 +39,6 @@ const Account = () => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const dispatch = useDispatch();
-
-	// Handle avatar upload
-	const handleAvatarUpload = async (event) => {
-		const selectedImage = event.target.files[0];
-
-		if (selectedImage) {
-			const imageUrl = URL.createObjectURL(selectedImage);
-			setIsEditing(true);
-			// Set the selected image URL in the state
-			setAvatar(imageUrl);
-		} else {
-			setError("Image upload error, please try again.");
-		}
-	};
-
-	const handleEdit = async () => {
-		if (!isEditing) {
-			setIsEditing(true);
-			return;
-		}
-	};
-	const handleEditCancel = async () => {
-		if (isEditing) {
-			setUser(defaultUser);
-			setAvatar(currentUser.avatar);
-			setIsEditing(false);
-			return;
-		}
-	};
-
-	// Handle form submission
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		setIsEditing(false);
-		const formData = new FormData();
-
-		// Append user data to formData
-		formData.append("name", user.name);
-		formData.append("email", user.email);
-
-		// Append the compressed avatar image if available
-		if (avatar) {
-			formData.append("avatar", avatar);
-		}
-
-		try {
-			const response = await fetch(
-				`${process.env.REACT_APP_DATABASE_URI}/api/v1/user/avatar_upload/${currentUser._id}`,
-				{
-					method: "PUT",
-					body: formData,
-				}
-			);
-
-			if (response.status === 200) {
-				const updatedUser = await response.json();
-				dispatch(updateUser(updatedUser));
-				setAvatar(updatedUser.avatar);
-				setIsEditing(false);
-				alert("User information updated successfully.");
-			} else {
-				console.error("Error updating user information:", response.statusText);
-				setIsEditing(false);
-				alert("Error updating user information. Please try again later.");
-			}
-		} catch (err) {
-			console.error(err);
-			setIsEditing(false);
-			alert("Error updating user information. Please try again later.");
-		}
-	};
-
-	const handleInputChange = (e) => {
-		setUser({ ...user, [e.target.name]: e.target.value });
-	};
-
-	const handleUserDelete = async () => {
-		try {
-			const response = await fetch(
-				`http://localhost:5050/api/v1/users/${currentUser._id}`,
-				{
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-
-			if (response.ok) {
-				dispatch(clearUser());
-				alert("Account deleted successfully.");
-				setTimeout(() => {
-					window.location.href = "/";
-				}, 2000);
-			}
-
-			alert("Error deleting account. Please try again later.");
-		} catch (err) {
-			console.error(err);
-			setError("Error deleting user account. Please try again later.");
-		}
-	};
-
-	const handleDeleteFav = (recipe) => {
-		dispatch(deleteFavorite(recipe.name));
-	};
 
 	return (
 		<PageContainer>
@@ -163,7 +63,9 @@ const Account = () => {
 									type="file"
 									name="avatar"
 									accept="image/*"
-									onChange={handleAvatarUpload}
+									onChange={(e) =>
+										handleAvatarUpload(e, setIsEditing, setAvatar, setError)
+									}
 								/>
 							</EditButton>
 						</AvatarContainer>
@@ -172,7 +74,7 @@ const Account = () => {
 							<TextInput
 								name="name"
 								value={user.name}
-								onChange={handleInputChange}
+								onChange={(e) => handleInputChange(e, setUser, user)}
 							/>
 						</InfoText>
 						<InfoText>
@@ -180,7 +82,7 @@ const Account = () => {
 							<TextInput
 								name="email"
 								value={user.email}
-								onChange={handleInputChange}
+								onChange={(e) => handleInputChange(e, setUser, user)}
 							/>
 						</InfoText>
 					</div>
@@ -194,7 +96,9 @@ const Account = () => {
 									type="file"
 									accept="image/*"
 									name="avatar"
-									onChange={handleAvatarUpload}
+									onChange={(e) =>
+										handleAvatarUpload(e, setIsEditing, setAvatar, setError)
+									}
 								/>
 							</EditButton>
 						</AvatarContainer>
@@ -203,20 +107,45 @@ const Account = () => {
 					</div>
 				)}
 				<ButtonsContainer>
-					<EditButton onClick={isEditing ? handleSubmit : handleEdit}>
+					<EditButton
+						onClick={
+							isEditing
+								? (e) =>
+										handleAccountUpdate(
+											e,
+											setIsEditing,
+											user,
+											avatar,
+											currentUser,
+											dispatch,
+											setAvatar
+										)
+								: () => handleEdit(isEditing, setIsEditing)
+						}
+					>
 						{isEditing ? "Save" : "Edit"}
 					</EditButton>
 					{isEditing && (
 						<EditButton
 							style={{ backgroundColor: "red" }}
-							onClick={handleEditCancel}
+							onClick={() =>
+								handleEditCancel(
+									isEditing,
+									setIsEditing,
+									setUser,
+									setAvatar,
+									defaultUser,
+
+									currentUser
+								)
+							}
 						>
 							Cancel
 						</EditButton>
 					)}
 					<EditButton
 						style={{ backgroundColor: "red" }}
-						onClick={handleUserDelete}
+						onClick={() => handleUserDelete(currentUser, dispatch, setError)}
 					>
 						Delete Account
 					</EditButton>
@@ -224,24 +153,28 @@ const Account = () => {
 			</InfoSection>
 			<InfoSection>
 				<InfoTitle>Recipe History</InfoTitle>
-				{savedRecipes.map((recipe) => (
-					<RecipeCard key={recipe._id} recipe={recipe}>
-						<RecipeTitle>{recipe.name}</RecipeTitle>
-						<EditButton
-							style={{
-								position: "absolute",
-								top: 0,
-								right: 0,
-								width: "100px",
-								backgroundColor: "red",
-								marginRight: "20px",
-							}}
-							onClick={() => handleDeleteFav(recipe.name)}
-						>
-							Delete
-						</EditButton>
-					</RecipeCard>
-				))}
+				{savedRecipes.length < 1 ? (
+					<p>No Saved Recipes.</p>
+				) : (
+					savedRecipes.map((recipe) => (
+						<RecipeCard key={recipe._id} recipe={recipe}>
+							<RecipeTitle>{recipe.name}</RecipeTitle>
+							<EditButton
+								style={{
+									position: "absolute",
+									top: 0,
+									right: 0,
+									width: "100px",
+									backgroundColor: "red",
+									marginRight: "20px",
+								}}
+								onClick={() => handleDeleteFav(recipe, dispatch)}
+							>
+								Delete
+							</EditButton>
+						</RecipeCard>
+					))
+				)}
 			</InfoSection>
 		</PageContainer>
 	);

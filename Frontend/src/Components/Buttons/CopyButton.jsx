@@ -1,25 +1,7 @@
 import React from "react";
+import { handleCopyRecipe } from "../../Utilities/buttons";
 
 function CopyButton({ recipeContainerRef }) {
-	const handleCopyRecipe = () => {
-		if (recipeContainerRef.current) {
-			const recipeText = recipeContainerRef.current.innerText;
-
-			try {
-				// Copy the inner text of the recipe container to the clipboard
-				navigator.clipboard.writeText(recipeText).then(() => {
-					console.log("Recipe copied to clipboard:", recipeText);
-				});
-			} catch (error) {
-				// Handle any potential errors
-				console.error("Error copying recipe:", error);
-			}
-		} else {
-			// Handle the case where the recipe container reference is not available
-			console.error("Recipe container reference not available.");
-		}
-	};
-
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +11,7 @@ function CopyButton({ recipeContainerRef }) {
 			stroke="currentColor"
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
-			onClick={handleCopyRecipe}
+			onClick={() => handleCopyRecipe(recipeContainerRef)}
 		>
 			<path
 				strokeLinecap="round"

@@ -1,44 +1,19 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearRecipe, setRecipe } from "../../Redux/recipeSlice";
+import { handleRegenRecipe } from "../../Utilities/buttons";
 
 function RegenButton({ setLoading }) {
 	const recipe = useSelector((state) => state.recipe); // Updated state selector
 
 	const dispatch = useDispatch();
+
 	const recipeIngredients = recipe.ingredients.map((ingredient) => {
 		return {
 			name: ingredient.name,
 			_id: Math.random().toString(),
 		};
 	});
-	const handleRegenRecipe = async () => {
-		setLoading(true);
 
-		try {
-			const res = await fetch(
-				`${process.env.REACT_APP_DATABASE_URI}/api/v1/generate-recipe`,
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-
-					body: JSON.stringify({ ingredients: recipeIngredients }),
-				}
-			);
-			const fetchedRecipe = await res.json();
-
-			if (fetchedRecipe) {
-				dispatch(clearRecipe());
-				dispatch(setRecipe(fetchedRecipe));
-			} else {
-				// Handle the case where no recipe data is received
-				console.error("No recipe data received.");
-			}
-		} catch (error) {
-			// Handle axios request errors here
-			console.error("Error fetching recipe:", error);
-		}
-	};
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +23,7 @@ function RegenButton({ setLoading }) {
 			stroke="currentColor"
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
-			onClick={handleRegenRecipe}
+			onClick={() => handleRegenRecipe(dispatch, setLoading, recipeIngredients)}
 		>
 			<path
 				strokeLinecap="round"

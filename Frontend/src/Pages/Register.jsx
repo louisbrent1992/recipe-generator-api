@@ -25,8 +25,8 @@ import {
 } from "../Styles/Register"; // Reuse styling from the login page
 import GoogleSignUp from "../Components/Buttons/GoogleSignUp";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../Redux/userSlice";
 import { NavbarBrand } from "../Styles/Navbar";
+import { handleAvatarUpload, handleRegister } from "../Utilities/auth";
 
 function Register() {
 	// State to manage the selected avatar image
@@ -37,68 +37,6 @@ function Register() {
 	const user = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
-
-	// Handle avatar upload
-	const handleAvatarUpload = (event) => {
-		const selectedImage = event.target.files[0];
-		if (selectedImage) {
-			// Set the selected image in the state
-			setAvatarImage(selectedImage);
-		}
-	};
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const data = new FormData(event.target);
-		const registrationData = {
-			name: data.get("name"),
-			email: data.get("email"),
-			password: data.get("password"),
-		};
-
-		// Check if an avatar image is selected and append it to the FormData
-
-		// Create a new FormData object for the registration data and append the compressed image
-		const formData = new FormData();
-		formData.append("name", registrationData.name);
-		formData.append("email", registrationData.email);
-		formData.append("password", registrationData.password);
-		formData.append("avatar", avatarImage); // Append the image directly
-
-		try {
-			const response = await fetch(
-				`${process.env.REACT_APP_DATABASE_URI}/api/v1/register`,
-				{
-					method: "POST",
-					body: avatarImage ? formData : registrationData, // Send the FormData object with the image
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-
-			const responseData = await response.json();
-
-			if (response.status === 201) {
-				// Registration successful, you can show a success message or redirect to login
-				console.log("Registration successful");
-				setMessage("Registration successful. Redirecting to dashboard.");
-				dispatch(updateUser(responseData.user));
-				// Redirect to the login page or perform other actions after registration
-				setTimeout(() => {
-					window.location.href = `/dashboard/${responseData.user._id}`; // Redirect to the dashboard}}`;
-				}, 2000);
-			} else {
-				alert("Registration failed.");
-				// Display the server-side error message
-				const responseData = await response.json();
-				setError(responseData.error);
-			}
-		} catch (error) {
-			console.error("Error while registering:", error);
-			alert("Registration failed. An error occurred.");
-		}
-	};
 
 	return (
 		<Container>
@@ -131,14 +69,18 @@ function Register() {
 							type="file"
 							accept="image/*"
 							style={{ display: "none" }}
-							onChange={handleAvatarUpload}
+							onChange={(e) => handleAvatarUpload(e, setAvatarImage)}
 							id="avatar-upload"
 							name="avatar" // Name attribute to match the server-side field name
 						/>
 						<UploadButton htmlFor="avatar-upload">Upload Avatar</UploadButton>
 					</AvatarContainer>
 					<FormContainer>
-						<EmailPasswordContainer onSubmit={handleSubmit}>
+						<EmailPasswordContainer
+							onSubmit={(e) =>
+								handleRegister(e, avatarImage, setMessage, dispatch, setError)
+							}
+						>
 							<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
 							<Form>
 								<Label htmlFor="name">Name:</Label>

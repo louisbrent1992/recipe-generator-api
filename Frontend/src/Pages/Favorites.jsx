@@ -94,15 +94,15 @@ function Favorites() {
 							<RecipeIngredients>
 								<RecipeSubtitle>Ingredients:</RecipeSubtitle>
 								{recipe.ingredients.map((ingredient) => (
-									<li key={ingredient._id}>
+									<li key={ingredient.name}>
 										{ingredient.quantity} {ingredient.unit} {ingredient.name}
 									</li>
 								))}
 							</RecipeIngredients>
 							<RecipeSteps>
 								<RecipeSubtitle>Steps:</RecipeSubtitle>
-								{recipe.steps.map((step) => (
-									<li style={{ marginLeft: "2rem" }} key={step}>
+								{recipe.steps.map((step, index) => (
+									<li style={{ marginLeft: "2rem" }} key={recipe.steps[index]}>
 										{step}
 									</li>
 								))}

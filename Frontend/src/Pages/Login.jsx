@@ -20,8 +20,8 @@ import {
 } from "../Styles/Login";
 import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUser, updateUser } from "../Redux/userSlice";
 import { NavbarBrand } from "../Styles/Navbar";
+import { handleLogin } from "../Utilities/auth";
 
 function Login() {
 	const [error, setError] = useState(""); // Error message from the server, if any
@@ -30,52 +30,6 @@ function Login() {
 	const user = useSelector((state) => state.user);
 
 	const dispatch = useDispatch();
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const data = new FormData(event.target);
-		const loginData = {
-			email: data.get("email"),
-			password: data.get("password"),
-		};
-
-		try {
-			const response = await fetch(
-				`${process.env.REACT_APP_DATABASE_URI}/api/v1/login`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(loginData),
-				}
-			);
-
-			if (response.status === 200) {
-				// Login successful
-				const loginResponse = await response.json();
-				console.log("Login response:", loginResponse);
-				dispatch(clearUser());
-				dispatch(updateUser(loginResponse.user));
-				setMessage("Login successful. Redirecting to dashboard.");
-				setTimeout(() => {
-					window.location.href = `/dashboard/${loginResponse.user._id}`;
-				}, 2000);
-			} else if (response.status === 401) {
-				// Unauthorized (Invalid credentials)
-				alert("Login failed. Please check your credentials.");
-				setError("Invalid credentials");
-			} else {
-				// Other error (e.g., server error)
-				alert("Login failed. An error occurred.");
-				setError(response.error);
-			}
-		} catch (error) {
-			console.error("Error while logging in:", error);
-			alert("Login failed. An error occurred.");
-			setError(error);
-		}
-	};
 
 	return (
 		<Container>
@@ -92,7 +46,9 @@ function Login() {
 			</NavbarBrand>
 			<StyledLoginContainer>
 				<StyledTitle>Login</StyledTitle>
-				<EmailPasswordContainer onSubmit={handleSubmit}>
+				<EmailPasswordContainer
+					onSubmit={(e) => handleLogin(e, dispatch, setMessage, setError)}
+				>
 					<EmailPasswordTitle>Email/Password Login</EmailPasswordTitle>
 					<Form>
 						<Label htmlFor="email">Email:</Label>
