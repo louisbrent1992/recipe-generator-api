@@ -13,6 +13,8 @@ import authRouter from "./Routes/auth.router.js";
 import corsOptions from "./Config/corsOptions.js";
 import path from "path";
 
+const __dirname = path.resolve();
+
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -20,7 +22,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("^/$|/index(.html)?", (req, res) => {
-	res.sendFile(path.resolve(__dirname, "../public", "index.html"));
+	res.sendFile(path.resolve(__dirname, "public", "Views", "index.html"));
 });
 
 app.use("/api/v1", authRouter);
@@ -28,6 +30,17 @@ app.use("/api/v1", recipeGenerator);
 app.use("/api/v1", userRouter);
 app.get("/", (req, res) => {
 	res.json("Hello World");
+});
+
+app.use((req, res, next) => {
+	res
+		.status(404)
+		.sendFile(path.resolve(__dirname, "public", "Views", "404.html"));
+});
+
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({ message: "Internal server error" });
 });
 
 // Connect to MongoDB
