@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const PageContainer = styled.div`
 	margin: 0 auto;
+	padding-bottom: 100px;
 `;
 
 const BodyContainer = styled.div`

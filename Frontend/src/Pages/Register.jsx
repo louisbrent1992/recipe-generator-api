@@ -26,7 +26,8 @@ import {
 import GoogleSignUp from "../Components/Buttons/GoogleSignUp";
 import { useDispatch, useSelector } from "react-redux";
 import { NavbarBrand } from "../Styles/Navbar";
-import { handleAvatarUpload, handleRegister } from "../Utilities/auth";
+import { handleRegister } from "../Utilities/auth";
+import { handleAvatarUpload } from "../Utilities/buttons";
 
 function Register() {
 	// State to manage the selected avatar image
