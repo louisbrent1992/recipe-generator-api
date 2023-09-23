@@ -54,18 +54,6 @@ export const handleLogin = async (event, dispatch, setMessage, setError) => {
 };
 
 /**
- * Handles the upload of an avatar image.
- * @param {Event} event - The event object that contains information about the upload event.
- * @param {Function} setAvatarImage - The function to set the avatar image in the state.
- */
-export const handleAvatarUpload = (event, setAvatarImage) => {
-	const selectedImage = event.target.files[0];
-	if (selectedImage) {
-		setAvatarImage(selectedImage);
-	}
-};
-
-/**
  * Handles the registration process for a user.
  * Sends a POST request to the server with the user's registration data, including an optional avatar image.
  * If the registration is successful, it updates the user's information, displays a success message, and redirects the user to the dashboard.
