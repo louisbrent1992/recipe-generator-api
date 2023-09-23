@@ -32,13 +32,10 @@ export const handleAccountUpdate = async (
 	}
 
 	try {
-		const response = await fetch(
-			`${BASE_URL}/api/v1/user/avatar_upload/${currentUser._id}`,
-			{
-				method: "PUT",
-				body: formData,
-			}
-		);
+		const response = await fetch(`${BASE_URL}/api/v1/user/${currentUser._id}`, {
+			method: "PUT",
+			body: formData,
+		});
 
 		if (response.ok) {
 			const updatedUser = await response.json();

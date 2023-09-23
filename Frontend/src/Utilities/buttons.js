@@ -154,9 +154,8 @@ export const handleAvatarUpload = (
 	const selectedImage = event.target.files[0];
 
 	if (selectedImage) {
-		const imageUrl = URL.createObjectURL(selectedImage);
 		setIsEditing(true);
-		setAvatar(imageUrl);
+		setAvatar(selectedImage);
 	} else {
 		setError("No image selected");
 	}

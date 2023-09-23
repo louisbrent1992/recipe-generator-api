@@ -53,8 +53,9 @@ const Account = () => {
 						<AvatarContainer>
 							<AvatarPreview
 								src={
-									avatar ||
-									"https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
+									avatar
+										? URL.createObjectURL(avatar)
+										: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
 								}
 							/>
 							<EditButton>
