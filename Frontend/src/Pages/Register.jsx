@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavbarBrand } from "../Styles/Navbar";
 import { handleRegister } from "../Utilities/auth";
 import { handleAvatarUpload } from "../Utilities/buttons";
+import { avatarImagePopup } from "../Utilities/notifications";
 
 function Register() {
 	// State to manage the selected avatar image
@@ -64,6 +65,7 @@ function Register() {
 									: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
 							}
 							alt="Avatar Preview"
+							onClick={() => avatarImagePopup(avatarImage)}
 						/>
 
 						<input

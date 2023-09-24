@@ -18,12 +18,16 @@ import {
 } from "../Styles/Account";
 import { handleAccountUpdate, handleInputChange } from "../Utilities/account";
 import {
-	handleDeleteFav,
 	handleAvatarUpload,
 	handleEdit,
 	handleEditCancel,
-	handleUserDelete,
 } from "../Utilities/buttons";
+
+import {
+	avatarImagePopup,
+	confirmDeleteRecipe,
+	confirmDeleteUser,
+} from "../Utilities/notifications";
 
 const Account = () => {
 	const currentUser = useSelector((state) => state.user);
@@ -40,6 +44,8 @@ const Account = () => {
 
 	const dispatch = useDispatch();
 
+	const avatarImage = isEditing ? URL.createObjectURL(avatar) : avatar;
+
 	return (
 		<PageContainer>
 			<Navbar />
@@ -54,9 +60,10 @@ const Account = () => {
 							<AvatarPreview
 								src={
 									avatar
-										? URL.createObjectURL(avatar)
+										? avatarImage
 										: "https://res.cloudinary.com/client-images/image/upload/v1694458634/profile_pic_placeholder_nh4oxn.jpg"
 								}
+								onClick={() => avatarImagePopup(avatarImage)}
 							/>
 							<EditButton>
 								<input
@@ -90,7 +97,10 @@ const Account = () => {
 				) : (
 					<div>
 						<AvatarContainer>
-							<AvatarPreview src={currentUser.avatar} />
+							<AvatarPreview
+								src={currentUser.avatar}
+								onClick={() => avatarImagePopup(avatarImage)}
+							/>
 							<EditButton>
 								<input
 									style={{ maxWidth: "170px" }}
@@ -146,7 +156,7 @@ const Account = () => {
 					)}
 					<EditButton
 						style={{ backgroundColor: "red" }}
-						onClick={() => handleUserDelete(currentUser, dispatch, setError)}
+						onClick={() => confirmDeleteUser(currentUser, dispatch, setError)}
 					>
 						Delete Account
 					</EditButton>
@@ -169,7 +179,7 @@ const Account = () => {
 									backgroundColor: "red",
 									marginRight: "20px",
 								}}
-								onClick={() => handleDeleteFav(recipe, dispatch)}
+								onClick={() => confirmDeleteRecipe(recipe, dispatch)}
 							>
 								Delete
 							</EditButton>

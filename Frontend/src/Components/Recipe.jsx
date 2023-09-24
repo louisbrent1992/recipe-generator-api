@@ -12,6 +12,7 @@ import {
 } from "../Styles/Recipe";
 import { PacmanLoader } from "react-spinners";
 import RecipeButtons from "./Buttons/RecipeButtons";
+import { recipeImagePopup } from "../Utilities/notifications";
 
 const override = css`
 	display: block;
@@ -53,7 +54,10 @@ function Recipe({ loading, setLoading }) {
 	return (
 		<RecipeContainer ref={recipeContainerRef}>
 			<RecipeImageContainer>
-				<RecipeImage src={recipe.img} />
+				<RecipeImage
+					src={recipe.img}
+					onClick={() => recipeImagePopup(recipe.img)}
+				/>
 			</RecipeImageContainer>
 			<RecipeHeading>{recipe.name}</RecipeHeading>
 			<RecipeButtons

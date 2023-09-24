@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const userSlice = createSlice({
 	name: "user",
@@ -17,11 +18,19 @@ const userSlice = createSlice({
 				(recipe) => recipe.name === action.payload.name
 			);
 			if (existingFavorite) {
-				alert("This recipe is already in your favorites!");
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "Recipe already in favorites",
+				});
 				return;
 			}
+			Swal.fire({
+				icon: "success",
+				title: "Success",
+				text: "Recipe added to favorites",
+			});
 			state.savedRecipes.push(action.payload);
-			alert("Recipe added to favorites!");
 		},
 		deleteFavorite: (state, action) => {
 			// Delete the favorite from the user's favorites array

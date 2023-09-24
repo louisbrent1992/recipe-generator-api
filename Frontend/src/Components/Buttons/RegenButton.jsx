@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleRegenRecipe } from "../../Utilities/buttons";
+import { handleRecipeGenerate } from "../../Utilities/buttons";
 
 function RegenButton({ setLoading }) {
 	const recipe = useSelector((state) => state.recipe); // Updated state selector
@@ -23,7 +23,9 @@ function RegenButton({ setLoading }) {
 			stroke="currentColor"
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
-			onClick={() => handleRegenRecipe(dispatch, setLoading, recipeIngredients)}
+			onClick={() =>
+				handleRecipeGenerate(dispatch, setLoading, recipeIngredients)
+			}
 		>
 			<path
 				strokeLinecap="round"

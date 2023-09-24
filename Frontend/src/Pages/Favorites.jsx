@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import { recipeImagePopup } from "../Utilities/notifications";
 
 // Styled components for the favorites page
 const FavoritesPageContainer = styled.div`
@@ -89,7 +90,10 @@ function Favorites() {
 						<RecipeCard key={recipe._id}>
 							<RecipeTitle>{recipe.name}</RecipeTitle>
 							<RecipeImageContainer>
-								<RecipeImage src={recipe.img} />
+								<RecipeImage
+									src={recipe.img}
+									onClick={() => recipeImagePopup(recipe.img)}
+								/>
 							</RecipeImageContainer>
 							<RecipeIngredients>
 								<RecipeSubtitle>Ingredients:</RecipeSubtitle>
