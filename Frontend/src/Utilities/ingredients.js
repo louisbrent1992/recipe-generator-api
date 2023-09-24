@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import {
 	addIngredient,
 	clearIngredients,
@@ -5,6 +6,7 @@ import {
 } from "../Redux/ingredientsSlice";
 import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
 import { BASE_URL } from "./requests";
+import { handleRecipeGenerate } from "./buttons";
 
 /**
  * Fetches recipe data from the server and updates the Redux store.
@@ -21,29 +23,57 @@ export const handleGetRecipes = async (
 	dispatch
 ) => {
 	event.preventDefault();
+	Swal.fire({
+		icon: "info",
+		title: "Generating recipe",
+		text: "Please allow up to 30 seconds for recipe to generate.",
+	});
 	setLoading(true);
 
 	try {
-		const response = await fetch(
-			`${BASE_URL}/api/v1/generate-recipe`,
-			{
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ingredients }),
-			}
-		);
+		const response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ ingredients }),
+		});
 
 		const fetchedRecipe = await response.json();
 
 		if (fetchedRecipe) {
+			Swal.fire({
+				title: "Sweet! Here's your recipe!",
+				text: fetchedRecipe.name,
+				imageUrl: fetchedRecipe.img,
+				imageWidth: 400,
+				imageHeight: 400,
+				imageAlt: "Recipe Image",
+				confirmButtonColor: "#4caf50",
+				confirmButtonText: "Regenerate Recipe",
+				showCloseButton: true,
+			}).then((result) => {
+				if (result.isConfirmed) {
+					handleRecipeGenerate(dispatch, setLoading, ingredients);
+				}
+			});
 			dispatch(clearRecipe());
 			dispatch(setRecipe(fetchedRecipe));
 			dispatch(clearIngredients());
+			setLoading(false);
 		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Recipe data not received. Please try again later.",
+			});
 			setLoading(false);
 			console.error("No recipe data received. Internal server error.");
 		}
 	} catch (error) {
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "Error retrieving recipe. Please try again later.",
+		});
 		setLoading(false);
 		console.error("Error fetching recipe:", error);
 	}

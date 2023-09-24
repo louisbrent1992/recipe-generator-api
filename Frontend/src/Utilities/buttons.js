@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
 import { addFavorite, clearUser, deleteFavorite } from "../Redux/userSlice";
 import { BASE_URL } from "./requests";
@@ -11,13 +12,37 @@ export const handleCopyRecipe = (recipeContainerRef) => {
 	if (recipeContainerRef.current) {
 		const recipeText = recipeContainerRef.current.innerText;
 
-		try {
-			navigator.clipboard.writeText(recipeText);
-			console.log("Recipe copied to clipboard:", recipeText);
-		} catch (error) {
-			console.error("Error copying recipe:", error);
+		if (recipeText) {
+			try {
+				navigator.clipboard.writeText(recipeText);
+				Swal.fire({
+					icon: "success",
+					title: "Success",
+					text: "Recipe copied to clipboard",
+				});
+				console.log("Recipe copied to clipboard:", recipeText);
+			} catch (error) {
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "Error copying recipe",
+				});
+				console.error("Error copying recipe:", error);
+			}
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Recipe text is empty",
+			});
+			console.error("Recipe text is empty.");
 		}
 	} else {
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "The copy feature is not working at this time. Please try again later.",
+		});
 		console.error("Recipe container reference not available.");
 	}
 };
@@ -32,7 +57,12 @@ export const handleAddFav = (dispatch, user, recipe) => {
 	if (user._id) {
 		dispatch(addFavorite(recipe));
 	} else {
-		alert("Please log in to save recipes");
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "Please log in to save recipes",
+		});
+		console.log("Please log in to save recipes");
 	}
 };
 
@@ -43,14 +73,17 @@ export const handleAddFav = (dispatch, user, recipe) => {
  * @param {array} recipeIngredients - An array of ingredients used to generate the recipe.
  * @returns {Promise<void>}
  */
-export const handleRegenRecipe = async (
+export const handleRecipeGenerate = async (
 	dispatch,
 	setLoading,
 	recipeIngredients
 ) => {
 	setLoading(true);
-
-	console.log(BASE_URL);
+	Swal.fire({
+		icon: "info",
+		title: "Generating recipe",
+		text: "Please allow up to 30 seconds for recipe to generate.",
+	});
 
 	try {
 		const response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
@@ -62,13 +95,41 @@ export const handleRegenRecipe = async (
 		const fetchedRecipe = await response.json();
 
 		if (fetchedRecipe) {
+			Swal.fire({
+				title: "Sweet! Here's your recipe!",
+				text: fetchedRecipe.name,
+				imageUrl: fetchedRecipe.img,
+				imageWidth: 400,
+				imageHeight: 400,
+				imageAlt: "Recipe Image",
+				confirmButtonColor: "#4caf50",
+				confirmButtonText: "Regenerate Recipe",
+				showCloseButton: true,
+			}).then((result) => {
+				if (result.isConfirmed) {
+					handleRecipeGenerate(dispatch, setLoading, recipeIngredients);
+				}
+			});
 			dispatch(clearRecipe());
 			dispatch(setRecipe(fetchedRecipe));
+			setLoading(false);
 		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Recipe data not received. Please try again later.",
+			});
 			console.error("No recipe data received.");
+			setLoading(false);
 		}
 	} catch (error) {
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "Error retrieving recipe. Please try again later.",
+		});
 		console.error("Error fetching recipe:", error);
+		setLoading(false);
 	}
 };
 
@@ -99,7 +160,7 @@ export const handleUserDelete = async (currentUser, dispatch, setError) => {
 
 		if (response.ok) {
 			dispatch(clearUser());
-			alert("Account deleted successfully.");
+			console.log("Account deleted successfully.");
 			setTimeout(() => {
 				window.location.href = "/";
 			}, 2000);
