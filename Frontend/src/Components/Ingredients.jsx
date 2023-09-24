@@ -25,10 +25,14 @@ function Ingredients({ setLoading }) {
 
 	const dispatch = useDispatch();
 
+	let timeInterval;
+
 	return (
 		<FormContainer>
 			<StyledForm
-				onSubmit={(e) => handleGetRecipes(e, setLoading, ingredients, dispatch)}
+				onSubmit={(e) =>
+					handleGetRecipes(e, setLoading, ingredients, dispatch, timeInterval)
+				}
 			>
 				<StyledHeading>Ingredients</StyledHeading>
 				{ingredients?.length === 0 && (
@@ -69,11 +73,9 @@ function Ingredients({ setLoading }) {
 					/>
 					<StyledButton
 						type="button"
-						onClick={() => addNewIngredient(
-							newIngredient,
-							dispatch,
-							setNewIngredient
-						)}
+						onClick={() =>
+							addNewIngredient(newIngredient, dispatch, setNewIngredient)
+						}
 					>
 						Add Ingredient
 					</StyledButton>

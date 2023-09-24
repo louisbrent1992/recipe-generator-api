@@ -6,6 +6,7 @@ export const recipeImagePopup = (image) => {
 		background: `center / cover no-repeat url(${image})`,
 		padding: "15em",
 		imageAlt: "Recipe Image",
+		showCloseButton: true,
 	});
 };
 
@@ -14,6 +15,7 @@ export const avatarImagePopup = (image) => {
 		background: `center / cover no-repeat url(${image})`,
 		padding: "10em",
 		imageAlt: "Profile Pic",
+		showCloseButton: true,
 	});
 };
 export const confirmDeleteRecipe = async (recipe, dispatch) => {

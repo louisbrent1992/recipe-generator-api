@@ -7,6 +7,8 @@ function RegenButton({ setLoading }) {
 
 	const dispatch = useDispatch();
 
+	let timeInterval;
+
 	const recipeIngredients = recipe.ingredients.map((ingredient) => {
 		return {
 			name: ingredient.name,
@@ -24,7 +26,12 @@ function RegenButton({ setLoading }) {
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
 			onClick={() =>
-				handleRecipeGenerate(dispatch, setLoading, recipeIngredients)
+				handleRecipeGenerate(
+					dispatch,
+					setLoading,
+					recipeIngredients,
+					timeInterval
+				)
 			}
 		>
 			<path

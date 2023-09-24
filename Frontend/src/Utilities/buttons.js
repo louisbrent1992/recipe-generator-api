@@ -76,13 +76,26 @@ export const handleAddFav = (dispatch, user, recipe) => {
 export const handleRecipeGenerate = async (
 	dispatch,
 	setLoading,
-	recipeIngredients
+	recipeIngredients,
+	timerInterval
 ) => {
 	setLoading(true);
 	Swal.fire({
 		icon: "info",
 		title: "Generating recipe",
-		text: "Please allow up to 30 seconds for recipe to generate.",
+		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
+		timer: 40000,
+		timerProgressBar: true,
+		didOpen: () => {
+			Swal.showLoading();
+			const duration = Swal.getHtmlContainer().querySelector("duration");
+			timerInterval = setInterval(() => {
+				duration.textContent = Swal.getTimerLeft();
+			}, 1000);
+		},
+		willClose: () => {
+			clearInterval(timerInterval);
+		},
 	});
 
 	try {
