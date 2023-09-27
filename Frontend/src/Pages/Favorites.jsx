@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import { recipeImagePopup } from "../Utilities/notifications";
+import { smallMobile, tablet } from "../Utilities/mobileResponse";
 
 // Styled components for the favorites page
 const FavoritesPageContainer = styled.div`
@@ -14,6 +15,7 @@ const RecipeCard = styled.div`
 	position: relative;
 	border: 1px solid #ccc;
 	padding: 20px;
+	${smallMobile({ display: "flex-wrap", maxWidth: "90%" })}
 	margin: 20px;
 	background-color: #fff;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
@@ -25,9 +27,10 @@ const RecipeTitle = styled.h2`
 	font-size: 24px;
 	margin-bottom: 10px;
 	max-width: 50%;
+	${smallMobile({ maxWidth: "100%" })}
 `;
 const RecipeSubtitle = styled.h3`
-	margin-bottom: 10px;
+	margin-block: 10px;
 `;
 
 const RecipeIngredients = styled.ul`
@@ -49,17 +52,21 @@ const RecipeSteps = styled.ol`
 	font-size: 16px;
 	max-width: 60%;
 
+	${smallMobile({ maxWidth: "100%" })}
+
 	li {
 		margin-bottom: 10px;
 	}
 `;
 
 const RecipeImageContainer = styled.div`
+	${smallMobile({ position: "relative" })}
 	position: absolute;
 	top: 0;
 	right: 0;
 	border-radius: 8px;
 	margin-right: 20px;
+	margin-bottom: 20px;
 	padding-block: 20px;
 	max-width: 250px;
 	max-height: 250px;

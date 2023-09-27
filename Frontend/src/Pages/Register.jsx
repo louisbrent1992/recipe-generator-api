@@ -48,6 +48,7 @@ function Register() {
 					position: "absolute",
 					top: "0",
 					padding: "20px",
+					cursor: "pointer",
 				}}
 				href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
 			>

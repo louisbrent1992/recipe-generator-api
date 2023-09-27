@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { smallMobile } from "../Utilities/mobileResponse";
 
 const Container = styled.div`
 	justify-content: center;
@@ -10,6 +11,10 @@ const Container = styled.div`
 
 const LoginContainer = styled.div`
 	min-width: 400px;
+	${smallMobile({
+		minWidth: "90%",
+	})}
+	}
 	margin: 0 auto;
 	padding: 20px;
 	border: 1px solid #ccc;

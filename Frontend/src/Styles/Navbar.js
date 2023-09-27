@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { desktop, tablet } from "../Utilities/mobileResponse";
 
 const StyledNavbar = styled.nav`
 	background-color: #333; /* Dark background color */
@@ -10,7 +11,13 @@ const ContainerFluid = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px 20px;
+	padding: 10px;
+`;
+
+const NavbarContainer = styled.div`
+	${tablet({
+		display: "none",
+	})}
 `;
 
 const NavbarBrand = styled.a`
@@ -20,19 +27,38 @@ const NavbarBrand = styled.a`
 	margin-right: 20px; /* Adjust margin as needed */
 `;
 
-const NavbarToggler = styled.button`
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
+const NavMenuContainer = styled.div`
+	display: flex;
+	background: hsl(0, 0%, 100% / 0.1);
+	backdrop-filter: blur(0.3rem);
+	flex-direction: column;
+	position: absolute;
+	width: 200px;
+	height: 35vh;
+	top: 0;
+	right: 0;
+	z-index: 1;
+	align-items: center;
+	justify-content: center;
+	${desktop({
+		display: "none",
+	})}
 `;
 
-const NavbarCollapse = styled.div`
-	display: flex;
+const IconContainer = styled.div`
+	${desktop({
+		display: "none",
+	})}
 `;
 
 const NavList = styled.ul`
 	display: flex;
 	align-items: center;
+	text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	${tablet({
+		flexDirection: "column",
+		alignItems: "flex-end",
+	})}
 `;
 
 const NavItem = styled.li`
@@ -45,7 +71,11 @@ const NavItem = styled.li`
 const NavLink = styled.a`
 	text-decoration: none;
 
-	color: ${(props) => (props.isactive ? "#ffcc00" : "#fff")};
+	color: ${(props) => (props.isactive ? "#ffcc00" : "white")};
+
+	${tablet({
+		color: "#333",
+	})}
 
 	transition: color 0.3s ease; /* Smooth color transition on hover */
 
@@ -68,11 +98,12 @@ const UserAvatar = styled.img`
 export {
 	StyledNavbar,
 	ContainerFluid,
+	NavbarContainer,
 	NavbarBrand,
-	NavbarToggler,
-	NavbarCollapse,
+	NavMenuContainer,
 	NavItem,
 	NavLink,
 	NavList,
 	UserAvatar,
+	IconContainer,
 };

@@ -25,6 +25,7 @@ const InfoTitle = styled.h2`
 
 const InfoText = styled.p`
 	color: #666;
+	margin-block: 10px;
 `;
 
 const EditButton = styled.button`
@@ -91,17 +92,17 @@ const RecipeTitle = styled.h2`
 `;
 
 export {
-    PageContainer,
-    Title,
-    InfoSection,
-    InfoTitle,
-    InfoText,
-    EditButton,
-    ErrorMessage,
-    TextInput,
-    ButtonsContainer,
-    AvatarContainer,
-    RecipeCard,
-    RecipeTitle,
-    AvatarPreview,
+	PageContainer,
+	Title,
+	InfoSection,
+	InfoTitle,
+	InfoText,
+	EditButton,
+	ErrorMessage,
+	TextInput,
+	ButtonsContainer,
+	AvatarContainer,
+	RecipeCard,
+	RecipeTitle,
+	AvatarPreview,
 };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { smallMobile } from "../Utilities/mobileResponse";
 
 const RecipeContainer = styled.div`
 	position: relative;
@@ -8,7 +9,10 @@ const RecipeContainer = styled.div`
 	margin: 0 auto;
 	border-radius: 5px;
 	padding: 20px;
-	margin-block: 20px;
+	${smallMobile({
+		maxWidth: "90%",
+	})}
+	margin-top: 20px;
 	margin-bottom: 100px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;

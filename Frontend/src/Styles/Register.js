@@ -1,17 +1,18 @@
 import styled from "styled-components";
+import { smallMobile } from "../Utilities/mobileResponse";
 
 const Container = styled.div``;
 
 const MainContainer = styled.div`
 	display: flex;
-	height: 100vh;
 	flex-direction: column;
 	justify-content: center;
+	margin-block: 40px;
 `;
 
 const LoginContainer = styled.div`
 	margin: 0 auto;
-	padding: 20px;
+	padding: 20px 40px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	background-color: #fff;
@@ -19,12 +20,17 @@ const LoginContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-width: 600px;
+	gap: 40px;
+	${smallMobile({
+		maxWidth: "90%",
+		flexDirection: "column",
+	})}
 `;
 
 const Title = styled.h2`
 	text-align: center;
-	margin-bottom: 20px;
+	margin-block: 20px;
+	padding-block: 10px;
 `;
 
 const EmailPasswordContainer = styled.div`

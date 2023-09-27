@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { smallMobile } from "../Utilities/mobileResponse";
 
 const FormContainer = styled.div`
 	width: 100%;
@@ -12,6 +13,9 @@ const StyledForm = styled.form`
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	background-color: #f9f9f9;
+	${smallMobile({
+		maxWidth: "90%",
+	})}
 `;
 
 const StyledIngredientContainer = styled.div`
