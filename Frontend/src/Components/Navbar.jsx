@@ -137,6 +137,7 @@ function Navbar() {
 									href={
 										user._id != null ? `/dashboard/${user._id}/myAccount` : "#"
 									}
+									style={{ alignSelf: "end" }}
 								/>
 								<em>
 									<NavLink
