@@ -1,5 +1,4 @@
 import React from "react";
-import { desktop, tablet } from "../../Utilities/mobileResponse";
 
 const toggleNavbar = (isOpen, setIsOpen) => {
 	setIsOpen(!isOpen);

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import { recipeImagePopup } from "../Utilities/notifications";
-import { smallMobile, tablet } from "../Utilities/mobileResponse";
+import { smallMobile } from "../Utilities/mobileResponse";
 
 // Styled components for the favorites page
 const FavoritesPageContainer = styled.div`
