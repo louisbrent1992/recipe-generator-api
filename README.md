@@ -94,34 +94,54 @@
 
 1. Get a free API Key at [OpenAI](https://platform.openai.com/account/api-keys)
 2. Clone the repo
-   ```sh
-   git clone https://github.com/louisbrent1992/recipe-generator-api.git
-   ```
+```sh
+git clone https://github.com/louisbrent1992/recipe-generator-api.git
+```
 3. Install NPM packages
 
-   ```sh
-   cd Frontend
-   npm install
-   cd ../Backend
-   npm install
-   ```
+```sh
+cd Frontend
+npm install
+cd ../Backend
+npm install
+```
 
 4. Create a `.env` file in the Backend folder:
-   ```sh
-   touch .env
-   ```
-5. Enter your API KEY and PORT in the `.env` file
-   ```js
-   PORT = "ENTER YOUR PORT NUMBER";
-   OPENAI_API_KEY = "ENTER YOUR API KEY";
-   ```
-6. Run the app
-   ```sh
-   cd Backend
-   npm run server
-   cd ../Frontend
-   npm run start
-   ```
+```sh
+touch .env
+```
+5. Enter your config details in the `.env` file:
+```js
+CHANNEL_ID="your_channel_id"
+GOOGLE_CLIENT_ID="google_client_id"
+HUGGINGFACE_TOKEN="hugging_face_token"
+JWT_SECRET="secret"
+MONGODB_URI="mongo_db_uri"
+OPENAI_API_KEY="open_ai_key"
+SALAI_TOKEN="discord_salai_token"
+SERVER_ID="discord_server_id"
+SESSION_ID="discord_session_id"
+  
+```
+
+6. Create an `.env` file in the Frontend folder:
+```sh
+cd ../Frontend
+touch .env
+```
+
+7. Enter your config details in the `.env` file:
+```js  
+REACT_APP_GOOGLE_CLIENT_ID="google_client_id"
+```
+
+8. Run the app
+```sh
+cd ../Backend
+npm run server
+cd ../Frontend
+npm run start
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
