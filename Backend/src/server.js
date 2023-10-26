@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const { PORT = '5000', MONGODB_URI } = process.env; // Define your MongoDB URI in the .env file
+const { PORT = '5050', MONGODB_URI } = process.env; // Define your MongoDB URI in the .env file
 
 import cors from "cors";
 import recipeGenerator from "./API/generate.recipe.js";
