@@ -46,6 +46,8 @@
 		]
 	},
 	"devDependencies": {
-		"@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@hint/configuration-web-recommended": "^8.2.23",
+		"hint": "^7.1.10"
 	}
 }
