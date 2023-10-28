@@ -46,9 +46,9 @@ function Recipe({ loading, setLoading }) {
 		);
 	}
 
-	if (recipe.ingredients.length < 1) {
+	if (!recipe.ingredients) {
 		// No recipe available
-		return <p>No recipe available.</p>;
+		return <RecipeContainer><p>No recipe available.</p></RecipeContainer>;
 	}
 
 	return (
