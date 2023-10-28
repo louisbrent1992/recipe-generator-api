@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	FormContainer,
-	StyledButton,
 	StyledForm,
 	StyledHeading,
 	StyledIngredientContainer,
 	StyledInput,
+	StyledAddInput,
+	ButtonsContainer,
+	StyledAddButton,
 	StyledRemoveButton,
 	StyledSubmitButton,
 } from "../Styles/Ingredients";
@@ -34,53 +36,68 @@ function Ingredients({ setLoading }) {
 					handleGetRecipes(e, setLoading, ingredients, dispatch, timeInterval)
 				}
 			>
-				<StyledHeading>Ingredients</StyledHeading>
+				<StyledHeading>List of Ingredients</StyledHeading>
 				{ingredients?.length === 0 && (
 					<p style={{ paddingBottom: "20px" }}>
 						Add ingredients to get recipes!
 					</p>
 				)}
-				{ingredients?.map((ingredient) => (
-					<StyledIngredientContainer key={ingredient._id}>
-						<StyledInput
-							type="text"
-							name={`ingredient-${ingredient._id}`}
-							value={ingredient.name}
-							onChange={(e) => {
-								const updatedIngredient = {
-									...ingredient,
-									name: e.target.value,
-								};
-								dispatch(addIngredient(updatedIngredient));
-							}}
-						/>
-						<StyledRemoveButton
-							type="button"
-							onClick={() => {
-								removeIngredientHandler(ingredient._id, dispatch);
-							}}
-						>
-							Remove
-						</StyledRemoveButton>
-					</StyledIngredientContainer>
-				))}
-				<div>
-					<StyledInput
+				<ol>
+					{ingredients?.map((ingredient) => (
+						<li key={ingredient._id}><StyledIngredientContainer >
+
+							<StyledInput
+								type="text"
+								name={`ingredient-${ingredient._id}`}
+								value={ingredient.name}
+								onChange={(e) => {
+									const updatedIngredient = {
+										...ingredient,
+										name: e.target.value,
+									};
+									dispatch(addIngredient(updatedIngredient));
+								}}
+							/>
+							<StyledRemoveButton
+								type="button"
+								onClick={() => {
+									removeIngredientHandler(ingredient._id, dispatch);
+								}}
+							>
+								Remove
+							</StyledRemoveButton>
+
+
+						</StyledIngredientContainer></li>
+
+					))}
+
+				</ol>
+
+				<StyledIngredientContainer>
+					<StyledAddInput
 						type="text"
 						placeholder="Add ingredient..."
 						value={newIngredient}
 						onChange={(e) => setNewIngredient(e.target.value)}
+						onKeyDown={(e) => {
+							(e.key === "Enter") &&
+								addNewIngredient(newIngredient, dispatch, setNewIngredient);
+						}}
 					/>
-					<StyledButton
+					<StyledAddButton
 						type="button"
 						onClick={() =>
 							addNewIngredient(newIngredient, dispatch, setNewIngredient)
 						}
 					>
-						Add Ingredient
-					</StyledButton>
-				</div>
-				<StyledSubmitButton type="submit">Get Recipes</StyledSubmitButton>
+						Add
+					</StyledAddButton>
+				</StyledIngredientContainer>
+
+				<ButtonsContainer>
+					<StyledSubmitButton type="submit">Get Recipes</StyledSubmitButton>
+				</ButtonsContainer>
 			</StyledForm>
 		</FormContainer>
 	);
