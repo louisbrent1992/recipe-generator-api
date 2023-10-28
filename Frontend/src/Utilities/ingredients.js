@@ -30,12 +30,16 @@ export const handleGetRecipes = async (
 		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
 		timer: 40000,
 		timerProgressBar: true,
+		allowOutsideClick: true,
 		didOpen: () => {
 			Swal.showLoading();
 			const duration = Swal.getHtmlContainer().querySelector("duration");
+
 			timerInterval = setInterval(() => {
-				duration.textContent = Swal.getTimerLeft();
-			}, 1000);
+				const remainingTime = Swal.getTimerLeft();
+				duration.textContent = remainingTime / 1000;
+				duration.textContent = duration.textContent.slice(0, 2);
+			}, 1);
 		},
 		willClose: () => {
 			clearInterval(timerInterval);
@@ -50,9 +54,17 @@ export const handleGetRecipes = async (
 			body: JSON.stringify({ ingredients }),
 		});
 
-		const fetchedRecipe = await response.json();
+		if (response.status === 500) {
+			setLoading(false);
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Server maintenance in progress. Please try again later.",
+			});
+		} else if (response.status === 200) {
 
-		if (fetchedRecipe) {
+			const fetchedRecipe = await response.json();
+
 			Swal.fire({
 				title: "Sweet! Here's your recipe!",
 				text: fetchedRecipe.name,
