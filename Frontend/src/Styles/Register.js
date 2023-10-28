@@ -22,9 +22,9 @@ const LoginContainer = styled.div`
 	align-items: center;
 	gap: 40px;
 	${smallMobile({
-		maxWidth: "90%",
-		flexDirection: "column",
-	})}
+	maxWidth: "90%",
+	flexDirection: "column",
+})}
 `;
 
 const Title = styled.h2`
@@ -155,6 +155,7 @@ const AvatarPreview = styled.img`
 	height: 150px;
 	border-radius: 50%;
 	object-fit: cover;
+	box-shadow: -10px 8px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const UploadButton = styled.label`
@@ -196,6 +197,8 @@ const RegisterLink = styled.a`
 		color: #0056b3; /* Darker blue color on hover */
 	}
 `;
+
+const GuestLink = styled(RegisterLink)``;
 export {
 	Container,
 	LoginContainer,
@@ -220,6 +223,7 @@ export {
 	ErrorMessage,
 	Disclaimer,
 	RegisterLink,
+	GuestLink,
 	SuccessMessage,
 	MainContainer,
 };

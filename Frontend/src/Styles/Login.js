@@ -4,7 +4,6 @@ import { smallMobile } from "../Utilities/mobileResponse";
 const Container = styled.div`
 	justify-content: center;
 	height: 100vh;
-	margin-block: 0 auto;
 	display: flex;
 	flex-direction: column;
 `;
@@ -12,8 +11,8 @@ const Container = styled.div`
 const LoginContainer = styled.div`
 	min-width: 400px;
 	${smallMobile({
-		minWidth: "90%",
-	})}
+	minWidth: "90%",
+})}
 	}
 	margin: 0 auto;
 	padding: 20px;
@@ -61,6 +60,7 @@ const Button = styled.button`
 	border-radius: 3px;
 	cursor: pointer;
 	font-size: 1rem;
+	margin-bottom: 20px;
 
 	&:hover {
 		background-color: #0056b3;
@@ -71,7 +71,6 @@ const DividerContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 20px 0;
 `;
 
 const StyledDivider = styled.div`
@@ -93,6 +92,7 @@ const StyledLoginContainer = styled(LoginContainer)`
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #fff;
+	border: 1px solid #ccc;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
 `;
@@ -147,6 +147,10 @@ const RegisterLink = styled.a`
 	}
 `;
 
+const GuestLink = styled(RegisterLink)`
+
+`;
+
 const ErrorMessage = styled.p`
 	color: red;
 	font-size: 0.8rem;
@@ -180,6 +184,7 @@ export {
 	DividerText,
 	Disclaimer,
 	RegisterLink,
+	GuestLink,
 	ErrorMessage,
 	SuccessMessage,
 };

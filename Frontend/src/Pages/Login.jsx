@@ -12,6 +12,7 @@ import {
 	Input,
 	Label,
 	RegisterLink,
+	GuestLink,
 	StyledButton,
 	StyledDivider,
 	StyledLoginContainer,
@@ -76,6 +77,10 @@ function Login() {
 						Don't have an account?
 						<RegisterLink href="/register">Sign up today.</RegisterLink>
 					</p>
+					<DividerContainer>
+						<StyledDivider style={{ marginBlock: "10px", flex: "0.5" }} />
+					</DividerContainer>
+					<p>Continue as<GuestLink href="/" >Guest.</GuestLink></p>
 				</Disclaimer>
 			</StyledLoginContainer>
 		</Container>
