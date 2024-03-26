@@ -2,6 +2,7 @@ import { Midjourney } from "midjourney";
 import express from "express";
 import dotenv from "dotenv";
 import { OpenAI } from "openai";
+
 dotenv.config();
 
 const router = express.Router();
@@ -29,24 +30,110 @@ const openaiClient = new OpenAI({
 
 router.post("/generate-recipe", async (req, res) => {
 	const ingredients = req.body.ingredients || [];
-	if (!ingredients) {
-		res.status(400).json({
-			error: {
-				message: "No ingredients provided.",
-			},
-		});
-		return;
-	}
-	const jsonIngredients = JSON.stringify(ingredients);
+	const feelingLucky = req.body.feelingLucky || false;
 
 	try {
-		// Generate the recipe object using OpenAI
-		const openaiResponse = await openaiClient.chat.completions.create({
-			model: "gpt-3.5-turbo",
-			messages: [
-				{
-					role: "system",
-					content: `
+		if (!ingredients.length && typeof feelingLucky === "undefined") {
+			return res.status(400).json({
+				error: {
+					message: "No ingredients provided.",
+				},
+			});
+		}
+
+		let openaiResponse;
+		const jsonIngredients = JSON.stringify(ingredients);
+		if (feelingLucky) {
+			openaiResponse = await openaiClient.chat.completions.create({
+				model: "gpt-3.5-turbo",
+				messages: [
+					{
+						role: "system",
+						content: `Hello I am a recipe generator. I will generate a random recipe for you.
+						
+						The response will be in the following json format:
+
+						{
+							"name": "recipe name",
+							"ingredients": [
+								{
+									"name": "ingredient name",
+									"quantity": "ingredient quantity",
+									"unit": "ingredient unit"
+								}
+							],
+							additionalIngredients: [
+								{
+									"name": "ingredient name",
+									"quantity": "ingredient quantity",
+									"unit": "ingredient unit"
+								}
+							],
+							"steps": [
+								
+									"step 1",
+									
+								
+					
+									"step 2"
+									
+							
+							]
+							
+						
+						}`,
+					},
+					{
+						role: "user",
+						content: `${jsonIngredients}`,
+					},
+					{
+						role: "system",
+						content: `
+						{
+						
+							"name": "recipe name",
+							"ingredients": [
+								{
+									"name": "ingredient name",
+									"quantity": "ingredient quantity",
+									"unit": "ingredient unit"
+								}
+							],
+							additionalIngredients: [
+								{
+									"name": "ingredient name",
+									"quantity": "ingredient quantity",
+									"unit": "ingredient unit"
+
+								}
+							],
+							"steps": [
+								
+									"step 1",
+									
+								
+					
+									"step 2"
+									
+							
+							]
+							
+						
+						}`,
+					},
+				],
+
+				temperature: 0.9,
+			});
+		} else {
+			// Generate the recipe object using OpenAI
+			openaiResponse = await openaiClient.chat.completions.create({
+				model: "gpt-3.5-turbo",
+				messages: [
+					{
+						role: "system",
+						content: `
 					Hello I am a recipe generator. I will generate a random recipe for you using some or all of the ingredients you provide, also, I will provide up to a maximum of 3 additional ingredients if needed to complete the meal. Please provide an array of ingredients in the following format:
 
 					[
@@ -63,7 +150,7 @@ router.post("/generate-recipe", async (req, res) => {
 					]
 						
 
-					The response will be in the following format:
+					The response will be in the following json format:
 
 					 {
 							"name": "recipe name",
@@ -93,14 +180,14 @@ router.post("/generate-recipe", async (req, res) => {
 						}
 						
 					}`,
-				},
-				{
-					role: "user",
-					content: `${jsonIngredients}`,
-				},
-				{
-					role: "system",
-					content: `
+					},
+					{
+						role: "user",
+						content: `${jsonIngredients}`,
+					},
+					{
+						role: "system",
+						content: `
 					{
 						
 							"name": "recipe name",
@@ -135,16 +222,38 @@ router.post("/generate-recipe", async (req, res) => {
 
 				}
 			}`,
-				},
-			],
+					},
+				],
 
-			temperature: 0.7,
-		});
+				temperature: 0.7,
+			});
+		}
 
 		const completion = openaiResponse.choices[0];
 
-		const recipeObject = await JSON.parse(completion.message.content);
+		if (!completion) {
+			return res.status(500).json({
+				error: {
+					message: "An error occurred during recipe generation.",
+				},
+			});
+		}
 
+		const responseContent = completion.message.content;
+
+		// Extract only the JSON portion using regular expressions
+		const jsonMatch = responseContent.match(/\{.*\}/s);
+
+		if (!jsonMatch) {
+			return res.status(500).json({
+				error: {
+					message: "Unable to parse recipe response.",
+				},
+			});
+		}
+
+		const jsonContent = jsonMatch[0];
+		const recipeObject = await JSON.parse(jsonContent);
 		// Generate the recipe image using Midjourney
 		await midjourneyClient.init();
 		const prompt = `${recipeObject.name}`;
