@@ -17,7 +17,7 @@ function About() {
 			<Navbar />
 			<BodyContainer>
 				<HeaderImage
-					src="https://res.cloudinary.com/client-images/image/upload/c_scale,w_600/v1695070874/eCommerce%20Site%20Images/about-image_sasb2y.png"
+					src="https://res.cloudinary.com/client-images/image/upload/c_scale,w_800/v1695070874/eCommerce%20Site%20Images/about-image_sasb2y.png"
 					alt="Recipe Finder Header"
 				/>
 				<Title>About Recipe Finder</Title>
@@ -58,7 +58,6 @@ function About() {
 					cooking.
 				</Paragraph>
 			</BodyContainer>
-
 			<Footer />
 		</PageContainer>
 	);
