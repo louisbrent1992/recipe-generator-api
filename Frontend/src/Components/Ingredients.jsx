@@ -35,6 +35,11 @@ function Ingredients({ setLoading }) {
 				onSubmit={(e) =>
 					handleGetRecipes(e, setLoading, ingredients, dispatch, timeInterval)
 				}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						e.preventDefault();
+					}
+				}}
 			>
 				<StyledHeading>List of Ingredients</StyledHeading>
 				{ingredients?.length === 0 && (
@@ -44,34 +49,31 @@ function Ingredients({ setLoading }) {
 				)}
 				<ol>
 					{ingredients?.map((ingredient) => (
-						<li key={ingredient._id}><StyledIngredientContainer >
-
-							<StyledInput
-								type="text"
-								name={`ingredient-${ingredient._id}`}
-								value={ingredient.name}
-								onChange={(e) => {
-									const updatedIngredient = {
-										...ingredient,
-										name: e.target.value,
-									};
-									dispatch(addIngredient(updatedIngredient));
-								}}
-							/>
-							<StyledRemoveButton
-								type="button"
-								onClick={() => {
-									removeIngredientHandler(ingredient._id, dispatch);
-								}}
-							>
-								Remove
-							</StyledRemoveButton>
-
-
-						</StyledIngredientContainer></li>
-
+						<li key={ingredient._id}>
+							<StyledIngredientContainer>
+								<StyledInput
+									type="text"
+									name={`ingredient-${ingredient._id}`}
+									value={ingredient.name}
+									onChange={(e) => {
+										const updatedIngredient = {
+											...ingredient,
+											name: e.target.value,
+										};
+										dispatch(addIngredient(updatedIngredient));
+									}}
+								/>
+								<StyledRemoveButton
+									type="button"
+									onClick={() => {
+										removeIngredientHandler(ingredient._id, dispatch);
+									}}
+								>
+									Remove
+								</StyledRemoveButton>
+							</StyledIngredientContainer>
+						</li>
 					))}
-
 				</ol>
 
 				<StyledIngredientContainer>
@@ -80,19 +82,12 @@ function Ingredients({ setLoading }) {
 						placeholder="Add ingredient..."
 						value={newIngredient}
 						onChange={(e) => setNewIngredient(e.target.value)}
-						onKeyDown={(e) => {
-							(e.key === "Enter") &&
-								addNewIngredient(newIngredient, dispatch, setNewIngredient);
-						}}
-					/>
-					<StyledAddButton
-						type="button"
-						onClick={() =>
+						onKeyDown={(e) =>
+							e.key === "Enter" &&
 							addNewIngredient(newIngredient, dispatch, setNewIngredient)
 						}
-					>
-						Add
-					</StyledAddButton>
+					/>
+					<StyledAddButton type="button">Add</StyledAddButton>
 				</StyledIngredientContainer>
 
 				<ButtonsContainer>
