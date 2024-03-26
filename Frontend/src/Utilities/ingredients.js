@@ -28,17 +28,19 @@ export const handleGetRecipes = async (
 		icon: "info",
 		title: "Generating recipe",
 		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
-		timer: 40000,
+		timer: 10000,
 		timerProgressBar: true,
 		allowOutsideClick: true,
+
 		didOpen: () => {
 			Swal.showLoading();
 			const duration = Swal.getHtmlContainer().querySelector("duration");
 
 			timerInterval = setInterval(() => {
 				const remainingTime = Swal.getTimerLeft();
-				duration.textContent = remainingTime / 1000;
-				duration.textContent = duration.textContent.slice(0, 2);
+				duration.textContent =
+					remainingTime > 0 ? remainingTime / 1000 : Swal.close();
+				duration.textContent = duration.textContent.slice(0, 1);
 			}, 1);
 		},
 		willClose: () => {
@@ -62,7 +64,6 @@ export const handleGetRecipes = async (
 				text: "Server maintenance in progress. Please try again later.",
 			});
 		} else if (response.status === 200) {
-
 			const fetchedRecipe = await response.json();
 
 			Swal.fire({
@@ -73,10 +74,15 @@ export const handleGetRecipes = async (
 				imageHeight: 400,
 				imageAlt: "Recipe Image",
 				confirmButtonColor: "#4caf50",
-				confirmButtonText: "Regenerate Recipe",
+				confirmButtonText: "View Recipe",
 				showCloseButton: true,
+				showDenyButton: true,
+				denyButtonColor: "#f44336",
+				denyButtonText: "Regenerate Recipe",
 			}).then((result) => {
 				if (result.isConfirmed) {
+					Swal.close();
+				} else if (result.isDenied) {
 					handleRecipeGenerate(dispatch, setLoading, ingredients);
 				}
 			});

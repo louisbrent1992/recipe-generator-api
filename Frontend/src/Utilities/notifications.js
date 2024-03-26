@@ -6,7 +6,8 @@ export const recipeImagePopup = (image) => {
 		background: `center / cover no-repeat url(${image})`,
 		padding: "15em",
 		imageAlt: "Recipe Image",
-		showCloseButton: true,
+		showCloseButton: false,
+		showConfirmButton: false,
 	});
 };
 
