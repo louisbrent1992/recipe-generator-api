@@ -1,7 +1,7 @@
 const allowedOrigins =
 	process.env.NODE_ENV === "production"
-		? ["https://recipe-finder-app-v1.onrender.com"]
-		: ["http://localhost:3000", "https://recipe-finder-app-v1.onrender.com"];
+		? [process.env.CLIENT_URI_PROD]
+		: [process.env.CLIENT_URI_DEV, process.env.CLIENT_URI_PROD];
 
 const corsOptions = {
 	origin: (origin, callback) => {
