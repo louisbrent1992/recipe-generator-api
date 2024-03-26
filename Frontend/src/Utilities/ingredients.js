@@ -6,7 +6,7 @@ import {
 } from "../Redux/ingredientsSlice";
 import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
 import { BASE_URL } from "./requests";
-import { handleRecipeGenerate } from "./buttons";
+import { handleRecipeRegenerate } from "./buttons";
 
 /**
  * Fetches recipe data from the server and updates the Redux store.
@@ -21,12 +21,15 @@ export const handleGetRecipes = async (
 	setLoading,
 	ingredients,
 	dispatch,
-	timerInterval
+	timerInterval,
+	feelingLucky
 ) => {
 	event.preventDefault();
 	Swal.fire({
 		icon: "info",
-		title: "Generating recipe",
+		title: !feelingLucky
+			? "Generating recipe"
+			: "Feeling lucky? Finding a random recipe for you!",
 		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
 		timer: 10000,
 		timerProgressBar: true,
@@ -50,11 +53,22 @@ export const handleGetRecipes = async (
 	setLoading(true);
 
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ ingredients }),
-		});
+		let response;
+		if (feelingLucky) {
+			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ingredients, feelingLucky }),
+			});
+		}
+
+		if (!feelingLucky) {
+			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ingredients }),
+			});
+		}
 
 		if (response.status === 500) {
 			setLoading(false);
@@ -83,7 +97,21 @@ export const handleGetRecipes = async (
 				if (result.isConfirmed) {
 					Swal.close();
 				} else if (result.isDenied) {
-					handleRecipeGenerate(dispatch, setLoading, ingredients);
+					feelingLucky
+						? handleRecipeRegenerate(
+								dispatch,
+								setLoading,
+								ingredients,
+								timerInterval,
+								true
+						  )
+						: handleRecipeRegenerate(
+								dispatch,
+								setLoading,
+								ingredients,
+								timerInterval,
+								false
+						  );
 				}
 			});
 			dispatch(clearRecipe());

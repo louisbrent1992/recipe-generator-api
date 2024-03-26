@@ -54,3 +54,12 @@ export const confirmDeleteUser = async (currentUser, dispatch, setError) => {
 		Swal.fire("Cancelled", "user is safe :)", "error");
 	}
 };
+
+export const handleAddIngredient = (e) => {
+	e.preventDefault();
+	Swal.fire({
+		icon: "info", // Use an info icon instead of a warning or error
+		title: "Notice", // Use a neutral title
+		text: "Please add an ingredient before proceeding.", // Use a gentle reminder message
+	});
+};

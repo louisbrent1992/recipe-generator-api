@@ -48,7 +48,11 @@ function Recipe({ loading, setLoading }) {
 
 	if (!recipe.ingredients) {
 		// No recipe available
-		return <RecipeContainer><p>No recipe available.</p></RecipeContainer>;
+		return (
+			<RecipeContainer>
+				<p>No recipe available.</p>
+			</RecipeContainer>
+		);
 	}
 
 	return (
@@ -56,6 +60,8 @@ function Recipe({ loading, setLoading }) {
 			<RecipeImageContainer>
 				<RecipeImage
 					src={recipe.img}
+					alt={recipe.name}
+					title={recipe.name}
 					onClick={() => recipeImagePopup(recipe.img)}
 				/>
 			</RecipeImageContainer>

@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { handleCopyRecipe } from "../../Utilities/buttons";
 
 function CopyButton({ recipeContainerRef }) {
+	const [copy, setCopy] = useState(false);
+
+	const handleClick = () => {
+		handleCopyRecipe(recipeContainerRef);
+
+		setCopy(true);
+	};
+
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -10,8 +18,14 @@ function CopyButton({ recipeContainerRef }) {
 			strokeWidth={1.5}
 			stroke="currentColor"
 			className="w-6 h-6"
-			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
-			onClick={() => handleCopyRecipe(recipeContainerRef)}
+			style={{
+				height: "1rem",
+				width: "1rem",
+				cursor: "pointer",
+				transition: "color 0.5s",
+				color: copy ? "green" : "currentColor",
+			}}
+			onClick={handleClick}
 		>
 			<path
 				strokeLinecap="round"

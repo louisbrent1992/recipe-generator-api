@@ -15,11 +15,6 @@ export const handleCopyRecipe = (recipeContainerRef) => {
 		if (recipeText) {
 			try {
 				navigator.clipboard.writeText(recipeText);
-				Swal.fire({
-					icon: "success",
-					title: "Success",
-					text: "Recipe copied to clipboard",
-				});
 				console.log("Recipe copied to clipboard:", recipeText);
 			} catch (error) {
 				Swal.fire({
@@ -57,32 +52,39 @@ export const handleAddFav = (dispatch, user, recipe) => {
 	if (user._id) {
 		dispatch(addFavorite(recipe));
 	} else {
-		Swal.fire({
-			icon: "error",
-			title: "Error",
-			text: "Please log in to save recipes",
-		});
-		console.log("Please log in to save recipes");
+		showLoginPrompt();
 	}
+};
+
+const showLoginPrompt = () => {
+	Swal.fire({
+		icon: "info",
+		title: "Information",
+		text: "Please log in to save recipes",
+	});
+	console.log("Please log in to save recipes.");
 };
 
 /**
  * This code defines a function named handleRegenRecipe that generates a recipe based on a list of ingredients. It uses the fetch function to send a POST request to a specified API endpoint, passing the ingredients as JSON in the request body. The response is then parsed as JSON and if a recipe is received, it dispatches actions to update the recipe state in the Redux store. If no recipe data is received or an error occurs, appropriate error messages are logged.
  * @param {function} dispatch - A function used to dispatch actions to the Redux store.
  * @param {function} setLoading - A function used to set the loading state.
- * @param {array} recipeIngredients - An array of ingredients used to generate the recipe.
+ * @param {array} ingredients - An array of ingredients used to generate the recipe.
  * @returns {Promise<void>}
  */
-export const handleRecipeGenerate = async (
+export const handleRecipeRegenerate = async (
 	dispatch,
 	setLoading,
-	recipeIngredients,
-	timerInterval
+	ingredients,
+	timerInterval,
+	feelingLucky
 ) => {
 	setLoading(true);
 	Swal.fire({
 		icon: "info",
-		title: "Generating recipe",
+		title: !feelingLucky
+			? "Generating recipe"
+			: "Finding a random recipe for you!",
 		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
 		timer: 10000,
 		timerProgressBar: true,
@@ -103,11 +105,22 @@ export const handleRecipeGenerate = async (
 	});
 
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ ingredients: recipeIngredients }),
-		});
+		let response;
+		if (feelingLucky) {
+			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ingredients, feelingLucky }),
+			});
+		}
+
+		if (!feelingLucky) {
+			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ingredients }),
+			});
+		}
 
 		if (response.status === 500) {
 			setLoading(false);
@@ -136,7 +149,21 @@ export const handleRecipeGenerate = async (
 				if (result.isConfirmed) {
 					Swal.close();
 				} else if (result.isDenied) {
-					handleRecipeGenerate(dispatch, setLoading, recipeIngredients);
+					feelingLucky
+						? handleRecipeRegenerate(
+								dispatch,
+								setLoading,
+								ingredients,
+								timerInterval,
+								true
+						  )
+						: handleRecipeRegenerate(
+								dispatch,
+								setLoading,
+								timerInterval,
+								ingredients,
+								false
+						  );
 				}
 			});
 			dispatch(clearRecipe());

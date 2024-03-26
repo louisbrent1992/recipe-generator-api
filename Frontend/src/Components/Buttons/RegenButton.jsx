@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleRecipeGenerate } from "../../Utilities/buttons";
+import { handleRecipeRegenerate } from "../../Utilities/buttons";
 
 function RegenButton({ setLoading }) {
 	const recipe = useSelector((state) => state.recipe); // Updated state selector
@@ -26,7 +26,7 @@ function RegenButton({ setLoading }) {
 			className="w-6 h-6"
 			style={{ height: "1rem", width: "1rem", cursor: "pointer" }}
 			onClick={() =>
-				handleRecipeGenerate(
+				handleRecipeRegenerate(
 					dispatch,
 					setLoading,
 					recipeIngredients,

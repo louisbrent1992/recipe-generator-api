@@ -20,6 +20,7 @@ import {
 	handleGetRecipes,
 	removeIngredientHandler,
 } from "../Utilities/ingredients";
+import { handleAddIngredient } from "../Utilities/notifications";
 
 function Ingredients({ setLoading }) {
 	const [newIngredient, setNewIngredient] = useState("");
@@ -33,7 +34,16 @@ function Ingredients({ setLoading }) {
 		<FormContainer>
 			<StyledForm
 				onSubmit={(e) =>
-					handleGetRecipes(e, setLoading, ingredients, dispatch, timeInterval)
+					ingredients.length > 0
+						? handleGetRecipes(
+								e,
+								setLoading,
+								ingredients,
+								dispatch,
+								timeInterval,
+								false
+						  )
+						: handleAddIngredient(e)
 				}
 				onKeyDown={(e) => {
 					if (e.key === "Enter") {
@@ -87,11 +97,34 @@ function Ingredients({ setLoading }) {
 							addNewIngredient(newIngredient, dispatch, setNewIngredient)
 						}
 					/>
-					<StyledAddButton type="button">Add</StyledAddButton>
+					<StyledAddButton
+						type="button"
+						onClick={() =>
+							addNewIngredient(newIngredient, dispatch, setNewIngredient)
+						}
+					>
+						Add
+					</StyledAddButton>
 				</StyledIngredientContainer>
 
 				<ButtonsContainer>
 					<StyledSubmitButton type="submit">Get Recipes</StyledSubmitButton>
+					<StyledSubmitButton
+						type="button"
+						style={{ backgroundColor: "#007BFF" }}
+						onClick={(e) => {
+							handleGetRecipes(
+								e,
+								setLoading,
+								ingredients,
+								dispatch,
+								timeInterval,
+								true
+							);
+						}}
+					>
+						I'm Feeling Lucky
+					</StyledSubmitButton>
 				</ButtonsContainer>
 			</StyledForm>
 		</FormContainer>

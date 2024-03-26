@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { smallMobile } from "../Utilities/mobileResponse";
 
 const FormContainer = styled.div`
-max-width: 400px;
-margin: 0 auto;
+	max-width: 400px;
+	margin: 0 auto;
 	margin-top: 20px;
 `;
 
@@ -15,8 +15,8 @@ const StyledForm = styled.form`
 	border-radius: 5px;
 	background-color: #f9f9f9;
 	${smallMobile({
-	maxWidth: "90%",
-})}
+		maxWidth: "90%",
+	})}
 `;
 
 const StyledIngredientContainer = styled.div`
@@ -43,11 +43,10 @@ const StyledAddInput = styled(StyledInput)`
 	margin-top: 10px;
 `;
 
-
 const ButtonsContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
-	`;
+`;
 
 const StyledButton = styled.button`
 	border: none;
@@ -84,8 +83,6 @@ const StyledAddButton = styled(StyledButton)`
 	right: 0;
 	margin-right: 3px;
 `;
-
-
 
 export {
 	StyledForm,
