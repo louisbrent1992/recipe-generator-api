@@ -2,6 +2,7 @@ import { Midjourney } from "midjourney";
 import express from "express";
 import dotenv from "dotenv";
 import { OpenAI } from "openai";
+import { bestCookbooks } from "./recipeBooks.js";
 
 dotenv.config();
 
@@ -44,12 +45,14 @@ router.post("/generate-recipe", async (req, res) => {
 		let openaiResponse;
 		const jsonIngredients = JSON.stringify(ingredients);
 		if (feelingLucky) {
+			const recipeBooks = bestCookbooks.map((book) => book.title).join(", ");
+
 			openaiResponse = await openaiClient.chat.completions.create({
 				model: "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "system",
-						content: `Hello I am a recipe generator. I will generate a random recipe for you.
+						content: `Hello I am a recipe generator. I will generate a  recipe found in one of these recipe books. ${recipeBooks}.
 						
 						The response will be in the following json format:
 
@@ -85,7 +88,7 @@ router.post("/generate-recipe", async (req, res) => {
 					},
 					{
 						role: "user",
-						content: `${jsonIngredients}`,
+						content: `null`,
 					},
 					{
 						role: "system",
