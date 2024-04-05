@@ -268,7 +268,7 @@ router.post("/generate-recipe", async (req, res) => {
 		}
 
 		const Upscale = await midjourneyClient.Upscale({
-			index: 2,
+			index: 1,
 			msgId: Imagine.id,
 			hash: Imagine.hash,
 			flags: Imagine.flags,
