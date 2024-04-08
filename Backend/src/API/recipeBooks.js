@@ -176,3 +176,26 @@ export const bestCookbooks = [
 		availability: ["Amazon", "Bookshop"],
 	},
 ];
+
+export class RandomizedRecipeTitles {
+	constructor() {
+		this.titlesMap = new Map();
+		this.titlesArray = [];
+	}
+
+	add(title) {
+		if (!this.titlesMap.has(title)) {
+			const index = this.titlesArray.length;
+			this.titlesMap.set(title, index);
+			this.titlesArray.push(title);
+		}
+	}
+
+	getRandomTitle() {
+		if (this.titlesArray.length === 0) {
+			return null; // Return null if there are no titles
+		}
+		const randomIndex = Math.floor(Math.random() * this.titlesArray.length);
+		return this.titlesArray[randomIndex];
+	}
+}

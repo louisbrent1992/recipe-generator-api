@@ -1,8 +1,8 @@
 import { Midjourney } from "midjourney";
-import express from "express";
+import express, { json } from "express";
 import dotenv from "dotenv";
 import { OpenAI } from "openai";
-import { bestCookbooks } from "./recipeBooks.js";
+import { RandomizedRecipeTitles, bestCookbooks } from "./recipeBooks.js";
 
 dotenv.config();
 
@@ -29,12 +29,18 @@ const openaiClient = new OpenAI({
 	apiKey: OPENAI_API_KEY || "",
 });
 
+router.get("/generate-recipe", (req, res) => {
+	res.status(200).json({
+		message: "Welcome to the recipe generator API 🥗",
+	});
+});
+
 router.post("/generate-recipe", async (req, res) => {
 	const ingredients = req.body.ingredients || [];
 	const feelingLucky = req.body.feelingLucky || false;
 
 	try {
-		if (!ingredients.length && typeof feelingLucky === "undefined") {
+		if (!ingredients.length && !feelingLucky) {
 			return res.status(400).json({
 				error: {
 					message: "No ingredients provided.",
@@ -45,14 +51,23 @@ router.post("/generate-recipe", async (req, res) => {
 		let openaiResponse;
 		const jsonIngredients = JSON.stringify(ingredients);
 		if (feelingLucky) {
-			const recipeBooks = bestCookbooks.map((book) => book.title).join(", ");
+			// Usage example:
+			const randomizedTitles = new RandomizedRecipeTitles();
+
+			// Add recipe titles
+			bestCookbooks.forEach((book) => randomizedTitles.add(book.title));
+
+			// Get a random title
+			const randomTitle = randomizedTitles.getRandomTitle();
+
+			const jsonRecipeBook = JSON.stringify(randomTitle);
 
 			openaiResponse = await openaiClient.chat.completions.create({
 				model: "gpt-3.5-turbo",
 				messages: [
 					{
 						role: "system",
-						content: `Hello I am a recipe generator. I will generate a  recipe found in one of these recipe books. ${recipeBooks}.
+						content: `Hello I am a recipe generator. I will find a unique recipe in the book "${jsonRecipeBook}" for you. Please wait a moment.
 						
 						The response will be in the following json format:
 
@@ -88,7 +103,7 @@ router.post("/generate-recipe", async (req, res) => {
 					},
 					{
 						role: "user",
-						content: `null`,
+						content: `${jsonRecipeBook}`,
 					},
 					{
 						role: "system",
@@ -120,14 +135,15 @@ router.post("/generate-recipe", async (req, res) => {
 									"step 2"
 									
 							
-							]
+							],
+							"feelingLucky": "true"
 							
 						
 						}`,
 					},
 				],
 
-				temperature: 0.9,
+				temperature: 0.7,
 			});
 		} else {
 			// Generate the recipe object using OpenAI
@@ -179,7 +195,8 @@ router.post("/generate-recipe", async (req, res) => {
 							"steps": [								
 									1."instruction",
 									2." instruction"							
-							]
+							],
+							"feelingLucky": "false"
 						}
 						
 					}`,
@@ -256,10 +273,13 @@ router.post("/generate-recipe", async (req, res) => {
 		}
 
 		const jsonContent = jsonMatch[0];
+
 		const recipeObject = await JSON.parse(jsonContent);
+
 		// Generate the recipe image using Midjourney
 		await midjourneyClient.init();
-		const prompt = `${recipeObject.name}`;
+
+		const prompt = `${recipeObject.name} --stop 100`;
 
 		const Imagine = await midjourneyClient.Imagine(prompt, (uri) => {
 			console.log("loading", uri);
