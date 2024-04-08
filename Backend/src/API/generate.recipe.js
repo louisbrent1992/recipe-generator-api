@@ -279,7 +279,7 @@ router.post("/generate-recipe", async (req, res) => {
 		// Generate the recipe image using Midjourney
 		await midjourneyClient.init();
 
-		const prompt = `${recipeObject.name} --stop 100`;
+		const prompt = `${recipeObject.name} --fast`;
 
 		const Imagine = await midjourneyClient.Imagine(prompt, (uri) => {
 			console.log("loading", uri);

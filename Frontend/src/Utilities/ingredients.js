@@ -25,9 +25,11 @@ export const handleGetRecipes = async (
 	feelingLucky
 ) => {
 	event.preventDefault();
+	let response;
 	if (feelingLucky) {
 		setLoading(true);
-		await Swal.fire({
+
+		Swal.fire({
 			icon: "info",
 			title: "Feeling lucky? Finding a random recipe for you!",
 			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
@@ -37,6 +39,7 @@ export const handleGetRecipes = async (
 
 			didOpen: () => {
 				Swal.showLoading();
+
 				const duration = Swal.getHtmlContainer().querySelector("duration");
 
 				timerInterval = setInterval(() => {
@@ -50,9 +53,15 @@ export const handleGetRecipes = async (
 				clearInterval(timerInterval);
 			},
 		});
+		response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ ingredients, feelingLucky }),
+		});
 	} else {
 		setLoading(true);
-		await Swal.fire({
+
+		Swal.fire({
 			icon: "info",
 			title: "Generating recipe",
 			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
@@ -73,92 +82,69 @@ export const handleGetRecipes = async (
 				clearInterval(timerInterval);
 			},
 		});
+		response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ ingredients }),
+		});
 	}
 
-	try {
-		let response;
-		if (feelingLucky) {
-			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ingredients, feelingLucky }),
-			});
-		}
-
-		if (!feelingLucky) {
-			response = await fetch(`${BASE_URL}/api/v1/generate-recipe`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ingredients }),
-			});
-		}
-
-		if (response.status === 500) {
-			setLoading(false);
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: "Server maintenance in progress. Please try again later.",
-			});
-		} else if (response.status === 200) {
-			setLoading(false);
-			const fetchedRecipe = await response.json();
-			Swal.fire({
-				title: "Sweet! Here's your recipe!",
-				text: fetchedRecipe.name,
-				imageUrl: fetchedRecipe.img,
-				imageWidth: 400,
-				imageHeight: 400,
-				imageAlt: "Recipe Image",
-				confirmButtonColor: "#4caf50",
-				confirmButtonText: "View Recipe",
-				showCloseButton: true,
-				showDenyButton: true,
-				denyButtonColor: "#f44336",
-				denyButtonText: "Regenerate Recipe",
-			}).then((result) => {
-				if (result.isConfirmed) {
-					Swal.close();
-				} else if (result.isDenied) {
-					feelingLucky
-						? handleRecipeRegenerate(
-								dispatch,
-								setLoading,
-								ingredients,
-								timerInterval,
-								true
-						  )
-						: handleRecipeRegenerate(
-								dispatch,
-								setLoading,
-								ingredients,
-								timerInterval,
-								false
-						  );
-				}
-			});
-			dispatch(clearRecipe());
-			dispatch(setRecipe(fetchedRecipe));
-			dispatch(clearIngredients());
-		} else {
-			setLoading(false);
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: "Recipe data not received. Please try again later.",
-			});
-
-			console.error("No recipe data received. Internal server error.");
-		}
-	} catch (error) {
+	if (response.status === 500) {
 		setLoading(false);
 		Swal.fire({
 			icon: "error",
 			title: "Error",
-			text: "Error retrieving recipe. Please try again later.",
+			text: "Server maintenance in progress. Please try again later.",
+		});
+	} else if (response.status === 200) {
+		setLoading(false);
+		const fetchedRecipe = await response.json();
+		Swal.fire({
+			title: "Sweet! Here's your recipe!",
+			text: fetchedRecipe.name,
+			imageUrl: fetchedRecipe.img,
+			imageWidth: 400,
+			imageHeight: 400,
+			imageAlt: "Recipe Image",
+			confirmButtonColor: "#4caf50",
+			confirmButtonText: "View Recipe",
+			showCloseButton: true,
+			showDenyButton: true,
+			denyButtonColor: "#f44336",
+			denyButtonText: "Regenerate Recipe",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.close();
+			} else if (result.isDenied) {
+				feelingLucky
+					? handleRecipeRegenerate(
+							dispatch,
+							setLoading,
+							ingredients,
+							timerInterval,
+							true
+					  )
+					: handleRecipeRegenerate(
+							dispatch,
+							setLoading,
+							ingredients,
+							timerInterval,
+							false
+					  );
+			}
+		});
+		dispatch(clearRecipe());
+		dispatch(setRecipe(fetchedRecipe));
+		dispatch(clearIngredients());
+	} else {
+		setLoading(false);
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "Recipe data not received. Please try again later.",
 		});
 
-		console.error("Error fetching recipe:", error);
+		console.error("No recipe data received. Internal server error.");
 	}
 };
 
