@@ -8,15 +8,22 @@ import { BASE_URL } from "./requests";
  *
  * @param {RefObject<HTMLElement>} recipeContainerRef - A reference to the container element that holds the recipe text.
  */
-export const handleCopyRecipe = (recipeContainerRef) => {
+export const handleCopyRecipe = async (recipeContainerRef, setCopy) => {
 	if (recipeContainerRef.current) {
 		const recipeText = recipeContainerRef.current.innerText;
 
 		if (recipeText) {
+			setCopy(true);
 			try {
-				navigator.clipboard.writeText(recipeText);
+				await navigator.clipboard.writeText(recipeText);
+				Swal.fire({
+					icon: "success",
+					title: "Success",
+					text: "Recipe copied to clipboard",
+				});
 				console.log("Recipe copied to clipboard:", recipeText);
 			} catch (error) {
+				setCopy(false);
 				Swal.fire({
 					icon: "error",
 					title: "Error",
@@ -25,6 +32,7 @@ export const handleCopyRecipe = (recipeContainerRef) => {
 				console.error("Error copying recipe:", error);
 			}
 		} else {
+			setCopy(false);
 			Swal.fire({
 				icon: "error",
 				title: "Error",
@@ -56,7 +64,7 @@ export const handleAddFav = (dispatch, user, recipe) => {
 	}
 };
 
-const showLoginPrompt = () => {
+const showLoginPrompt = async () => {
 	Swal.fire({
 		icon: "info",
 		title: "Information",
@@ -70,6 +78,8 @@ const showLoginPrompt = () => {
  * @param {function} dispatch - A function used to dispatch actions to the Redux store.
  * @param {function} setLoading - A function used to set the loading state.
  * @param {array} ingredients - An array of ingredients used to generate the recipe.
+ * @param {number} timerInterval - A timer interval used to track the time taken to generate the recipe.
+ * @param {boolean} feelingLucky - A boolean value indicating whether the user wants a random recipe or not.
  * @returns {Promise<void>}
  */
 export const handleRecipeRegenerate = async (
@@ -79,30 +89,53 @@ export const handleRecipeRegenerate = async (
 	timerInterval,
 	feelingLucky
 ) => {
-	setLoading(true);
-	Swal.fire({
-		icon: "info",
-		title: !feelingLucky
-			? "Generating recipe"
-			: "Finding a random recipe for you!",
-		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
-		timer: 10000,
-		timerProgressBar: true,
-		allowOutsideClick: true,
-		didOpen: () => {
-			Swal.showLoading();
-			const duration = Swal.getHtmlContainer().querySelector("duration");
-			timerInterval = setInterval(() => {
-				const remainingTime = Swal.getTimerLeft();
-				duration.textContent =
-					remainingTime > 0 ? remainingTime / 1000 : Swal.close();
-				duration.textContent = duration.textContent.slice(0, 1);
-			}, 1);
-		},
-		willClose: () => {
-			clearInterval(timerInterval);
-		},
-	});
+	if (feelingLucky) {
+		setLoading(true);
+		await Swal.fire({
+			icon: "info",
+			title: "Finding a random recipe for you!",
+			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
+			timer: 10000,
+			timerProgressBar: true,
+			allowOutsideClick: true,
+			didOpen: () => {
+				Swal.showLoading();
+				const duration = Swal.getHtmlContainer().querySelector("duration");
+				timerInterval = setInterval(() => {
+					const remainingTime = Swal.getTimerLeft();
+					duration.textContent =
+						remainingTime > 0 ? remainingTime / 1000 : Swal.close();
+					duration.textContent = duration.textContent.slice(0, 1);
+				}, 1);
+			},
+			willClose: () => {
+				clearInterval(timerInterval);
+			},
+		});
+	} else {
+		setLoading(true);
+		await Swal.fire({
+			icon: "info",
+			title: "Generating recipe",
+			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
+			timer: 10000,
+			timerProgressBar: true,
+			allowOutsideClick: true,
+			didOpen: () => {
+				Swal.showLoading();
+				const duration = Swal.getHtmlContainer().querySelector("duration");
+				timerInterval = setInterval(() => {
+					const remainingTime = Swal.getTimerLeft();
+					duration.textContent =
+						remainingTime > 0 ? remainingTime / 1000 : Swal.close();
+					duration.textContent = duration.textContent.slice(0, 1);
+				}, 1);
+			},
+			willClose: () => {
+				clearInterval(timerInterval);
+			},
+		});
+	}
 
 	try {
 		let response;
@@ -130,9 +163,9 @@ export const handleRecipeRegenerate = async (
 				text: "Server maintenance in progress. Please try again later.",
 			});
 		} else if (response.status === 200) {
+			setLoading(false);
 			const fetchedRecipe = await response.json();
-
-			Swal.fire({
+			await Swal.fire({
 				title: "Sweet! Here's your recipe!",
 				text: fetchedRecipe.name,
 				imageUrl: fetchedRecipe.img,
@@ -168,24 +201,23 @@ export const handleRecipeRegenerate = async (
 			});
 			dispatch(clearRecipe());
 			dispatch(setRecipe(fetchedRecipe));
-			setLoading(false);
 		} else {
+			setLoading(false);
 			Swal.fire({
 				icon: "error",
 				title: "Error",
 				text: "Recipe data not received. Please try again later.",
 			});
 			console.error("No recipe data received.");
-			setLoading(false);
 		}
 	} catch (error) {
+		setLoading(false);
 		Swal.fire({
 			icon: "error",
 			title: "Error",
 			text: "Error retrieving recipe. Please try again later.",
 		});
 		console.error("Error fetching recipe:", error);
-		setLoading(false);
 	}
 };
 

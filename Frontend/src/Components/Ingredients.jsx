@@ -108,7 +108,7 @@ function Ingredients({ setLoading }) {
 				</StyledIngredientContainer>
 
 				<ButtonsContainer>
-					<StyledSubmitButton type="submit">Get Recipes</StyledSubmitButton>
+					<StyledSubmitButton type="submit">Get Recipe</StyledSubmitButton>
 					<StyledSubmitButton
 						type="button"
 						style={{ backgroundColor: "#007BFF" }}

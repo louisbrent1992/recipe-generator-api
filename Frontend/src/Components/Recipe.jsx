@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { css } from "@emotion/react";
 import { useSelector } from "react-redux";
 import {
@@ -25,12 +25,6 @@ function Recipe({ loading, setLoading }) {
 
 	// Create a ref for the recipe container
 	const recipeContainerRef = useRef(null);
-
-	useEffect(() => {
-		if (recipe) {
-			setLoading(false);
-		}
-	}, [recipe, setLoading]);
 
 	if (loading) {
 		// Display a loading spinner while waiting for data

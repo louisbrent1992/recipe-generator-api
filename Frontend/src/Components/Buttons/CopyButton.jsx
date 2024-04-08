@@ -5,9 +5,7 @@ function CopyButton({ recipeContainerRef }) {
 	const [copy, setCopy] = useState(false);
 
 	const handleClick = () => {
-		handleCopyRecipe(recipeContainerRef);
-
-		setCopy(true);
+		copy ? setCopy(false) : handleCopyRecipe(recipeContainerRef, setCopy);
 	};
 
 	return (

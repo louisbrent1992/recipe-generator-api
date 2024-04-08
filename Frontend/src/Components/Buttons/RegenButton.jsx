@@ -30,7 +30,8 @@ function RegenButton({ setLoading }) {
 					dispatch,
 					setLoading,
 					recipeIngredients,
-					timeInterval
+					timeInterval,
+					recipe.feelingLucky
 				)
 			}
 		>

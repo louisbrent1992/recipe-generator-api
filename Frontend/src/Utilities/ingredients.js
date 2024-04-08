@@ -25,32 +25,55 @@ export const handleGetRecipes = async (
 	feelingLucky
 ) => {
 	event.preventDefault();
-	Swal.fire({
-		icon: "info",
-		title: !feelingLucky
-			? "Generating recipe"
-			: "Feeling lucky? Finding a random recipe for you!",
-		html: "Please allow up to <duration></duration> seconds for recipe to generate.",
-		timer: 10000,
-		timerProgressBar: true,
-		allowOutsideClick: true,
+	if (feelingLucky) {
+		setLoading(true);
+		await Swal.fire({
+			icon: "info",
+			title: "Feeling lucky? Finding a random recipe for you!",
+			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
+			timer: 10000,
+			timerProgressBar: true,
+			allowOutsideClick: true,
 
-		didOpen: () => {
-			Swal.showLoading();
-			const duration = Swal.getHtmlContainer().querySelector("duration");
+			didOpen: () => {
+				Swal.showLoading();
+				const duration = Swal.getHtmlContainer().querySelector("duration");
 
-			timerInterval = setInterval(() => {
-				const remainingTime = Swal.getTimerLeft();
-				duration.textContent =
-					remainingTime > 0 ? remainingTime / 1000 : Swal.close();
-				duration.textContent = duration.textContent.slice(0, 1);
-			}, 1);
-		},
-		willClose: () => {
-			clearInterval(timerInterval);
-		},
-	});
-	setLoading(true);
+				timerInterval = setInterval(() => {
+					const remainingTime = Swal.getTimerLeft();
+					duration.textContent =
+						remainingTime > 0 ? remainingTime / 1000 : Swal.close();
+					duration.textContent = duration.textContent.slice(0, 1);
+				}, 1);
+			},
+			willClose: () => {
+				clearInterval(timerInterval);
+			},
+		});
+	} else {
+		setLoading(true);
+		await Swal.fire({
+			icon: "info",
+			title: "Generating recipe",
+			html: "Please allow up to <duration></duration> seconds for recipe to generate.",
+			timer: 10000,
+			timerProgressBar: true,
+			allowOutsideClick: true,
+			didOpen: () => {
+				Swal.showLoading();
+				const duration = Swal.getHtmlContainer().querySelector("duration");
+				timerInterval = setInterval(() => {
+					const remainingTime = Swal.getTimerLeft();
+					duration.textContent =
+						remainingTime > 0 ? remainingTime / 1000 : Swal.close();
+					duration.textContent = duration.textContent.slice(0, 1);
+				}, 1);
+			},
+			willClose: () => {
+				clearInterval(timerInterval);
+			},
+		});
+	}
 
 	try {
 		let response;
@@ -78,8 +101,8 @@ export const handleGetRecipes = async (
 				text: "Server maintenance in progress. Please try again later.",
 			});
 		} else if (response.status === 200) {
+			setLoading(false);
 			const fetchedRecipe = await response.json();
-
 			Swal.fire({
 				title: "Sweet! Here's your recipe!",
 				text: fetchedRecipe.name,
@@ -117,23 +140,24 @@ export const handleGetRecipes = async (
 			dispatch(clearRecipe());
 			dispatch(setRecipe(fetchedRecipe));
 			dispatch(clearIngredients());
-			setLoading(false);
 		} else {
+			setLoading(false);
 			Swal.fire({
 				icon: "error",
 				title: "Error",
 				text: "Recipe data not received. Please try again later.",
 			});
-			setLoading(false);
+
 			console.error("No recipe data received. Internal server error.");
 		}
 	} catch (error) {
+		setLoading(false);
 		Swal.fire({
 			icon: "error",
 			title: "Error",
 			text: "Error retrieving recipe. Please try again later.",
 		});
-		setLoading(false);
+
 		console.error("Error fetching recipe:", error);
 	}
 };
