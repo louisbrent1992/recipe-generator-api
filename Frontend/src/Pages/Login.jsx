@@ -21,7 +21,7 @@ import {
 } from "../Styles/Login";
 import GoogleLoginButton from "../Components/Buttons/GoogleLoginButton";
 import { useDispatch, useSelector } from "react-redux";
-import { NavbarBrand } from "../Styles/Navbar";
+import { NavbarBrand, NavbarLogo } from "../Styles/Navbar";
 import { handleLogin } from "../Utilities/auth";
 
 function Login() {
@@ -34,17 +34,26 @@ function Login() {
 
 	return (
 		<Container>
-			<NavbarBrand
+			<div
 				style={{
-					color: "black",
-					position: "absolute",
+					display: "flex",
+					alignItems: "center",
+					position: "fixed",
 					top: "0",
-					padding: "20px",
 				}}
-				href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
 			>
-				Recipe Finder
-			</NavbarBrand>
+				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<NavbarBrand
+					style={{
+						color: "black",
+						padding: "20px",
+					}}
+					href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
+				>
+					Recipe Finder
+				</NavbarBrand>
+			</div>
+
 			<StyledLoginContainer>
 				<StyledTitle>Login</StyledTitle>
 				<EmailPasswordContainer
@@ -80,7 +89,9 @@ function Login() {
 					<DividerContainer>
 						<StyledDivider style={{ marginBlock: "10px", flex: "0.5" }} />
 					</DividerContainer>
-					<p>Continue as<GuestLink href="/" >Guest.</GuestLink></p>
+					<p>
+						Continue as<GuestLink href="/">Guest.</GuestLink>
+					</p>
 				</Disclaimer>
 			</StyledLoginContainer>
 		</Container>

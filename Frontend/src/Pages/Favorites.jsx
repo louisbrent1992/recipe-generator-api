@@ -88,7 +88,9 @@ function Favorites() {
 	return (
 		<FavoritesPageContainer>
 			<Navbar />
-			<h1 style={{ padding: "20px" }}>Your Favorite Recipes</h1>
+			<h1 style={{ padding: "20px", marginTop: "100px" }}>
+				Your Favorite Recipes
+			</h1>
 			{savedRecipes.length === 0 ? (
 				<p>No favorite recipes saved yet.</p>
 			) : (

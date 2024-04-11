@@ -17,6 +17,7 @@ const HeaderImage = styled.img`
 	object-fit: cover;
 	border-radius: 10px; /* Increased border radius for a softer look */
 	margin-bottom: 30px; /* Increased margin bottom for better separation */
+	margin-top: 100px; /* Increased margin top for better separation */
 `;
 
 const Title = styled.h1`

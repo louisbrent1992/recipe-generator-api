@@ -8,6 +8,7 @@ const PageContainer = styled.div`
 
 const Title = styled.h1`
 	color: #252322;
+	margin-top: 100px; /* Increased margin top for better separation */
 `;
 
 const InfoSection = styled.section`

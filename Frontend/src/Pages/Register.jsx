@@ -26,7 +26,7 @@ import {
 } from "../Styles/Register"; // Reuse styling from the login page
 import GoogleSignUp from "../Components/Buttons/GoogleSignUp";
 import { useDispatch, useSelector } from "react-redux";
-import { NavbarBrand } from "../Styles/Navbar";
+import { NavbarBrand, NavbarLogo } from "../Styles/Navbar";
 import { handleRegister } from "../Utilities/auth";
 import { handleAvatarUpload } from "../Utilities/buttons";
 import { avatarImagePopup } from "../Utilities/notifications";
@@ -43,21 +43,28 @@ function Register() {
 
 	return (
 		<Container>
-			<NavbarBrand
+			<div
 				style={{
-					color: "black",
-					position: "absolute",
+					display: "flex",
+					alignItems: "center",
+					position: "fixed",
 					top: "0",
-					padding: "20px",
-					cursor: "pointer",
 				}}
-				href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
 			>
-				Recipe Finder
-			</NavbarBrand>
+				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<NavbarBrand
+					style={{
+						color: "black",
+						padding: "20px",
+					}}
+					href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
+				>
+					Recipe Finder
+				</NavbarBrand>
+			</div>
 
 			<MainContainer>
-				<StyledTitle>Register</StyledTitle>
+				<StyledTitle>Create Account Below:</StyledTitle>
 				<StyledLoginContainer>
 					<AvatarContainer>
 						<AvatarPreview
@@ -88,12 +95,12 @@ function Register() {
 						>
 							<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
 							<Form>
-								<Label htmlFor="name">Name:</Label>
+								<Label htmlFor="name">Username:</Label>
 								<Input
 									type="text"
 									id="name"
 									name="name"
-									placeholder="John Doe"
+									placeholder="username"
 									required
 								/>
 								<Label htmlFor="email">Email:</Label>
@@ -136,7 +143,9 @@ function Register() {
 							<DividerContainer>
 								<StyledDivider style={{ marginBlock: "10px" }} />
 							</DividerContainer>
-							<p>Continue as<GuestLink href="/" >Guest.</GuestLink></p>
+							<p>
+								Continue as<GuestLink href="/">Guest.</GuestLink>
+							</p>
 						</Disclaimer>
 					</FormContainer>
 				</StyledLoginContainer>
