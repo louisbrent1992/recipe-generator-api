@@ -9,6 +9,7 @@ import {
 	NavMenuContainer,
 	NavbarBrand,
 	NavbarContainer,
+	NavbarLogo,
 	UserAvatar,
 } from "../Styles/Navbar";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,8 @@ function Navbar() {
 	return (
 		<ContainerFluid>
 			<NavbarBrand href={user._id ? `/dashboard/${user._id}` : "/dashboard"}>
-				Recipe Finder
+				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<span>Recipe Finder</span>
 			</NavbarBrand>
 			<NavbarContainer>
 				<NavList>

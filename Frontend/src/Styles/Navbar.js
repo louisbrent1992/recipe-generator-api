@@ -5,7 +5,7 @@ const ContainerFluid = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px 0;
+	padding: 10px 5px;
 	background-color: #333; /* Dark background color */
 	color: #fff; /* Light text color */
 	position: absolute;
@@ -24,6 +24,15 @@ const NavbarBrand = styled.a`
 	text-decoration: none;
 	color: #fff; /* Text color for the brand */
 	margin-right: 20px; /* Adjust margin as needed */
+	display: flex;
+	align-items: center;
+	gap: 10px;
+`;
+
+const NavbarLogo = styled.img`
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
 `;
 
 const NavMenuContainer = styled.div`
@@ -99,4 +108,5 @@ export {
 	NavList,
 	UserAvatar,
 	IconContainer,
+	NavbarLogo,
 };
