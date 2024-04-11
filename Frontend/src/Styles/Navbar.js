@@ -1,18 +1,16 @@
 import styled from "styled-components";
 import { desktop, tablet } from "../Utilities/mobileResponse";
 
-const StyledNavbar = styled.nav`
-	background-color: #333; /* Dark background color */
-	color: #fff; /* Light text color */
-	position: relative;
-	top: 0;
-`;
-
 const ContainerFluid = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px;
+	padding: 10px 0;
+	background-color: #333; /* Dark background color */
+	color: #fff; /* Light text color */
+	position: absolute;
+	top: 0;
+	width: 100%;
 `;
 
 const NavbarContainer = styled.div`
@@ -92,7 +90,6 @@ const UserAvatar = styled.img`
 `;
 
 export {
-	StyledNavbar,
 	ContainerFluid,
 	NavbarContainer,
 	NavbarBrand,

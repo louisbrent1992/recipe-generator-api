@@ -99,6 +99,7 @@ export const handleRecipeRegenerate = async (
 			timer: 10000,
 			timerProgressBar: true,
 			allowOutsideClick: true,
+			backdrop: true,
 			didOpen: () => {
 				Swal.showLoading();
 				const duration = Swal.getHtmlContainer().querySelector("duration");
@@ -127,6 +128,7 @@ export const handleRecipeRegenerate = async (
 			timer: 10000,
 			timerProgressBar: true,
 			allowOutsideClick: true,
+			backdrop: true,
 			didOpen: () => {
 				Swal.showLoading();
 				const duration = Swal.getHtmlContainer().querySelector("duration");

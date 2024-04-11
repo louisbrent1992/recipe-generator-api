@@ -4,7 +4,7 @@ import { smallMobile } from "../Utilities/mobileResponse";
 const FormContainer = styled.div`
 	max-width: 400px;
 	margin: 0 auto;
-	margin-top: 20px;
+	margin-top: 100px;
 `;
 
 const StyledForm = styled.form`

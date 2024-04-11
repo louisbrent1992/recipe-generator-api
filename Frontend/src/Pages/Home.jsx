@@ -5,7 +5,9 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import styled from "styled-components";
 
-const DashboardContainer = styled.div`margin: 0 auto;`;
+const DashboardContainer = styled.div`
+	margin: 0 auto;
+`;
 
 function Home() {
 	const [loading, setLoading] = useState(false);
