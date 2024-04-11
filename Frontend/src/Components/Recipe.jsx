@@ -76,7 +76,7 @@ function Recipe({ loading, setLoading }) {
 					</ul>
 				)}
 
-				<h3>Additional Ingredients:</h3>
+				{recipe.additionalIngredients && <h3>Additional Ingredients:</h3>}
 				{Array.isArray(recipe.additionalIngredients) &&
 					recipe.additionalIngredients.length > 0 && (
 						<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
