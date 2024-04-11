@@ -67,7 +67,7 @@ function Recipe({ loading, setLoading }) {
 			<RecipeIngredients>
 				<h3>Ingredients:</h3>
 				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
-					<ul key={recipe._id}>
+					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.ingredients.map((ingredient) => (
 							<li key={ingredient.name}>
 								{ingredient.quantity} {ingredient.unit} {ingredient.name}
@@ -79,7 +79,7 @@ function Recipe({ loading, setLoading }) {
 				<h3>Additional Ingredients:</h3>
 				{Array.isArray(recipe.additionalIngredients) &&
 					recipe.additionalIngredients.length > 0 && (
-						<ul key={recipe._id}>
+						<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 							{recipe.additionalIngredients.map((ingredient) => (
 								<li key={ingredient.name}>
 									{ingredient.quantity} {ingredient.unit} {ingredient.name}
@@ -92,11 +92,11 @@ function Recipe({ loading, setLoading }) {
 			<RecipeSteps>
 				<h3>Steps:</h3>
 				{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
-					<ul style={{ listStyle: "none", paddingLeft: "10px " }}>
+					<ol key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.steps.map((step) => (
 							<li key={step}>{step}</li>
 						))}
-					</ul>
+					</ol>
 				)}
 			</RecipeSteps>
 		</RecipeContainer>
