@@ -277,7 +277,7 @@ router.post("/generate-recipe", async (req, res) => {
 		const recipeObject = await JSON.parse(jsonContent);
 
 		// Generate the recipe image using DALL-E
-		const prompt = `full view meal of ${recipeObject.name}`;
+		const prompt = `realistic full view meal of ${recipeObject.name}`;
 
 		const imagine = await openaiClient.images.generate({
 			model: "dall-e-3",
