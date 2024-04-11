@@ -276,33 +276,22 @@ router.post("/generate-recipe", async (req, res) => {
 
 		const recipeObject = await JSON.parse(jsonContent);
 
-		// Generate the recipe image using Midjourney
-		await midjourneyClient.init();
+		// Generate the recipe image using DALL-E
+		const prompt = `full view meal of ${recipeObject.name}`;
 
-		const prompt = `${recipeObject.name} --fast`;
-
-		const Imagine = await midjourneyClient.Imagine(prompt, (uri) => {
-			console.log("loading", uri);
+		const imagine = await openaiClient.images.generate({
+			model: "dall-e-3",
+			prompt,
 		});
 
-		if (!Imagine) {
-			console.log("no message");
+		if (!imagine) {
+			console.log("no image generated");
 			return;
 		}
 
-		const Upscale = await midjourneyClient.Upscale({
-			index: 1,
-			msgId: Imagine.id,
-			hash: Imagine.hash,
-			flags: Imagine.flags,
-			loading: (uri, progress) => {
-				console.log("Upscale.loading", uri, "progress", progress);
-			},
-		});
+		const imageUrl = imagine.data[0].url;
 
-		midjourneyClient.Close();
-
-		recipeObject.img = Upscale.uri;
+		recipeObject.img = imageUrl;
 
 		res.status(200).json(recipeObject);
 	} catch (error) {
