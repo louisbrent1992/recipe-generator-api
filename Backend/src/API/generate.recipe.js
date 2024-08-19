@@ -22,7 +22,7 @@ const midjourneyClient = new Midjourney({
 	ChannelId: CHANNEL_ID,
 	SalaiToken: SALAI_TOKEN,
 	HuggingFaceToken: HUGGINGFACE_TOKEN,
-	Debug: true,
+	Debug: false,
 	Ws: true,
 	Limit: 1,
 	Timout: 60000,
@@ -358,9 +358,9 @@ router.post("/generate-recipe", async (req, res) => {
 			content: `${prompt} --ar 3:4`,
 		});
 
-		const imageUrl = upscale.uri;
+		const imageUri = upscale.uri;
 
-		recipeObject.img = imageUrl;
+		recipeObject.img = imageUri;
 
 		// Send final progress update and recipe data
 		ws.clients.forEach((client) => {
@@ -368,7 +368,7 @@ router.post("/generate-recipe", async (req, res) => {
 				client.send(
 					JSON.stringify({
 						update: "Recipe generation complete!",
-						progress: 100,
+						progress: 90,
 						recipe: recipeObject,
 					})
 				);
@@ -376,6 +376,13 @@ router.post("/generate-recipe", async (req, res) => {
 		});
 
 		res.status(200).json(recipeObject);
+
+		// Prompt and image URI
+		console.log("🥗", {
+			Prompt: imagine.content,
+			OriginalPalette: imagine.uri,
+			GeneratedImage: imageUri,
+		});
 	} catch (error) {
 		// Handle errors as needed
 		console.error(error);

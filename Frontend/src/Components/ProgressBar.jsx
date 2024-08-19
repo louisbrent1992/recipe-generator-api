@@ -16,13 +16,14 @@ const ProgressBarFill = styled.div`
 	height: 20px;
 	background-color: #4caf50;
 	width: ${(props) => props.width}%;
-	transition: width 0.3s ease-in-out;
+	transition: width 0.8s ease;
 `;
 
 const ProgressBarMessage = styled.span`
 	color: #000;
 	font-weight: bold;
 	text-align: center;
+	paddingleft: 10px;
 `;
 
 function ProgressBar({ progress, update }) {

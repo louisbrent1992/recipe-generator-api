@@ -71,6 +71,7 @@ const RecipeImageContainer = styled.div`
 `;
 
 const RecipeImage = styled.img`
+	cursor: pointer;
 	max-width: 100%; /* Ensure the image doesn't exceed its container */
 	height: auto; /* Maintain aspect ratio */
 	display: block; /* Remove any default inline spacing */

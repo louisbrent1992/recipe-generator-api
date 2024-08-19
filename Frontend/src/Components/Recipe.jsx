@@ -68,7 +68,12 @@ function Recipe({ loading, setLoading }) {
 					size={25}
 					color={"#4caf50"}
 					loading={loading}
-					style={{ position: "absolute", top: "6px", left: `${progress - 2}%` }}
+					style={{
+						position: "absolute",
+						top: "6px",
+						left: `${progress - 2}%`,
+						transition: "left 0.8s ease",
+					}}
 				/>
 				<ProgressBar progress={progress} update={update} />{" "}
 				{/* Display progress updates */}
