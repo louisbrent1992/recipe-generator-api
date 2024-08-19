@@ -36,7 +36,7 @@
 <h3 align="center">Recipe Generator</h3>
 
   <p align="center">
-    Recipe Generator API using OpenAI's Chat-gpt-3.5 API.
+    Recipe Generator API using OpenAI's Chat-gpt-3.5 API and DALL-E.
     <br />
     <a href="https://github.com/louisbrent1992/recipe-generator-api"><strong>Explore the docs »</strong></a>
     <br />
@@ -117,10 +117,18 @@ touch .env
 5. Enter your config details in the `.env` file:
 
 ```js
-GOOGLE_CLIENT_ID = "google_client_id";
-JWT_SECRET = "secret";
-MONGODB_URI = "mongo_db_uri";
-OPENAI_API_KEY = "open_ai_key";
+*HUGGINGFACE_TOKEN="huggingface_token"
+JWT_SECRET="jwt_secret"
+MONGODB_URI="mongodb_uri"
+OPENAI_API_KEY="openai_api_key"
+*SALAI_TOKEN="discord_salai_token"
+*SERVER_ID="discord_server_id"
+*SESSION_ID="discord_session_id"
+CLIENT_URI_DEV="development_server_uri"
+CLIENT_URI_PROD="production_client_uri"
+NODE_ENV="development"
+
+*Optional for Freezer Midjourney API. Check the API documentation for more details.
 ```
 
 6. Create an `.env` file in the Frontend folder:
@@ -134,6 +142,11 @@ touch .env
 
 ```js
 REACT_APP_GOOGLE_CLIENT_ID = "google_client_id";
+REACT_APP_NODE_ENV = "development";
+REACT_APP_SERVER_URI_DEV = "server_uri";
+REACT_APP_SERVER_URI_PROD = "production_server_uri";
+REACT_APP_WEBSOCKET_URI_DEV = "ws://localhost:port";
+REACT_APP_WEBSOCKET_URI_PROD = "wss://server_uri";
 ```
 
 8. Run the app
