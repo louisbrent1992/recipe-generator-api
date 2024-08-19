@@ -41,7 +41,7 @@
     <a href="https://github.com/louisbrent1992/recipe-generator-api"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/louisbrent1992/recipe-generator-api">View Demo</a>
+    <a href="https://recipe-finder-app-v1.onrender.com/" target="_blank" >View Demo</a>
     ·
     <a href="https://github.com/louisbrent1992/recipe-generator-api/issues">Report Bug</a>
     ·
