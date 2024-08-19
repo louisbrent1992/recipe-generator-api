@@ -1,7 +1,8 @@
-import { Midjourney } from "midjourney";
-import express, { json } from "express";
+// import { Midjourney } from "midjourney";
+import express from "express";
 import dotenv from "dotenv";
 import { OpenAI } from "openai";
+import { Midjourney } from "midjourney";
 import { RandomizedRecipeTitles, bestCookbooks } from "./recipeBooks.js";
 
 dotenv.config();
@@ -23,6 +24,8 @@ const midjourneyClient = new Midjourney({
 	HuggingFaceToken: HUGGINGFACE_TOKEN,
 	Debug: true,
 	Ws: true,
+	Limit: 1,
+	Timout: 60000,
 });
 
 const openaiClient = new OpenAI({
@@ -38,6 +41,7 @@ router.get("/generate-recipe", (req, res) => {
 router.post("/generate-recipe", async (req, res) => {
 	const ingredients = req.body.ingredients || [];
 	const feelingLucky = req.body.feelingLucky || false;
+	const ws = req.socket; // Access the WebSocket server from the request
 
 	try {
 		if (!ingredients.length && !feelingLucky) {
@@ -48,10 +52,33 @@ router.post("/generate-recipe", async (req, res) => {
 			});
 		}
 
+		// Send initial progress update
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Starting recipe generation...",
+						progress: 10,
+					})
+				);
+			}
+		});
+
 		let openaiResponse;
 		const jsonIngredients = JSON.stringify(ingredients);
 		if (feelingLucky) {
-			// Usage example:
+			// Send progress update
+			ws.clients.forEach((client) => {
+				if (client.readyState === 1) {
+					client.send(
+						JSON.stringify({
+							update: "Fetching random recipe title...",
+							progress: 20,
+						})
+					);
+				}
+			});
+
 			const randomizedTitles = new RandomizedRecipeTitles();
 
 			// Add recipe titles
@@ -146,7 +173,18 @@ router.post("/generate-recipe", async (req, res) => {
 				temperature: 0.7,
 			});
 		} else {
-			// Generate the recipe object using OpenAI
+			// Send progress update
+			ws.clients.forEach((client) => {
+				if (client.readyState === 1) {
+					client.send(
+						JSON.stringify({
+							update: "Generating recipe using provided ingredients...",
+							progress: 40,
+						})
+					);
+				}
+			});
+
 			openaiResponse = await openaiClient.chat.completions.create({
 				model: "gpt-3.5-turbo",
 				messages: [
@@ -276,27 +314,83 @@ router.post("/generate-recipe", async (req, res) => {
 
 		const recipeObject = await JSON.parse(jsonContent);
 
-		// Generate the recipe image using DALL-E
-		const prompt = `realistic full view meal of ${recipeObject.name}`;
-
-		const imagine = await openaiClient.images.generate({
-			model: "dall-e-3",
-			prompt,
+		// Send progress update
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Found recipe! Generating recipe image...",
+						progress: 70,
+					})
+				);
+			}
 		});
+
+		// Generate a prompt for DALL-E or midjourney
+		const prompt = `studio light, photorealistic, hyperrealistic image of ${recipeObject.name}`;
+
+		// Check if DALL-E is available
+
+		{
+			// const imagine = await openaiClient.images.generate({
+			// 	model: "dall-e-3",
+			// 	prompt,
+			// });
+		}
+
+		const imagine = await midjourneyClient.Imagine(prompt);
 
 		if (!imagine) {
 			console.log("no image generated");
 			return;
 		}
 
-		const imageUrl = imagine.data[0].url;
+		const U1CustomID = imagine.options?.find((o) => o.label === "U1")?.custom;
+		if (!U1CustomID) {
+			console.log("no U1");
+			return;
+		}
+		// Upscale U1
+		const upscale = await midjourneyClient.Custom({
+			msgId: imagine.id,
+			flags: imagine.flags,
+			customId: U1CustomID,
+			content: `${prompt} --ar 3:4`,
+		});
+
+		const imageUrl = upscale.uri;
 
 		recipeObject.img = imageUrl;
+
+		// Send final progress update and recipe data
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Recipe generation complete!",
+						progress: 100,
+						recipe: recipeObject,
+					})
+				);
+			}
+		});
 
 		res.status(200).json(recipeObject);
 	} catch (error) {
 		// Handle errors as needed
 		console.error(error);
+
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Error during recipe generation.",
+						error: error.message,
+					})
+				);
+			}
+		});
+
 		res.status(500).json({
 			error: {
 				message: "An error occurred during your request.",

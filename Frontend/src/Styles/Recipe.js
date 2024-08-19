@@ -56,11 +56,12 @@ const RecipeSteps = styled.div`
 `;
 
 const LoadingContainer = styled.div`
+	position: relative;
+	width: 66%;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	margin: 0 auto;
 	margin-top: 20px;
-	width: 100%;
 `;
 
 const RecipeImageContainer = styled.div`

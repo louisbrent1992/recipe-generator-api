@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const StyledFooter = styled.footer`
@@ -9,6 +9,19 @@ const StyledFooter = styled.footer`
 	color: #fff;
 	text-align: center;
 	padding: 10px 0;
+
+	transition: opacity 0.5s ease;
+	opacity: ${(props) => (props.isvisible ? 1 : 0)};
+
+	@keyframes fadeInUp {
+		from {
+			transform: translateY(10%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 `;
 
 const FooterLink = styled.a`
@@ -18,8 +31,30 @@ const FooterLink = styled.a`
 `;
 
 function Footer() {
+	const [isFooterVisible, setFooterVisible] = useState(false);
+
+	const handleScroll = () => {
+		const scrollPosition = window.scrollY;
+		const windowHeight = window.innerHeight;
+		const bodyHeight = document.body.scrollHeight;
+
+		// Check if you've scrolled to the bottom of the page
+		if (scrollPosition + windowHeight >= bodyHeight) {
+			setFooterVisible(true);
+		} else {
+			setFooterVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
+
 	return (
-		<StyledFooter>
+		<StyledFooter isvisible={isFooterVisible || undefined}>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-12 text-center py-3">

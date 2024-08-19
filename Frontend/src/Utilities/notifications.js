@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
 import { handleDeleteFav, handleUserDelete } from "./buttons";
 
-export const recipeImagePopup = (image) => {
+export const recipeImagePopup = (image, responsivePadding) => {
 	Swal.fire({
 		background: `center / cover no-repeat url(${image})`,
-		padding: "15em",
+		padding: responsivePadding,
 		imageAlt: "Recipe Image",
 		showCloseButton: false,
 		showConfirmButton: false,

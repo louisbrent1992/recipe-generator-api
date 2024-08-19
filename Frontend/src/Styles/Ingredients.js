@@ -45,6 +45,7 @@ const StyledAddInput = styled(StyledInput)`
 
 const ButtonsContainer = styled.div`
 	display: flex;
+	gap: 10px;
 	justify-content: space-between;
 `;
 

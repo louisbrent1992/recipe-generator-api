@@ -4,7 +4,7 @@ const recipeSlice = createSlice({
 	name: "recipe",
 	initialState: {
 		name: "",
-		img: "",
+		img: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGZvb2R8ZW58MHx8fHwxNjAwNjkzNTQ1&ixlib=rb-1.2.1&q=80&w=400",
 		ingredients: [],
 		additionalIngredients: [],
 		steps: [],
