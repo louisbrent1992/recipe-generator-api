@@ -11,7 +11,7 @@ export const Menu = ({ isOpen, setIsOpen }) => (
 		viewBox="0 0 24 24"
 		strokeWidth={1}
 		height={40}
-		stroke="white"
+		stroke="#f5f5f5"
 		className="w-6 h-6"
 		onClick={() => toggleNavbar(isOpen, setIsOpen)}
 		style={{
@@ -36,7 +36,7 @@ export const Close = ({ isOpen, setIsOpen }) => (
 		viewBox="0 0 24 24"
 		height={40}
 		strokeWidth={1}
-		stroke="white"
+		stroke="#f5f5f5"
 		className="w-6 h-6"
 		onClick={() => toggleNavbar(isOpen, setIsOpen)}
 		style={{

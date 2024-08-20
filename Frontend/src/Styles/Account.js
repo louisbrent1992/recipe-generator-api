@@ -34,7 +34,7 @@ const EditButton = styled.button`
 	border: none;
 	border-radius: 5px;
 	background-color: ${(props) => (props.delete ? "#b30000" : "#0066cc")};
-	color: white;
+	color: #f5f5f5;
 	margin-top: 20px;
 	cursor: pointer;
 

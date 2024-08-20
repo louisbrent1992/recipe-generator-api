@@ -79,7 +79,7 @@ const NavItem = styled.li`
 const NavLink = styled.a`
 	text-decoration: none;
 
-	color: ${(props) => (props.isactive ? "#ffcc00" : "white")};
+	color: ${(props) => (props.isactive ? "#ffcc00" : "#f5f5f5")};
 
 	transition: color 0.3s ease; /* Smooth color transition on hover */
 
@@ -93,7 +93,7 @@ const UserAvatar = styled.img`
 	width: 40px; /* Set a fixed width for circular shape */
 	height: 40px; /* Set a fixed height for circular shape */
 	border-radius: 50%; /* Create a circular shape */
-	border: 2px solid #fff; /* Add a white border */
+	border: 2px solid #fff; /* Add a #f5f5f5 border */
 	margin-right: 10px; /* Adjust margin as needed */
 	object-fit: cover; /* Scale the image to cover the entire shape */
 	cursor: pointer;

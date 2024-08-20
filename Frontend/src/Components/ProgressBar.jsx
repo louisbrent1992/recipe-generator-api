@@ -23,7 +23,7 @@ const ProgressBarMessage = styled.span`
 	color: #000;
 	font-weight: bold;
 	text-align: center;
-	paddingleft: 10px;
+	paddingleft: 20px;
 `;
 
 function ProgressBar({ progress, update }) {

@@ -62,6 +62,7 @@ const LoadingContainer = styled.div`
 	justify-content: center;
 	margin: 0 auto;
 	margin-top: 20px;
+	overflow: hidden;
 `;
 
 const RecipeImageContainer = styled.div`

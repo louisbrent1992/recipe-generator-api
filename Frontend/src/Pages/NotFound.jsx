@@ -39,7 +39,7 @@ const HomeButton = styled.button`
 `;
 
 const HomeLink = styled.a`
-	color: white;
+	color: #f5f5f5;
 	text-decoration: none;
 	font-size: 18px;
 `;

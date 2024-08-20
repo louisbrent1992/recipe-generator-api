@@ -7,6 +7,7 @@ import {
 	PageContainer,
 	Paragraph,
 	Title,
+	Header,
 } from "../Styles/About";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -30,7 +31,7 @@ function About() {
 					enjoyable.
 				</Paragraph>
 				<Paragraph>
-					<strong>Addressing Scarcity Issues:</strong> We're on a mission to
+					<Header>Addressing Scarcity Issues:</Header> We're on a mission to
 					help individuals make the most of what they have. Recipe Finder
 					empowers you to create delicious meals without the need for extensive
 					grocery shopping. Save money and reduce food waste by cooking with
@@ -39,13 +40,16 @@ function About() {
 				<Title>Key Features:</Title>
 				<List>
 					<ListItem>
-						<strong>Ingredient-Based Recipe Generation:</strong> Our app uses
-						the power of OpenAI to generate creative and tasty recipes based on
-						the ingredients you have available. No more wondering what to cook
-						with the items in your pantry; Recipe Finder has you covered.
+						<Header style={{ color: "#16a085" }}>
+							Ingredient-Based Recipe Generation:
+						</Header>{" "}
+						Our app uses the power of OpenAI to generate creative and tasty
+						recipes based on the ingredients you have available. No more
+						wondering what to cook with the items in your pantry; Recipe Finder
+						has you covered.
 					</ListItem>
 					<ListItem>
-						<strong>High-Quality Recipe Images:</strong> We believe that visual
+						<Header>High-Quality Recipe Images:</Header> We believe that visual
 						presentation is just as important as the recipe itself. That's why
 						we've partnered with Midjourney to provide stunning, mouth-watering
 						images for each recipe.

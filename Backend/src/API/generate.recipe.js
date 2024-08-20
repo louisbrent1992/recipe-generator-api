@@ -58,7 +58,7 @@ router.post("/generate-recipe", async (req, res) => {
 				client.send(
 					JSON.stringify({
 						update: "Starting recipe generation...",
-						progress: 10,
+						progress: 20,
 					})
 				);
 			}
@@ -73,7 +73,7 @@ router.post("/generate-recipe", async (req, res) => {
 					client.send(
 						JSON.stringify({
 							update: "Fetching random recipe title...",
-							progress: 20,
+							progress: 40,
 						})
 					);
 				}
@@ -350,6 +350,19 @@ router.post("/generate-recipe", async (req, res) => {
 			console.log("no U1");
 			return;
 		}
+
+		// Send progress update
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Upscaling image...",
+						progress: 90,
+					})
+				);
+			}
+		});
+
 		// Upscale U1
 		const upscale = await midjourneyClient.Custom({
 			msgId: imagine.id,
@@ -362,19 +375,7 @@ router.post("/generate-recipe", async (req, res) => {
 
 		recipeObject.img = imageUri;
 
-		// Send final progress update and recipe data
-		ws.clients.forEach((client) => {
-			if (client.readyState === 1) {
-				client.send(
-					JSON.stringify({
-						update: "Recipe generation complete!",
-						progress: 90,
-						recipe: recipeObject,
-					})
-				);
-			}
-		});
-
+		// Send recipe data to the client
 		res.status(200).json(recipeObject);
 
 		// Prompt and image URI
