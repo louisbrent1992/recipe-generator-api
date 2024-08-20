@@ -7,20 +7,19 @@ import {
 	DividerContainer,
 	DividerText,
 	EmailPasswordContainer,
-	EmailPasswordTitle,
 	ErrorMessage,
 	Form,
 	FormContainer,
 	GoogleContainer,
 	Input,
 	Label,
+	Title,
 	MainContainer,
 	RegisterLink,
 	GuestLink,
 	StyledButton,
 	StyledDivider,
 	StyledLoginContainer,
-	StyledTitle,
 	SuccessMessage,
 	UploadButton,
 } from "../Styles/Register"; // Reuse styling from the login page
@@ -48,23 +47,26 @@ function Register() {
 					display: "flex",
 					alignItems: "center",
 					position: "fixed",
+					marginTop: "10px",
 					top: "0",
 				}}
 			>
-				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<NavbarLogo
+					style={{ marginLeft: "10px" }}
+					src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png"
+				/>
 				<NavbarBrand
 					style={{
-						color: "black",
-						padding: "20px",
+						color: "#f5f5f5",
+						padding: "10px",
 					}}
 					href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
 				>
-					Recipe Finder
+					<span>Recipe Finder</span>
 				</NavbarBrand>
 			</div>
 
 			<MainContainer>
-				<StyledTitle>Create Account Below:</StyledTitle>
 				<StyledLoginContainer>
 					<AvatarContainer>
 						<AvatarPreview
@@ -88,12 +90,12 @@ function Register() {
 						<UploadButton htmlFor="avatar-upload">Upload Avatar</UploadButton>
 					</AvatarContainer>
 					<FormContainer>
+						<Title>Create Account Below:</Title>
 						<EmailPasswordContainer
 							onSubmit={(e) =>
 								handleRegister(e, avatarImage, setMessage, dispatch, setError)
 							}
 						>
-							<EmailPasswordTitle>Registration Information</EmailPasswordTitle>
 							<Form>
 								<Label htmlFor="name">Username:</Label>
 								<Input

@@ -5,9 +5,9 @@ const Container = styled.div``;
 
 const MainContainer = styled.div`
 	display: flex;
-	flex-direction: column;
+	height: 100vh;
 	justify-content: center;
-	margin-block: 40px;
+	align-items: center;
 `;
 
 const LoginContainer = styled.div`
@@ -22,15 +22,14 @@ const LoginContainer = styled.div`
 	align-items: center;
 	gap: 40px;
 	${smallMobile({
-	maxWidth: "90%",
-	flexDirection: "column",
-})}
+		maxWidth: "90%",
+		flexDirection: "column",
+	})}
 `;
 
 const Title = styled.h2`
 	text-align: center;
 	margin-block: 20px;
-	padding-block: 10px;
 `;
 
 const EmailPasswordContainer = styled.div`
@@ -108,12 +107,6 @@ const StyledLoginContainer = styled(LoginContainer)`
 	background-color: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
-`;
-
-// Additional styles for the login title
-const StyledTitle = styled(Title)`
-	font-size: 24px;
-	text-align: center;
 `;
 
 // Additional styles for the login button
@@ -212,7 +205,6 @@ export {
 	Button,
 	StyledDivider,
 	StyledLoginContainer,
-	StyledTitle,
 	StyledButton,
 	GoogleContainer,
 	AvatarContainer,

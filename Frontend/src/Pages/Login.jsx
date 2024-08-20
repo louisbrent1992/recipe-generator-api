@@ -39,14 +39,18 @@ function Login() {
 					display: "flex",
 					alignItems: "center",
 					position: "fixed",
+					marginTop: "10px",
 					top: "0",
 				}}
 			>
-				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<NavbarLogo
+					style={{ marginLeft: "10px" }}
+					src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png"
+				/>
 				<NavbarBrand
 					style={{
-						color: "black",
-						padding: "20px",
+						color: "#f5f5f5",
+						padding: "10px",
 					}}
 					href={user._id ? `/dashboard/${user._id}` : "/dashboard"}
 				>
@@ -55,11 +59,10 @@ function Login() {
 			</div>
 
 			<StyledLoginContainer>
-				<StyledTitle>Login</StyledTitle>
+				<StyledTitle>Login:</StyledTitle>
 				<EmailPasswordContainer
 					onSubmit={(e) => handleLogin(e, dispatch, setMessage, setError)}
 				>
-					<EmailPasswordTitle>Email/Password Login</EmailPasswordTitle>
 					<Form>
 						<Label htmlFor="email">Email:</Label>
 						<Input type="email" id="email" name="email" required />
