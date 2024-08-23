@@ -23,6 +23,10 @@ body {
 	animation-direction: alternate;
 }
 
+h3 {
+	padding-top: 10px;
+}
+
 @-webkit-keyframes slidein {
 	from {
 		background-position: top;

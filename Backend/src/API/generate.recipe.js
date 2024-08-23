@@ -58,7 +58,7 @@ router.post("/generate-recipe", async (req, res) => {
 				client.send(
 					JSON.stringify({
 						update: "Starting recipe generation...",
-						progress: 20,
+						progress: 30,
 					})
 				);
 			}
@@ -102,6 +102,7 @@ router.post("/generate-recipe", async (req, res) => {
 							"name": "recipe name",
 							"ingredients": [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -109,6 +110,7 @@ router.post("/generate-recipe", async (req, res) => {
 							],
 							additionalIngredients: [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -140,6 +142,7 @@ router.post("/generate-recipe", async (req, res) => {
 							"name": "recipe name",
 							"ingredients": [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -147,6 +150,7 @@ router.post("/generate-recipe", async (req, res) => {
 							],
 							additionalIngredients: [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -213,11 +217,13 @@ router.post("/generate-recipe", async (req, res) => {
 							"name": "recipe name",
 							"ingredients": [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
 								},
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -225,6 +231,7 @@ router.post("/generate-recipe", async (req, res) => {
 							],
 							additionalIngredients: [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -251,6 +258,7 @@ router.post("/generate-recipe", async (req, res) => {
 							"name": "recipe name",
 							"ingredients": [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -258,6 +266,7 @@ router.post("/generate-recipe", async (req, res) => {
 							],
 							additionalIngredients: [
 								{
+							"_id": "ingredient id",
 									"name": "ingredient name",
 									"quantity": "ingredient quantity",
 									"unit": "ingredient unit"
@@ -320,7 +329,7 @@ router.post("/generate-recipe", async (req, res) => {
 				client.send(
 					JSON.stringify({
 						update: "Found recipe! Generating recipe image...",
-						progress: 70,
+						progress: 65,
 					})
 				);
 			}
@@ -357,7 +366,7 @@ router.post("/generate-recipe", async (req, res) => {
 				client.send(
 					JSON.stringify({
 						update: "Upscaling image...",
-						progress: 90,
+						progress: 85,
 					})
 				);
 			}
@@ -372,6 +381,18 @@ router.post("/generate-recipe", async (req, res) => {
 		});
 
 		const imageUri = upscale.uri;
+
+		// Send progress update
+		ws.clients.forEach((client) => {
+			if (client.readyState === 1) {
+				client.send(
+					JSON.stringify({
+						update: "Recipe generated successfully!",
+						progress: 100,
+					})
+				);
+			}
+		});
 
 		recipeObject.img = imageUri;
 

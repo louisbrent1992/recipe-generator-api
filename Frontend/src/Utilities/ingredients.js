@@ -4,7 +4,7 @@ import {
 	clearIngredients,
 	removeIngredient,
 } from "../Redux/ingredientsSlice";
-import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
+import { setRecipe } from "../Redux/recipeSlice";
 import { BASE_URL } from "./requests";
 import { handleRecipeRegenerate } from "./buttons";
 
@@ -135,7 +135,7 @@ export const handleGetRecipes = async (
 					  );
 			}
 		});
-		dispatch(clearRecipe());
+
 		dispatch(setRecipe(fetchedRecipe));
 		dispatch(clearIngredients());
 	} else {

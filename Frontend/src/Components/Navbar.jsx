@@ -33,7 +33,10 @@ function Navbar() {
 	return (
 		<ContainerFluid>
 			<NavbarBrand href={user._id ? `/dashboard/${user._id}` : "/dashboard"}>
-				<NavbarLogo src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png" />
+				<NavbarLogo
+					src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png"
+					alt="Logo"
+				/>
 				<span>Recipe Finder</span>
 			</NavbarBrand>
 			<NavbarContainer>

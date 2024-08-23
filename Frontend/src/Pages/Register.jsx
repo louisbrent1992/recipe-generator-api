@@ -54,6 +54,7 @@ function Register() {
 				<NavbarLogo
 					style={{ marginLeft: "10px" }}
 					src="https://res.cloudinary.com/client-images/image/upload/v1712867551/Site%20Logos/louisb._recipe_finder_app_logo_png_--style_raw_bf38e6b0-bace-4219-9940-bca52717576c_znasxd.png"
+					alt="Logo"
 				/>
 				<NavbarBrand
 					style={{
