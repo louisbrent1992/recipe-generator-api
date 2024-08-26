@@ -119,19 +119,21 @@ function Recipe({ loading, setLoading }) {
 				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
 					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.ingredients.map((ingredient) => (
-							<li key={ingredient.name}>
+							<li key={ingredient._id}>
 								{ingredient.quantity} {ingredient.unit} {ingredient.name}
 							</li>
 						))}
 					</ul>
 				)}
 
-				{recipe.additionalIngredients && <h3>Additional Ingredients:</h3>}
+				{recipe.additionalIngredients.length > 0 && (
+					<h3>Additional Ingredients:</h3>
+				)}
 				{Array.isArray(recipe.additionalIngredients) &&
 					recipe.additionalIngredients.length > 0 && (
 						<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 							{recipe.additionalIngredients.map((ingredient) => (
-								<li key={ingredient.name}>
+								<li key={ingredient._id}>
 									{ingredient.quantity} {ingredient.unit} {ingredient.name}
 								</li>
 							))}
