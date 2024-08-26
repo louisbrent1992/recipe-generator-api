@@ -72,7 +72,7 @@ router.post("/generate-recipe", async (req, res) => {
 				if (client.readyState === 1) {
 					client.send(
 						JSON.stringify({
-							update: "Fetching random recipe title...",
+							update: "Fetching random recipe...",
 							progress: 40,
 						})
 					);
