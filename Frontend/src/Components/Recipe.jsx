@@ -71,7 +71,7 @@ function Recipe({ loading, setLoading }) {
 					style={{
 						position: "absolute",
 						top: "6px",
-						left: `${progress - 2}%`,
+						left: progress ? `${progress - 2}%` : "28%",
 						transition: "left 0.8s ease",
 					}}
 				/>

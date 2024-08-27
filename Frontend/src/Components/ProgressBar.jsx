@@ -29,7 +29,7 @@ const ProgressBarMessage = styled.span`
 function ProgressBar({ progress, update }) {
 	return (
 		<ProgressBarContainer>
-			<ProgressBarFill width={progress}>
+			<ProgressBarFill width={progress || 30}>
 				<ProgressBarMessage>{update}</ProgressBarMessage>
 			</ProgressBarFill>
 		</ProgressBarContainer>
