@@ -25,7 +25,7 @@ const midjourneyClient = new Midjourney({
 	Debug: false,
 	Ws: true,
 	Limit: 1,
-	Timout: 60000,
+	MaxWait: 45000,
 });
 
 const openaiClient = new OpenAI({

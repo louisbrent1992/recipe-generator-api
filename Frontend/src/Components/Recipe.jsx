@@ -28,10 +28,6 @@ function Recipe({ loading, setLoading }) {
 	const [update, setUpdate] = useState("");
 	const [ws, setWs] = useState(null); // State to manage WebSocket connection
 
-	// Default image URL
-	const defaultImageUrl =
-		"https://images.unsplash.com/photo-1600891964599-f61ba0e24092?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGZvb2R8ZW58MHx8fHwxNjAwNjkzNTQ1&ixlib=rb-1.2.1&q=80&w=400";
-
 	useEffect(() => {
 		// Establish WebSocket connection
 		const websocket = new WebSocket(
@@ -81,20 +77,15 @@ function Recipe({ loading, setLoading }) {
 		);
 	}
 
-	if (!recipe.ingredients) {
-		// No recipe available
-		return (
-			<RecipeContainer>
-				<p>No recipe available.</p>
-			</RecipeContainer>
-		);
-	}
-
 	return (
 		<RecipeContainer ref={recipeContainerRef}>
+			<RecipeButtons
+				recipeContainerRef={recipeContainerRef}
+				setLoading={setLoading}
+			/>
 			<RecipeImageContainer>
 				<RecipeImage
-					src={recipe.img || defaultImageUrl}
+					src={recipe.img}
 					alt={recipe.name}
 					title={recipe.name}
 					onClick={() =>
@@ -105,18 +96,14 @@ function Recipe({ loading, setLoading }) {
 					}
 					onError={(e) => {
 						e.target.onerror = null; // Prevent infinite loop if the fallback also fails
-						e.target.src = defaultImageUrl; // Set the fallback image URL
 					}}
 				/>
 			</RecipeImageContainer>
+
 			<RecipeHeading>{recipe.name}</RecipeHeading>
-			<RecipeButtons
-				recipeContainerRef={recipeContainerRef}
-				setLoading={setLoading}
-			/>
 			<RecipeIngredients>
 				<h3>Ingredients:</h3>
-				{Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 && (
+				{recipe.ingredients.length > 0 ? (
 					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.ingredients.map((ingredient) => (
 							<li key={ingredient._id}>
@@ -124,33 +111,37 @@ function Recipe({ loading, setLoading }) {
 							</li>
 						))}
 					</ul>
+				) : (
+					<p>
+						Try adding some ingredients above to generate a new recipe, or click
+						the "I'm Feeling Lucky" button to generate a random recipe.
+					</p>
 				)}
 
 				{recipe.additionalIngredients.length > 0 && (
 					<h3>Additional Ingredients:</h3>
 				)}
-				{Array.isArray(recipe.additionalIngredients) &&
-					recipe.additionalIngredients.length > 0 && (
-						<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
-							{recipe.additionalIngredients.map((ingredient) => (
-								<li key={ingredient._id}>
-									{ingredient.quantity} {ingredient.unit} {ingredient.name}
-								</li>
-							))}
-						</ul>
-					)}
+				{recipe.additionalIngredients.length > 0 && (
+					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
+						{recipe.additionalIngredients.map((ingredient) => (
+							<li key={ingredient._id}>
+								{ingredient.quantity} {ingredient.unit} {ingredient.name}
+							</li>
+						))}
+					</ul>
+				)}
 			</RecipeIngredients>
+			{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
+				<RecipeSteps>
+					<h3>Steps:</h3>
 
-			<RecipeSteps>
-				<h3>Steps:</h3>
-				{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
 					<ol key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.steps.map((step) => (
 							<li key={step}>{step}</li>
 						))}
 					</ol>
-				)}
-			</RecipeSteps>
+				</RecipeSteps>
+			)}
 		</RecipeContainer>
 	);
 }
