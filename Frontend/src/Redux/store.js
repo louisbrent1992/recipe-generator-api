@@ -21,6 +21,7 @@ const persistConfig = {
 	key: "root",
 	version: 1,
 	storage,
+	blacklist: ["recipe"], // Exclude the recipe slice from being persisted
 };
 
 // The root reducer is created by combining the reducers for the user and cart slices of the state

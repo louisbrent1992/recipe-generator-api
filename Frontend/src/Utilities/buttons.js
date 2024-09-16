@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { clearRecipe, setRecipe } from "../Redux/recipeSlice";
+import { resetRecipe, setRecipe } from "../Redux/recipeSlice";
 import { addFavorite, clearUser, deleteFavorite } from "../Redux/userSlice";
 import { BASE_URL } from "./requests";
 
@@ -155,8 +155,9 @@ export const handleRecipeRegenerate = async (
 		Swal.fire({
 			icon: "error",
 			title: "Error",
-			text: "Server maintenance in progress. Please try again later.",
+			text: `An error occurred while generating the recipe. Please try again later.`,
 		});
+		console.error("Error generating recipe:", response.statusText);
 	} else if (response.status === 200) {
 		setLoading(false);
 		const fetchedRecipe = await response.json();
@@ -194,7 +195,7 @@ export const handleRecipeRegenerate = async (
 					  );
 			}
 		});
-		dispatch(clearRecipe());
+		dispatch(resetRecipe());
 		dispatch(setRecipe(fetchedRecipe));
 	} else {
 		setLoading(false);

@@ -54,7 +54,7 @@ function Recipe({ loading, setLoading }) {
 		return () => {
 			websocket.close();
 		};
-	}, [dispatch, setLoading]);
+	}, [dispatch, setLoading, recipe]);
 
 	if (loading) {
 		// Display a loading spinner and progress message while waiting for data
@@ -102,15 +102,17 @@ function Recipe({ loading, setLoading }) {
 
 			<RecipeHeading>{recipe.name}</RecipeHeading>
 			<RecipeIngredients>
-				<h3>Ingredients:</h3>
 				{recipe.ingredients.length > 0 ? (
-					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
-						{recipe.ingredients.map((ingredient) => (
-							<li key={ingredient._id}>
-								{ingredient.quantity} {ingredient.unit} {ingredient.name}
-							</li>
-						))}
-					</ul>
+					<>
+						<h3>Ingredients:</h3>
+						<ul style={{ marginLeft: "40px", padding: 0 }}>
+							{recipe.ingredients.map((ingredient) => (
+								<li key={ingredient._id}>
+									{ingredient.quantity} {ingredient.unit} {ingredient.name}
+								</li>
+							))}
+						</ul>
+					</>
 				) : (
 					<p>
 						Try adding some ingredients above to generate a new recipe, or click
@@ -122,7 +124,7 @@ function Recipe({ loading, setLoading }) {
 					<h3>Additional Ingredients:</h3>
 				)}
 				{recipe.additionalIngredients.length > 0 && (
-					<ul key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
+					<ul style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.additionalIngredients.map((ingredient) => (
 							<li key={ingredient._id}>
 								{ingredient.quantity} {ingredient.unit} {ingredient.name}
@@ -134,8 +136,7 @@ function Recipe({ loading, setLoading }) {
 			{Array.isArray(recipe.steps) && recipe.steps.length > 0 && (
 				<RecipeSteps>
 					<h3>Steps:</h3>
-
-					<ol key={recipe._id} style={{ marginLeft: "40px", padding: 0 }}>
+					<ol style={{ marginLeft: "40px", padding: 0 }}>
 						{recipe.steps.map((step) => (
 							<li key={step}>{step}</li>
 						))}

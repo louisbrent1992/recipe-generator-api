@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const recipeSlice = createSlice({
 	name: "recipe",
 	initialState: {
-		_id: "",
+		_id: Math.random().toString(),
 		name: "Mystical Midnight Spaghetti",
 		img: "https://res.cloudinary.com/client-images/image/upload/c_pad,b_gen_fill,w_500,h_500/v1725590303/louisb._studio_light_photorealistic_hyperrealistic_image_of_M_6dea1eb3-d458-481c-853f-584856f53e44_0_f3xsvx.png",
 		ingredients: [
@@ -32,18 +32,16 @@ const recipeSlice = createSlice({
 	},
 	reducers: {
 		setRecipe: (state, action) => action.payload,
-		clearRecipe: (state) => {
-			return {
-				_id: "",
-				name: "",
-				img: "",
-				ingredients: [],
-				additionalIngredients: [],
-				steps: [],
-			};
-		},
+		resetRecipe: (state) => ({
+			_id: "",
+			name: "",
+			img: "",
+			ingredients: [],
+			additionalIngredients: [],
+			steps: [],
+		}),
 	},
 });
 
-export const { setRecipe, clearRecipe } = recipeSlice.actions;
+export const { setRecipe, resetRecipe } = recipeSlice.actions;
 export default recipeSlice.reducer;
