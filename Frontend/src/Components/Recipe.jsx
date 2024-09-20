@@ -26,7 +26,8 @@ function Recipe({ loading, setLoading }) {
 	const recipeContainerRef = useRef(null);
 	const [progress, setProgress] = useState(0);
 	const [update, setUpdate] = useState("");
-	const [ws, setWs] = useState(null); // State to manage WebSocket connection
+	// Remove the unused ws state
+	// const [ws, setWs] = useState(null);
 
 	useEffect(() => {
 		// Establish WebSocket connection
@@ -35,7 +36,8 @@ function Recipe({ loading, setLoading }) {
 				? REACT_APP_WEBSOCKET_URI_PROD
 				: REACT_APP_WEBSOCKET_URI_DEV
 		);
-		setWs(websocket);
+		// Remove this line
+		// setWs(websocket);
 
 		// Listen for messages from the WebSocket server
 		websocket.onmessage = (event) => {
@@ -106,8 +108,8 @@ function Recipe({ loading, setLoading }) {
 					<>
 						<h3>Ingredients:</h3>
 						<ul style={{ marginLeft: "40px", padding: 0 }}>
-							{recipe.ingredients.map((ingredient) => (
-								<li key={ingredient._id}>
+							{recipe.ingredients.map((ingredient, index) => (
+								<li key={`ingredient-${ingredient._id || index}`}>
 									{ingredient.quantity} {ingredient.unit} {ingredient.name}
 								</li>
 							))}
@@ -125,8 +127,8 @@ function Recipe({ loading, setLoading }) {
 				)}
 				{recipe.additionalIngredients.length > 0 && (
 					<ul style={{ marginLeft: "40px", padding: 0 }}>
-						{recipe.additionalIngredients.map((ingredient) => (
-							<li key={ingredient._id}>
+						{recipe.additionalIngredients.map((ingredient, index) => (
+							<li key={`additional-ingredient-${ingredient._id || index}`}>
 								{ingredient.quantity} {ingredient.unit} {ingredient.name}
 							</li>
 						))}
@@ -137,8 +139,8 @@ function Recipe({ loading, setLoading }) {
 				<RecipeSteps>
 					<h3>Steps:</h3>
 					<ol style={{ marginLeft: "40px", padding: 0 }}>
-						{recipe.steps.map((step) => (
-							<li key={step}>{step}</li>
+						{recipe.steps.map((step, index) => (
+							<li key={`step-${index}`}>{step}</li>
 						))}
 					</ol>
 				</RecipeSteps>

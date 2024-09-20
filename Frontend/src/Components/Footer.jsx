@@ -11,7 +11,7 @@ const StyledFooter = styled.footer`
 	padding: 10px 0;
 
 	transition: opacity 0.5s ease;
-	opacity: ${(props) => (props.isvisible ? 1 : 0)};
+	opacity: ${(props) => (props.$isVisible ? 1 : 0)};
 
 	@keyframes fadeInUp {
 		from {
@@ -54,7 +54,7 @@ function Footer() {
 	}, []);
 
 	return (
-		<StyledFooter isvisible={isFooterVisible || undefined}>
+		<StyledFooter $isVisible={isFooterVisible}>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-12 text-center py-3">
