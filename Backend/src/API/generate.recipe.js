@@ -1,8 +1,6 @@
-// import { Midjourney } from "midjourney";
 import express from "express";
 import dotenv from "dotenv";
 import { OpenAI } from "openai";
-import { Midjourney } from "midjourney";
 import { RandomizedRecipeTitles, bestCookbooks } from "./recipeBooks.js";
 
 dotenv.config();
@@ -16,17 +14,6 @@ const {
 	HUGGINGFACE_TOKEN,
 	OPENAI_API_KEY,
 } = process.env;
-
-const midjourneyClient = new Midjourney({
-	ServerId: SERVER_ID,
-	ChannelId: CHANNEL_ID,
-	SalaiToken: SALAI_TOKEN,
-	HuggingFaceToken: HUGGINGFACE_TOKEN,
-	Debug: false,
-	Ws: true,
-	Limit: 1,
-	MaxWait: 45000,
-});
 
 const openaiClient = new OpenAI({
 	apiKey: OPENAI_API_KEY || "",
@@ -328,66 +315,45 @@ router.post("/generate-recipe", async (req, res) => {
 			if (client.readyState === 1) {
 				client.send(
 					JSON.stringify({
-						update: "Found recipe! Generating recipe image...",
+						update: "Found recipe! Generating recipe image with DALL-E 3...",
 						progress: 65,
 					})
 				);
 			}
 		});
 
-		// Generate a prompt for DALL-E or midjourney
-		const prompt = `studio light, photorealistic, hyperrealistic image of ${recipeObject.name}`;
+		// DALL-E 3 Image Generation
+		// NOTE: This section can be replaced with Midjourney integration
+		const prompt = `A photorealistic, appetizing image of ${recipeObject.name}, studio lighting, high-quality food photography style`;
 
-		// Check if DALL-E is available
+		const imageResponse = await openaiClient.images.generate({
+			model: "dall-e-3",
+			prompt: prompt,
+			n: 1,
+			size: "1024x1024",
+		});
 
-		{
-			// const imagine = await openaiClient.images.generate({
-			// 	model: "dall-e-3",
-			// 	prompt,
-			// });
-		}
+		const imageUri = imageResponse.data[0].url;
 
-		const imagine = await midjourneyClient.Imagine(prompt);
-
-		if (!imagine) {
-			console.log("no image generated");
-			return;
-		}
-
-		const U1CustomID = imagine.options?.find((o) => o.label === "U1")?.custom;
-		if (!U1CustomID) {
-			console.log("no U1");
-			return;
-		}
+		// MIDJOURNEY INTEGRATION:
+		// To use Midjourney instead of DALL-E 3, you would:
+		// 1. Set up a connection to the Midjourney API or Discord bot
+		// 2. Send the prompt to Midjourney
+		// 3. Wait for the image generation to complete
+		// 4. Retrieve the generated image URL
+		// 5. Assign the Midjourney image URL to imageUri
+		//
+		// const imageUri = await generateMidjourneyImage(prompt);
+		//
+		// You'll need to implement the generateMidjourneyImage function
+		// to handle the Midjourney API calls and image retrieval
 
 		// Send progress update
 		ws.clients.forEach((client) => {
 			if (client.readyState === 1) {
 				client.send(
 					JSON.stringify({
-						update: "Upscaling image...",
-						progress: 85,
-					})
-				);
-			}
-		});
-
-		// Upscale U1
-		const upscale = await midjourneyClient.Custom({
-			msgId: imagine.id,
-			flags: imagine.flags,
-			customId: U1CustomID,
-			content: `${prompt} --ar 3:4`,
-		});
-
-		const imageUri = upscale.uri;
-
-		// Send progress update
-		ws.clients.forEach((client) => {
-			if (client.readyState === 1) {
-				client.send(
-					JSON.stringify({
-						update: "Recipe generated successfully!",
+						update: "Recipe image generated successfully!",
 						progress: 100,
 					})
 				);
@@ -399,10 +365,9 @@ router.post("/generate-recipe", async (req, res) => {
 		// Send recipe data to the client
 		res.status(200).json(recipeObject);
 
-		// Prompt and image URI
+		// Log prompt and image URI
 		console.log("🥗", {
-			Prompt: imagine.content,
-			OriginalPalette: imagine.uri,
+			Prompt: prompt,
 			GeneratedImage: imageUri,
 		});
 	} catch (error) {
